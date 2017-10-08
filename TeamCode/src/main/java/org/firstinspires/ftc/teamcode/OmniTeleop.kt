@@ -19,7 +19,7 @@ class OmniTeleop : OpMode() {
     var lr : DcMotor? = null
     var rf : DcMotor? = null
     var rr : DcMotor? = null
-
+    var slowMode = false
     override fun init() {
         lf = hardwareMap.dcMotor.get("m3")
         lr = hardwareMap.dcMotor.get("m1")
@@ -30,6 +30,12 @@ class OmniTeleop : OpMode() {
     }
 
     override fun loop() {
+        if(gamepad1.x) {
+            slowMode = true
+        }
+        if(gamepad1.y){
+            slowMode = false
+        }
         val rotational = gamepad1.right_stick_x
         val northSouth = gamepad1.left_stick_y
         val eastWest = gamepad1.left_stick_x
@@ -44,7 +50,10 @@ class OmniTeleop : OpMode() {
         val eastWestComponent = leftRightMultiplier.map { it*eastWest}
         val rotationalComponent = rotationalMultiplier.map { it*rotational}
 
-        val motorvals = drive(forwardsComponent, eastWestComponent, rotationalComponent)
+        var motorvals = drive(forwardsComponent, eastWestComponent, rotationalComponent)
+        if (slowMode){
+            motorvals=motorvals.map{ it*.5f}
+        }
         lf?.setPower(motorvals[0].toDouble())
         rf?.setPower(motorvals[1].toDouble())
         lr?.setPower(motorvals[2].toDouble())
