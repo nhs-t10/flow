@@ -16,7 +16,7 @@ class GamepadNode : Node{
     var gamepad2 : Gamepad? = null
 
     constructor(gamepad1: Gamepad, gamepad2: Gamepad){
-        Dispatcher.subscribe("/heartbeat", { click(it) })
+        Dispatcher.subscribe("/heartbeat", {click(it as HeartBeat)})
         this.gamepad1 = gamepad1
         this.gamepad2 = gamepad2
         gamepadButtons.put("dup", gamepad1.dpad_up)
