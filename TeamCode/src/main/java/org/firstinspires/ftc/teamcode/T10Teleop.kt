@@ -19,8 +19,5 @@ class T10Teleop : OpMode(){
         if(heartbeat != null){
             heartbeat?.beat((runtime*10).toLong())
         }
-
-
-
     }
 }
