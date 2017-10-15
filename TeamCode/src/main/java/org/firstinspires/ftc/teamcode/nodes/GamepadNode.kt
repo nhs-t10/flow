@@ -5,36 +5,58 @@ import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.HeartBeat
 import org.firstinspires.ftc.teamcode.messages.Message
+import org.firstinspires.ftc.teamcode.messages.gamepadButtonMsg
+import org.firstinspires.ftc.teamcode.messages.gamepadJoyOrTrigMsg
+
+import kotlin.reflect.full.*
 /**
  * Created by dvw06 on 10/12/17.
  */
 
-class GamepadNode : Node{
+class GamepadNode : Node
+{
     var gamepadButtons = HashMap<String, Boolean>()
-    var gamepadJoyTrigs = HashMap<String, Float>()
+    var gamepadJoyOrTrigs = HashMap<String, Float>()
     var gamepad1 : Gamepad? = null
     var gamepad2 : Gamepad? = null
 
     constructor(gamepad1: Gamepad, gamepad2: Gamepad){
         Dispatcher.subscribe("/heartbeat", {click(it as HeartBeat)})
+
         this.gamepad1 = gamepad1
         this.gamepad2 = gamepad2
-        gamepadButtons.put("dup", gamepad1.dpad_up)
-        gamepadButtons.put("ddown", gamepad1.dpad_down)
-        gamepadButtons.put("dleft", gamepad1.dpad_left)
-        gamepadButtons.put("dright", gamepad1.dpad_right)
-        gamepadButtons.put("a", gamepad1.a)
-        gamepadButtons.put("b", gamepad1.b)
-        gamepadButtons.put("x", gamepad1.x)
-        gamepadButtons.put("y", gamepad1.y)
-        gamepadButtons.put("lbump", gamepad1.left_bumper)
-        gamepadButtons.put("rbump", gamepad1.right_bumper)
-        //for (prop in User::class.memberProperties) {
 
+        for (property in Gamepad::class.memberProperties) {
+            if(property.get(gamepad1) is Boolean){
+                gamepadButtons.put(property.name, property.get(gamepad1) as Boolean)
+            } else if (property.get(gamepad1) is Float) {
+                gamepadJoyOrTrigs.put(property.name, property.get(gamepad1) as Float)
+            }
+        }
     }
 
     fun click(hb: HeartBeat){
         val (time) = hb
+        if(gamepad1 == null){
+            return
+        }
+        for (prop in Gamepad::class.memberProperties) {
+            if (prop.get(gamepad1 as Gamepad) is Boolean) {
+                if (gamepadButtons.get(prop.name) != null) {
+                    if (gamepadButtons.get(prop.name) != prop.get(gamepad1 as Gamepad)) {
+                        gamepadButtons.put(prop.name, prop.get(gamepad1 as Gamepad) as Boolean)
+                        Dispatcher.publish("/gamepad1/${prop.name}", gamepadButtonMsg(value = prop.get(gamepad1 as Gamepad) as Boolean, priority = 3))
 
+                    }
+                }
+            } else if (prop.get(gamepad1 as Gamepad) is Float) {
+                if (prop.get(gamepad1 as Gamepad) is Float) {
+                    if (gamepadJoyOrTrigs.get(prop.name) != prop.get(gamepad1 as Gamepad)) {
+                        gamepadJoyOrTrigs.put(prop.name, prop.get(gamepad1 as Gamepad) as Float)
+                        Dispatcher.publish("/gamepad1/${prop.name}", gamepadJoyOrTrigMsg(value = prop.get(gamepad1 as Gamepad) as Float, priority = 2))
+                    }
+                }
+            }
+        }
     }
 }
