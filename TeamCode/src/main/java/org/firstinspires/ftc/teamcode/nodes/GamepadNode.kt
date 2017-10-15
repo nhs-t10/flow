@@ -50,12 +50,12 @@ class GamepadNode : Node
                 }
             }
             else if (prop.get(gamepad1 as Gamepad) is Float) {
-                    if (gamepadJoyOrTrigs.get(prop.name) != null) {
-                        if (gamepadJoyOrTrigs.get(prop.name) != prop.get(gamepad1 as Gamepad)) {
-                            gamepadJoyOrTrigs.put(prop.name, prop.get(gamepad1 as Gamepad) as Float)
-                            Dispatcher.publish("/gamepad1/${prop.name}", gamepadJoyOrTrigMsg(value = prop.get(gamepad1 as Gamepad) as Float, priority = 2))
-                        }
+                if (gamepadJoyOrTrigs.get(prop.name) != null) {
+                    if (gamepadJoyOrTrigs.get(prop.name) != prop.get(gamepad1 as Gamepad)) {
+                        gamepadJoyOrTrigs.put(prop.name, prop.get(gamepad1 as Gamepad) as Float)
+                        Dispatcher.publish("/gamepad1/${prop.name}", gamepadJoyOrTrigMsg(value = prop.get(gamepad1 as Gamepad) as Float, priority = 2))
                     }
+                }
             }
         }
     }
