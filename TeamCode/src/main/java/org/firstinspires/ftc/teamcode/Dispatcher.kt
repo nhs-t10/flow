@@ -22,9 +22,8 @@ object Dispatcher{
     }
 
     fun subscribe(channel:String, callback: (Message) -> Unit) {
-<        val currentListeners = channels.get(channel) ?: MutableList<(Message) -> Unit>()
+        val currentListeners = channels.get(channel) ?: mutableListOf<(Message) -> Unit>()
         currentListeners.add(callback)
         channels.put(channel, currentListeners)
-
     }
 }

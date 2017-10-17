@@ -20,6 +20,13 @@ class OmniNode : Node{
     var rf : DcMotor? = null
     var rr : DcMotor? = null
     var slowMode = false
+    var tempRotation: Float = 0f
+    var tempUpDown: Float = 0f
+    var tempLeftRight: Float = 0f
+    var forwardsComponent = listOf<Float>(0f, 0f, 0f, 0f)
+    var eastWestComponent = listOf<Float>(0f, 0f, 0f, 0f)
+    var rotationalComponent = listOf<Float>(0f, 0f, 0f, 0f)
+
     constructor(hardwareMap: HardwareMap){
         this.lf = hardwareMap.dcMotor.get("m3")
         this.lr = hardwareMap.dcMotor.get("m1")
@@ -28,19 +35,36 @@ class OmniNode : Node{
         lf?.direction = REVERSE
         lr?.direction = REVERSE
         Dispatcher.subscribe("/heartbeat", {loop(it as HeartBeat)})
+        Dispatcher.subscribe("/gamepad1/right_stick_x", {this.omniRotate(rotation = it as Float)})
+        Dispatcher.subscribe("/gamepad1/left_stick_y", {this.omniUpDown(upDown = it as Float)})
+        Dispatcher.subscribe("/gamepad1/left_stick_x", {this.omniLeftRight(leftRight = it as Float)})
 
     }
-    var tempRotation: Float = 0f
-    var tempUpDown: Float = 0f
-    var tempLeftRight: Float = 0f
+
     fun omniRotate(rotation : Float){
-        tempRotation = rotation
+        if(rotation!=this.tempRotation){
+            this.tempRotation = rotation
+            val rotationalMultiplier = arrayOf(1f, -1f,
+                    1f, -1f)
+            this.rotationalComponent = rotationalMultiplier.map { it*this.tempRotation}
+        }
     }
     fun omniUpDown(upDown : Float){
-        tempUpDown = upDown
+        if(upDown!=this.tempUpDown){
+            this.tempUpDown = upDown
+            val forwardMultiplier = arrayOf(1f, 1f,
+                    1f, 1f)
+            this.forwardsComponent = forwardMultiplier.map { it*this.tempUpDown}
+        }
     }
     fun omniLeftRight(leftRight : Float){
-        tempLeftRight = leftRight
+        if(leftRight!=this.tempLeftRight){
+            this.tempLeftRight = leftRight
+            val leftRightMultiplier = arrayOf(1f, -1f,
+                    -1f, 1f)
+            this.eastWestComponent = leftRightMultiplier.map { it*this.tempLeftRight}
+
+        }
     }
 
     fun drive(forwardback : List<Float>, leftright : List<Float>, rotation : List<Float>):List<Float>{
@@ -68,20 +92,7 @@ class OmniNode : Node{
 
     fun loop(hb: HeartBeat) {
         val (time) = hb
-
-        Dispatcher.subscribe("/gamepad1/right_stick_x", {omniRotate(rotation = it as Float)})
-        Dispatcher.subscribe("/gamepad1/left_stick_y", {omniUpDown(upDown = it as Float)})
-        Dispatcher.subscribe("/gamepad1/left_stick_x", {omniLeftRight(leftRight = it as Float)})
-        val forwardMultiplier = arrayOf(1f, 1f,
-                1f, 1f)
-        val leftRightMultiplier = arrayOf(1f, -1f,
-                -1f, 1f)
-        val rotationalMultiplier = arrayOf(1f, -1f,
-                1f, -1f)
-        val forwardsComponent = forwardMultiplier.map { it*tempUpDown}
-        val eastWestComponent = leftRightMultiplier.map { it*tempLeftRight}
-        val rotationalComponent = rotationalMultiplier.map { it*tempRotation}
-        val toPub : List<Float> = drive(forwardsComponent, eastWestComponent, rotationalComponent)
+        val toPub : List<Float> = drive(this.forwardsComponent, this.eastWestComponent, rotationalComponent)
         Dispatcher.publish("/omnidrive", OmniDrive(toPub, priority = 4))
     }
 }
