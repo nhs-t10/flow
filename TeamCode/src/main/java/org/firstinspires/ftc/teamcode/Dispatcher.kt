@@ -7,7 +7,7 @@ import java.util.*
  */
 object Dispatcher{
 
-    var channels = HashMap<String, MutableList<(Message) -> Unit>>()
+    val channels = HashMap<String, MutableList<(Message) -> Unit>>()
 
     fun publish(channel: String, message: Message){
         val listeners = channels.get(channel)

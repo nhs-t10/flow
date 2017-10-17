@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.messages.HeartBeat
 import org.firstinspires.ftc.teamcode.messages.OmniDrive
 import java.lang.Math.abs
 
-class OmniNode : Node{
+class OmniJoyNode : Node{
     var lf : DcMotor? = null
     var lr : DcMotor? = null
     var rf : DcMotor? = null
@@ -27,45 +27,35 @@ class OmniNode : Node{
     var eastWestComponent = listOf<Float>(0f, 0f, 0f, 0f)
     var rotationalComponent = listOf<Float>(0f, 0f, 0f, 0f)
 
-    constructor(hardwareMap: HardwareMap){
+    constructor(/*hardwareMap: HardwareMap*/){
+        /*
         this.lf = hardwareMap.dcMotor.get("m3")
         this.lr = hardwareMap.dcMotor.get("m1")
         this.rf = hardwareMap.dcMotor.get("m4")
         this.rr = hardwareMap.dcMotor.get("m2")
         lf?.direction = REVERSE
         lr?.direction = REVERSE
+        */
         Dispatcher.subscribe("/heartbeat", {loop(it as HeartBeat)})
-        Dispatcher.subscribe("/gamepad1/right_stick_x", {this.omniRotate(rotation = it as Float)})
-        Dispatcher.subscribe("/gamepad1/left_stick_y", {this.omniUpDown(upDown = it as Float)})
-        Dispatcher.subscribe("/gamepad1/left_stick_x", {this.omniLeftRight(leftRight = it as Float)})
+        Dispatcher.subscribe("/gamepad1/right_stick_x", {this.recieveMessage(rotation = it as Float)})
+        Dispatcher.subscribe("/gamepad1/left_stick_y", {this.recieveMessage(upDown = it as Float)})
+        Dispatcher.subscribe("/gamepad1/left_stick_x", {this.recieveMessage(leftRight = it as Float)})
 
     }
 
-    fun omniRotate(rotation : Float){
-        if(rotation!=this.tempRotation){
+    fun recieveMessage(rotation : Float = this.tempRotation, upDown : Float = this.tempUpDown, leftRight: Float = this.tempLeftRight) {
+        if (rotation != this.tempRotation) {
             this.tempRotation = rotation
-            val rotationalMultiplier = arrayOf(1f, -1f,
-                    1f, -1f)
-            this.rotationalComponent = rotationalMultiplier.map { it*this.tempRotation}
         }
-    }
-    fun omniUpDown(upDown : Float){
-        if(upDown!=this.tempUpDown){
+        if (upDown != this.tempUpDown) {
             this.tempUpDown = upDown
-            val forwardMultiplier = arrayOf(1f, 1f,
-                    1f, 1f)
-            this.forwardsComponent = forwardMultiplier.map { it*this.tempUpDown}
         }
-    }
-    fun omniLeftRight(leftRight : Float){
-        if(leftRight!=this.tempLeftRight){
+        if (leftRight != this.tempLeftRight) {
             this.tempLeftRight = leftRight
-            val leftRightMultiplier = arrayOf(1f, -1f,
-                    -1f, 1f)
-            this.eastWestComponent = leftRightMultiplier.map { it*this.tempLeftRight}
-
         }
+        Dispatcher.publish("/drive", OmniDrive(this.tempUpDown, this.tempLeftRight, this.tempRotation, priority = 4))
     }
+    /*
 
     fun drive(forwardback : List<Float>, leftright : List<Float>, rotation : List<Float>):List<Float>{
         val sumlf = forwardback[0] + leftright[0] + rotation[0]
@@ -89,10 +79,10 @@ class OmniNode : Node{
         val finalvals = sums.map { it / attenuationfactor }
         return finalvals
     }
-
+*/
     fun loop(hb: HeartBeat) {
         val (time) = hb
-        val toPub : List<Float> = drive(this.forwardsComponent, this.eastWestComponent, rotationalComponent)
-        Dispatcher.publish("/omnidrive", OmniDrive(toPub, priority = 4))
+        //val toPub : List<Float> = drive(this.forwardsComponent, this.eastWestComponent, rotationalComponent)
     }
+
 }
