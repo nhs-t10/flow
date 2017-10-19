@@ -26,7 +26,7 @@ class GamepadNode : Node
 
         this.gamepad1 = gamepad1
         this.gamepad2 = gamepad2
-        for (property in Gamepad::class.memberProperties) {
+        for (property in Gamepad::class.declaredMemberProperties) {
             if(property.get(gamepad1) != null && property.get(gamepad1) is Boolean){
                 gamepadButtons.put(property.name, property.get(gamepad1) as Boolean)
             } else if (property.get(gamepad1) != null && property.get(gamepad1) is Float) {
