@@ -21,11 +21,9 @@ class GamepadNode : Node
     var gamepad1 : Gamepad? = null
     var gamepad2 : Gamepad? = null
     constructor(gamepad1: Gamepad, gamepad2: Gamepad){
-
         if (Dispatcher.channels.containsKey("/heartbeat") || Dispatcher.channels.get("/heartbeat") != null){
             Dispatcher.subscribe("/heartbeat", {click(it as HeartBeat)})
         }
-
         this.gamepad1 = gamepad1
         this.gamepad2 = gamepad2
         for (property in Gamepad::class.declaredMemberProperties) {

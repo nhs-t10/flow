@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.HeartBeat
 import org.firstinspires.ftc.teamcode.messages.OmniDrive
+import org.firstinspires.ftc.teamcode.messages.gamepadJoyOrTrigMsg
 import java.lang.Math.abs
 
 class OmniJoyNode : Node{
@@ -36,10 +37,10 @@ class OmniJoyNode : Node{
         lf?.direction = REVERSE
         lr?.direction = REVERSE
         */
-        Dispatcher.subscribe("/heartbeat", {loop(it as HeartBeat)})
-        Dispatcher.subscribe("/gamepad1/right_stick_x", {this.recieveMessage(rotation = it as Float)})
-        Dispatcher.subscribe("/gamepad1/left_stick_y", {this.recieveMessage(upDown = it as Float)})
-        Dispatcher.subscribe("/gamepad1/left_stick_x", {this.recieveMessage(leftRight = it as Float)})
+        Dispatcher.subscribe("/heartbeat", {this.loop(it as HeartBeat)})
+        Dispatcher.subscribe("/gamepad1/right_stick_x", {this.recieveMessage(rotation = (it as gamepadJoyOrTrigMsg).value)})
+        Dispatcher.subscribe("/gamepad1/left_stick_y", {this.recieveMessage(upDown = (it as gamepadJoyOrTrigMsg).value)})
+        Dispatcher.subscribe("/gamepad1/left_stick_x", {this.recieveMessage(leftRight = (it as gamepadJoyOrTrigMsg).value)})
 
     }
 
