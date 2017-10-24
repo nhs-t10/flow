@@ -29,12 +29,12 @@ class OmniDtNode : Node{
         val eastWestComponent = leftRightMultiplier.map { it*leftRight}
         val rotationalComponent = rotationalMultiplier.map { it*rotation}
 
-        val motorvals = drive(forwardsComponent, eastWestComponent, rotationalComponent).map{it as Double}
+        val motorvals = drive(forwardsComponent, eastWestComponent, rotationalComponent).map{it.toDouble()}
         val priority = 2
-        Dispatcher.publish("/motors/m1", motor(motorvals[0], priority = priority))
-        Dispatcher.publish("/motors/m2", motor(motorvals[1], priority = priority))
-        Dispatcher.publish("/motors/m3", motor(motorvals[2], priority = priority))
-        Dispatcher.publish("/motors/m4", motor(motorvals[3], priority = priority))
+        Dispatcher.publish("/motors/lr", motor(motorvals[0], priority = priority))
+        Dispatcher.publish("/motors/rr", motor(motorvals[1], priority = priority))
+        Dispatcher.publish("/motors/lf", motor(motorvals[2], priority = priority))
+        Dispatcher.publish("/motors/rf", motor(motorvals[3], priority = priority))
     }
     fun drive(forwardback : List<Float>, leftright : List<Float>, rotation : List<Float>):List<Float>{
         val sumlf = forwardback[0] + leftright[0] + rotation[0]

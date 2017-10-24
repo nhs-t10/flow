@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.nodes
 import com.qualcomm.robotcore.hardware.Gamepad
 import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
+import org.firstinspires.ftc.teamcode.messages.DebugMsg
 import org.firstinspires.ftc.teamcode.messages.HeartBeat
 import org.firstinspires.ftc.teamcode.messages.gamepadButtonMsg
 import org.firstinspires.ftc.teamcode.messages.gamepadJoyOrTrigMsg
@@ -21,19 +22,18 @@ class GamepadNode : Node
     var gamepad1 : Gamepad? = null
     var gamepad2 : Gamepad? = null
     constructor(gamepad1: Gamepad, gamepad2: Gamepad){
-        if (Dispatcher.channels.containsKey("/heartbeat") || Dispatcher.channels.get("/heartbeat") != null){
-            Dispatcher.subscribe("/heartbeat", {click(it as HeartBeat)})
-        }
+        Dispatcher.subscribe("/heartbeat", {click(it as HeartBeat)})
+
         this.gamepad1 = gamepad1
         this.gamepad2 = gamepad2
         for (property in Gamepad::class.declaredMemberProperties) {
-            if(property.isAccessible){
-                if(property.get(gamepad1) != null && property.get(gamepad1) is Boolean){
-                    gamepadButtons.put(property.name, property.get(gamepad1) as Boolean)
-                } else if (property.get(gamepad1) != null && property.get(gamepad1) is Float) {
-                    gamepadJoyOrTrigs.put(property.name, property.get(gamepad1) as Float)
-                }
+            property.isAccessible = true
+            if(property.get(gamepad1) != null && property.get(gamepad1) is Boolean){
+                gamepadButtons.put(property.name, property.get(gamepad1) as Boolean)
+            } else if (property.get(gamepad1) != null && property.get(gamepad1) is Float) {
+                gamepadJoyOrTrigs.put(property.name, property.get(gamepad1) as Float)
             }
+
         }
     }
     fun click(hb: HeartBeat){
@@ -42,21 +42,20 @@ class GamepadNode : Node
             return
         }
         for (prop in Gamepad::class.memberProperties) {
-            if(prop.isAccessible){
-                if (prop.get(gamepad1 as Gamepad) != null && prop.get(gamepad1 as Gamepad) is Boolean) {
-                    if (gamepadButtons.get(prop.name) != null) {
-                        if (gamepadButtons.get(prop.name) != prop.get(gamepad1 as Gamepad)) {
-                            gamepadButtons.put(prop.name, prop.get(gamepad1 as Gamepad) as Boolean)
-                            Dispatcher.publish("/gamepad1/${prop.name}", gamepadButtonMsg(value = prop.get(gamepad1 as Gamepad) as Boolean, priority = 3))
-                        }
+            prop.isAccessible = true
+            if (prop.get(gamepad1 as Gamepad) != null && prop.get(gamepad1 as Gamepad) is Boolean) {
+                if (gamepadButtons.get(prop.name) != null) {
+                    if (gamepadButtons.get(prop.name) != prop.get(gamepad1 as Gamepad)) {
+                        gamepadButtons.put(prop.name, prop.get(gamepad1 as Gamepad) as Boolean)
+                        Dispatcher.publish("/gamepad1/${prop.name}", gamepadButtonMsg(value = prop.get(gamepad1 as Gamepad) as Boolean, priority = 3))
                     }
                 }
-                else if (prop.get(gamepad1 as Gamepad) != null && prop.get(gamepad1 as Gamepad) is Float) {
-                    if (gamepadJoyOrTrigs.get(prop.name) != null) {
-                        if (gamepadJoyOrTrigs.get(prop.name) != prop.get(gamepad1 as Gamepad)) {
-                            gamepadJoyOrTrigs.put(prop.name, prop.get(gamepad1 as Gamepad) as Float)
-                            Dispatcher.publish("/gamepad1/${prop.name}", gamepadJoyOrTrigMsg(value = prop.get(gamepad1 as Gamepad) as Float, priority = 2))
-                        }
+            }
+            else if (prop.get(gamepad1 as Gamepad) != null && prop.get(gamepad1 as Gamepad) is Float) {
+                if (gamepadJoyOrTrigs.get(prop.name) != null) {
+                    if (gamepadJoyOrTrigs.get(prop.name) != prop.get(gamepad1 as Gamepad)) {
+                        gamepadJoyOrTrigs.put(prop.name, prop.get(gamepad1 as Gamepad) as Float)
+                        Dispatcher.publish("/gamepad1/${prop.name}", gamepadJoyOrTrigMsg(value = prop.get(gamepad1 as Gamepad) as Float, priority = 2))
                     }
                 }
             }
