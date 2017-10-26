@@ -14,6 +14,7 @@ class T10Teleop : OpMode(){
     var gamepadNode : GamepadNode? = null
     var omniDtNode : OmniDtNode? = null
     var omniJoyNode : OmniJoyNode?= null
+    var servoNode : ServoNode?= null
     var effectorNode : EffectorNode?= null
     var debugNode : DebugNode?=null
     override fun init() {
@@ -21,6 +22,7 @@ class T10Teleop : OpMode(){
         gamepadNode = GamepadNode(gamepad1, gamepad2)
         omniDtNode = OmniDtNode()
         omniJoyNode = OmniJoyNode()
+        servoNode = ServoNode()
         effectorNode = EffectorNode(hardwareMap)
         debugNode = DebugNode(telemetry)
     }

@@ -1,22 +1,27 @@
 package org.firstinspires.ftc.teamcode.nodes
 
+import com.qualcomm.robotcore.hardware.ColorSensor
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.HardwareMap
+import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.Message
 import org.firstinspires.ftc.teamcode.messages.motor
+import org.firstinspires.ftc.teamcode.messages.servo
 
 /**
  * Created by shaash on 10/17/17.
  */
+
 class EffectorNode : Node{
     var hardwareMap: HardwareMap? = null
     val motors = HashMap<String, DcMotor>()
+    val servos = HashMap<String, Servo>()
     constructor(hardwareMap: HardwareMap){
         this.hardwareMap = hardwareMap
         addMotors()
-
+        addServos()
     }
     fun addMotors(){
         motors.put("lf", hardwareMap?.dcMotor?.get("m3")!!)
@@ -27,10 +32,22 @@ class EffectorNode : Node{
             Dispatcher.subscribe("/motors/${key}", {callMotor(key, it)})
         }
     }
+    fun addServos() {
+        servos.put("topServo", hardwareMap?.servo?.get("s0")!!)
+        for (key in servos.keys) {
+            Dispatcher.subscribe("/servos/${key}", { callServo(key, it) })
+        }
+    }
     fun callMotor(motorName : String, motorMsg: Message){
         val (power) = motorMsg as motor
         if (motors.get(motorName) != null){
             motors.get(motorName)?.setPower(power)
+        }
+    }
+    fun callServo(servoName : String, servoMsg: Message){
+        val (value) = servoMsg as servo
+        if (servos.get(servoName) != null){
+            servos.get(servoName)?.position = value
         }
     }
 }

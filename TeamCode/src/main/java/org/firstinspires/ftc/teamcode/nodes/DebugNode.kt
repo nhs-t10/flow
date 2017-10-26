@@ -4,6 +4,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.Message
+import org.firstinspires.ftc.teamcode.messages.OmniDrive
 import org.firstinspires.ftc.teamcode.messages.gamepadJoyOrTrigMsg
 
 /**
