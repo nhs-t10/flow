@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.teamcode.nodes.*
 
 /**
@@ -10,7 +9,7 @@ import org.firstinspires.ftc.teamcode.nodes.*
  */
 @TeleOp(name = "KotlinOp")
 class T10Teleop : OpMode(){
-    var heartbeat : Heart? = null
+    var heartbeat : HeartbeatNode? = null
     var gamepadNode : GamepadNode? = null
 
     var omniDtNode : OmniDtNode? = null
@@ -19,7 +18,7 @@ class T10Teleop : OpMode(){
     var effectorNode : EffectorNode?= null
     var debugNode : DebugNode?=null
     override fun init() {
-        heartbeat = Heart()
+        heartbeat = HeartbeatNode()
         gamepadNode = GamepadNode(gamepad1, gamepad2)
         omniDtNode = OmniDtNode()
         omniJoyNode = OmniJoyNode()
