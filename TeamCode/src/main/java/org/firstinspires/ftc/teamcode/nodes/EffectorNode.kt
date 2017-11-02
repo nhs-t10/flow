@@ -6,9 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
-import org.firstinspires.ftc.teamcode.messages.Message
-import org.firstinspires.ftc.teamcode.messages.motor
-import org.firstinspires.ftc.teamcode.messages.servo
+import org.firstinspires.ftc.teamcode.messages.*
 
 /**
  * Created by shaash on 10/17/17.
@@ -39,15 +37,16 @@ class EffectorNode : Node{
         }
     }
     fun callMotor(motorName : String, motorMsg: Message){
-        val (power) = motorMsg as motor
+        val (power) = motorMsg as MotorMsg
         if (motors.get(motorName) != null){
             motors.get(motorName)?.setPower(power)
         }
     }
-    fun callServo(servoName : String, servoMsg: Message){
-        val (value) = servoMsg as servo
+    fun callServo(servoName : String, msg: Message){
+        val (position) = msg as ServoMsg
         if (servos.get(servoName) != null){
-            servos.get(servoName)?.setPosition(value)
+            Dispatcher.publish("/debug", DebugMsg("${position}"))
+            servos.get(servoName)?.setPosition(position)
         }
     }
 }

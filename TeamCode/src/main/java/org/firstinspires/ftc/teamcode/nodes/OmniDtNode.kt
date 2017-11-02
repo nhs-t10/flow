@@ -3,10 +3,7 @@ package org.firstinspires.ftc.teamcode.nodes
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
-import org.firstinspires.ftc.teamcode.messages.HeartBeat
-import org.firstinspires.ftc.teamcode.messages.Message
-import org.firstinspires.ftc.teamcode.messages.OmniDrive
-import org.firstinspires.ftc.teamcode.messages.motor
+import org.firstinspires.ftc.teamcode.messages.*
 import java.lang.Math.abs
 
 /**
@@ -31,10 +28,10 @@ class OmniDtNode : Node{
 
         val motorvals = drive(forwardsComponent, eastWestComponent, rotationalComponent).map{it.toDouble()}
         val priority = 2
-        Dispatcher.publish("/motors/lr", motor(motorvals[0], priority = priority))
-        Dispatcher.publish("/motors/rr", motor(motorvals[1], priority = priority))
-        Dispatcher.publish("/motors/lf", motor(motorvals[2], priority = priority))
-        Dispatcher.publish("/motors/rf", motor(motorvals[3], priority = priority))
+        Dispatcher.publish("/motors/lr", MotorMsg(motorvals[0], priority = priority))
+        Dispatcher.publish("/motors/rr", MotorMsg(motorvals[1], priority = priority))
+        Dispatcher.publish("/motors/lf", MotorMsg(motorvals[2], priority = priority))
+        Dispatcher.publish("/motors/rf", MotorMsg(motorvals[3], priority = priority))
     }
     fun drive(forwardback : List<Float>, leftright : List<Float>, rotation : List<Float>):List<Float>{
         val sumlf = forwardback[0] + leftright[0] + rotation[0]

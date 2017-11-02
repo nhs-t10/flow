@@ -23,7 +23,6 @@ class GamepadNode : Node
     var gamepad2 : Gamepad? = null
     constructor(gamepad1: Gamepad, gamepad2: Gamepad){
         Dispatcher.subscribe("/heartbeat", {click(it as HeartBeat)})
-
         this.gamepad1 = gamepad1
         this.gamepad2 = gamepad2
         for (property in Gamepad::class.declaredMemberProperties) {
@@ -33,7 +32,6 @@ class GamepadNode : Node
             } else if (property.get(gamepad1) != null && property.get(gamepad1) is Float) {
                 gamepadJoyOrTrigs.put(property.name, property.get(gamepad1) as Float)
             }
-
         }
     }
     fun click(hb: HeartBeat){
