@@ -28,16 +28,7 @@ class OmniJoyNode : Node{
     var eastWestComponent = listOf<Float>(0f, 0f, 0f, 0f)
     var rotationalComponent = listOf<Float>(0f, 0f, 0f, 0f)
 
-    constructor(/*hardwareMap: HardwareMap*/){
-        /*
-        this.lf = hardwareMap.dcMotor.get("m3")
-        this.lr = hardwareMap.dcMotor.get("m1")
-        this.rf = hardwareMap.dcMotor.get("m4")
-        this.rr = hardwareMap.dcMotor.get("m2")
-        lf?.direction = REVERSE
-        lr?.direction = REVERSE
-        */
-        Dispatcher.subscribe("/heartbeat", {this.loop(it as HeartBeat)})
+    constructor(){
         Dispatcher.subscribe("/gamepad1/right_stick_x", {this.recieveMessage(rotation = (it as gamepadJoyOrTrigMsg).value)})
         Dispatcher.subscribe("/gamepad1/left_stick_y", {this.recieveMessage(upDown = (it as gamepadJoyOrTrigMsg).value)})
         Dispatcher.subscribe("/gamepad1/left_stick_x", {this.recieveMessage(leftRight = (it as gamepadJoyOrTrigMsg).value)})
@@ -55,35 +46,6 @@ class OmniJoyNode : Node{
             this.tempLeftRight = leftRight
         }
         Dispatcher.publish("/drive", OmniDrive(this.tempUpDown, this.tempLeftRight, this.tempRotation, priority = 4))
-    }
-    /*
-
-    fun drive(forwardback : List<Float>, leftright : List<Float>, rotation : List<Float>):List<Float>{
-        val sumlf = forwardback[0] + leftright[0] + rotation[0]
-        val sumrf = forwardback[1] + leftright[1] + rotation[1]
-        val sumlr = forwardback[2] + leftright[2] + rotation[2]
-        val sumrr = forwardback[3] + leftright[3] + rotation[3]
-        val sums = arrayOf(sumlf, sumrf, sumlr, sumrr)
-        val findhighestinthis = sums.map{abs(it)}
-        val highestsum:Float? = findhighestinthis.max()
-        var attenuationfactor = 1f
-        if (highestsum == null){
-            attenuationfactor = 1f
-        }
-
-        else if (abs(highestsum) > 1f) {
-            attenuationfactor = highestsum
-        } else {
-            attenuationfactor = 1f
-        }
-
-        val finalvals = sums.map { it / attenuationfactor }
-        return finalvals
-    }
-*/
-    fun loop(hb: HeartBeat) {
-        val (time) = hb
-        //val toPub : List<Float> = drive(this.forwardsComponent, this.eastWestComponent, rotationalComponent)
     }
 
 }

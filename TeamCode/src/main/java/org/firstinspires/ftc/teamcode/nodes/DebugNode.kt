@@ -14,8 +14,8 @@ class DebugNode : Node{
     var telemetry : Telemetry? = null
     constructor(telemetry: Telemetry){
         this.telemetry = telemetry
-        Dispatcher.subscribe("/gamepad1/left_stick_y", {this.printMsg(it)})
-        Dispatcher.subscribe("/debug", {this.printMsg(it)})
+        Dispatcher.subscribe("/servos/s0", {this.printMsg(it)})
+        //Dispatcher.subscribe("/debug", {this.printMsg(it)})
     }
     fun printMsg(m : Message){
         telemetry?.log()?.add(m.toString())

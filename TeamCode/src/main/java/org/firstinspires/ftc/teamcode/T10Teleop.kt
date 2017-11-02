@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.nodes.*
 class T10Teleop : OpMode(){
     var heartbeat : Heart? = null
     var gamepadNode : GamepadNode? = null
+
     var omniDtNode : OmniDtNode? = null
     var omniJoyNode : OmniJoyNode?= null
     var servoNode : ServoNode?= null

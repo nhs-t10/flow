@@ -47,7 +47,7 @@ class EffectorNode : Node{
     fun callServo(servoName : String, servoMsg: Message){
         val (value) = servoMsg as servo
         if (servos.get(servoName) != null){
-            servos.get(servoName)?.position = value
+            servos.get(servoName)?.setPosition(value)
         }
     }
 }
