@@ -18,7 +18,4 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "build.common.gradle" }}
       - run:
           name: Run Tests
-          command: ./gradlew lint test
-# dependencies:
-  # pre:
-  #   - echo y | android update sdk --no-ui --all --filter tools,platform-tools,build-tools-25.0.3,android-23
+          command: ./gradlew lint test --stacktrace
