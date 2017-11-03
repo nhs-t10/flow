@@ -5,8 +5,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.robocol.Heartbeat
 import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
-import org.firstinspires.ftc.teamcode.messages.HeartBeat
-import org.firstinspires.ftc.teamcode.messages.colorMsg
+import org.firstinspires.ftc.teamcode.messages.HeartBeatMsg
+import org.firstinspires.ftc.teamcode.messages.ColorMsg
+import java.util.*
 
 /**
  * Created by shaash on 10/26/17.
@@ -17,7 +18,7 @@ class SensorNode : Node{
     constructor(hardwareMap: HardwareMap){
         this.hardwareMap = hardwareMap
         addColorSensors()
-        Dispatcher.subscribe("/heartbeat", {click(it as HeartBeat)})
+        Dispatcher.subscribe("/heartbeat", {click(it as HeartBeatMsg)})
     }
     fun addColorSensors(){
         colorSensors.put("colorBall", hardwareMap?.colorSensor?.get("color1")!!)
@@ -25,10 +26,10 @@ class SensorNode : Node{
 //            Dispatcher.subscribe("/color/${key}", {setColors(it)})
         }
     }
-    fun setColors(colorvals: colorMsg){
+    fun setColors(colorvals: ColorMsg){
         colorvals.blue
     }
-    fun click(hb: HeartBeat){
+    fun click(hb: HeartBeatMsg){
         //Dispatcher.publish()
     }
 

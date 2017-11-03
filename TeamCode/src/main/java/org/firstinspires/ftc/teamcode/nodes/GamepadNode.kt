@@ -4,9 +4,10 @@ import com.qualcomm.robotcore.hardware.Gamepad
 import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.DebugMsg
-import org.firstinspires.ftc.teamcode.messages.HeartBeat
+import org.firstinspires.ftc.teamcode.messages.HeartBeatMsg
 import org.firstinspires.ftc.teamcode.messages.gamepadButtonMsg
 import org.firstinspires.ftc.teamcode.messages.gamepadJoyOrTrigMsg
+import java.util.*
 
 import kotlin.reflect.full.*
 import kotlin.reflect.jvm.isAccessible
@@ -22,7 +23,7 @@ class GamepadNode : Node
     var gamepad1 : Gamepad? = null
     var gamepad2 : Gamepad? = null
     constructor(gamepad1: Gamepad, gamepad2: Gamepad){
-        Dispatcher.subscribe("/heartbeat", {click(it as HeartBeat)})
+        Dispatcher.subscribe("/heartbeat", {click(it as HeartBeatMsg)})
         this.gamepad1 = gamepad1
         this.gamepad2 = gamepad2
         for (property in Gamepad::class.declaredMemberProperties) {
@@ -34,7 +35,7 @@ class GamepadNode : Node
             }
         }
     }
-    fun click(hb: HeartBeat){
+    fun click(hb: HeartBeatMsg){
         val (time) = hb
         if(gamepad1 == null){
             return
