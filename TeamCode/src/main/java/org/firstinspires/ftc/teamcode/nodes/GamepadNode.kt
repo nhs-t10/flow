@@ -37,7 +37,7 @@ class GamepadNode : Node
     }
     fun click(hb: HeartBeatMsg){
         val (time) = hb
-        if(gamepad1 == null){
+        if(gamepad == null){
             return
         }
         for (prop in Gamepad::class.memberProperties) {
