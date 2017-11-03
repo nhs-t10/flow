@@ -17,8 +17,12 @@ class DebugNode : Node{
         Dispatcher.subscribe("/servos/s0"){this.printMsg(it)}
         Dispatcher.subscribe("/vuforia"){this.printMsg(it)}
         //Dispatcher.subscribe("/debug", {this.printMsg(it)})
+        Dispatcher.subscribe("/warn"){this.printWarning(it)}
     }
     fun printMsg(m : Message){
         telemetry?.log()?.add(m.toString())
+    }
+    fun printWarning(m : Message) {
+        telemetry?.log()?.add("WARNING: ${m.toString()}")
     }
 }
