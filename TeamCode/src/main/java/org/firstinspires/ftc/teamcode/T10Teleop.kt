@@ -10,21 +10,15 @@ import org.firstinspires.ftc.teamcode.nodes.*
 @TeleOp(name = "KotlinOp")
 class T10Teleop : OpMode(){
     var heartbeat : HeartbeatNode? = null
-    var gamepadNode : GamepadNode? = null
-
-    var omniDtNode : OmniDtNode? = null
-    var omniJoyNode : OmniJoyNode?= null
-    var servoNode : ServoNode?= null
-    var effectorNode : EffectorNode?= null
-    var debugNode : DebugNode?=null
     override fun init() {
         heartbeat = HeartbeatNode()
-        gamepadNode = GamepadNode(gamepad1, gamepad2)
-        omniDtNode = OmniDtNode()
-        omniJoyNode = OmniJoyNode()
-        servoNode = ServoNode()
-        effectorNode = EffectorNode(hardwareMap)
-        debugNode = DebugNode(telemetry)
+        val gamepadNode = GamepadNode(gamepad1, gamepad2)
+        val omniDtNode = OmniDtNode()
+        val omniJoyNode = OmniJoyNode()
+        val servoNode = ServoNode()
+        val effectorNode = EffectorNode(hardwareMap)
+        val debugNode = DebugNode(telemetry)
+        val vuforiaNode = VuforiaNode(hardwareMap)
     }
     override fun loop() {
         if(heartbeat != null){
