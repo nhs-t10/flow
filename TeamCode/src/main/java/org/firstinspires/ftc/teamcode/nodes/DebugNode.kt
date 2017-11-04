@@ -23,6 +23,6 @@ class DebugNode : Node{
         telemetry?.log()?.add(m.toString())
     }
     fun printWarning(m : Message) {
-        telemetry?.log()?.add("WARNING: ${m.toString()}")
+        telemetry?.log()?.add("WARNING: $m")
     }
 }

@@ -15,7 +15,7 @@ class T10Teleop : OpMode(){
         val gamepadNode = GamepadNode(gamepad1, gamepad2)
         val omniDtNode = OmniDtNode()
         val omniJoyNode = OmniJoyNode()
-        val servoNode = ServoNode()
+        val glyphHolderNode = GlyphHolderNode()
         val effectorNode = EffectorNode(hardwareMap)
         val debugNode = DebugNode(telemetry)
         val vuforiaNode = VuforiaNode(hardwareMap)

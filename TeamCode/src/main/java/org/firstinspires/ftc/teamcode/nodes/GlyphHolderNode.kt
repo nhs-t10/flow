@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.messages.gamepadButtonMsg
  * Created by shaash on 10/26/17.
  */
 
-class ServoNode : Node {
+class GlyphHolderNode : Node {
     var position = .2
 
     constructor() {
