@@ -10,8 +10,14 @@ object Dispatcher {
 
     val channels = HashMap<String, Pair<Int?, MutableList<(Message) -> Unit>>>()
 
+    fun setChannel(channel: String,
+                   content: MutableList<(Message) -> Unit> = mutableListOf<(Message) -> Unit>(),
+                   priority : Int? = null) {
+        channels.put(channel, Pair(priority, content))
+    }
+
     fun publish(channel: String, message: Message){
-        val found = channels.get(channel)
+        val found = channels[channel]
         if (found != null) {
             val (priority, listeners) = found
             if (priority == null || priority >= message.priority) {
@@ -25,37 +31,41 @@ object Dispatcher {
             }
             // otherwise, ignore message
         }
+        else { // this ensures a one-time warning. slightly hacky, but shouldn't cause breaking bugs
+            this.publish("/warn", WarningMsg("Nobody heard a message sent to $channel."))
+            setChannel(channel)
+        }
     }
 
     fun subscribe(channel:String, callback: (Message) -> Unit) {
-        val found = channels.get(channel)
-        var currentListeners = mutableListOf<(Message) -> Unit>()
+        val found = channels[channel]
         if (found != null) {
-            currentListeners = found.second // the list in the pair of priority, integer
+            val (priority, currentListeners) = found
+            currentListeners.add(callback)
+            setChannel(channel=channel, content=currentListeners, priority=priority)
         }
-        currentListeners.add(callback)
-        channels.put(channel, Pair(null, currentListeners))
+        else {
+            setChannel(channel=channel, content=mutableListOf(callback))
+        }
     }
 
     fun lock(channel: String, priority: Int) {
-        val found = channels.get(channel)
+        val found = channels[channel]
         if (found != null) {
-            val subscribers = found.second
-            channels.put(channel, Pair(priority, subscribers))
+            setChannel(channel, found.second, priority)
         }
         else {
-            this.publish("/warn", WarningMsg("Nobody's listening to $channel (yet), so it wasn't locked."))
+            this.publish("/warn", WarningMsg("Nobody's listening to $channel, so it wasn't locked."))
         }
     }
 
     fun unlock(channel: String) {
-        val found = channels.get(channel)
+        val found = channels[channel]
         if (found != null) {
-            val subscribers = found.second
-            channels.put(channel, Pair(null, subscribers))
+            setChannel(channel, found.second, null)
         }
         else {
-            this.publish("/warn", WarningMsg("Nobody's listening to $channel (yet), so it wasn't unlocked."))
+            this.publish("/warn", WarningMsg("Nobody's listening to $channel, so it wasn't unlocked."))
         }
     }
 }
