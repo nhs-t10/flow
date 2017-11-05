@@ -23,22 +23,15 @@ import org.firstinspires.ftc.teamcode.messages.ImuMsg
 /**
  * Created by shaash on 10/26/17.
  */
-class SensorNode : Node{
+class ImuNode : Node{
     var hardwareMap: HardwareMap? = null
     var imu : BNO055IMU? = null
-    var angles: Orientation? = null
-    val colorSensors = HashMap<String, ColorSensor>()
-    constructor(hardwareMap: HardwareMap, imu: BNO055IMU){
-        this.imu = imu
+    constructor(hardwareMap: HardwareMap){
         this.hardwareMap = hardwareMap
-        addColorSensors()
         initImu()
-        publishImu()
         Dispatcher.subscribe("/heartbeat", {click(it as HeartBeatMsg)})
     }
-    fun addColorSensors(){
-        colorSensors.put("colorOne", hardwareMap?.colorSensor?.get("color1")!!)
-    }
+
     fun initImu(){
         val parameters = BNO055IMU.Parameters()
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES
@@ -54,40 +47,20 @@ class SensorNode : Node{
         imu?.startAccelerationIntegration(Position(), Velocity(), 1000)
 
     }
-    fun publishImu(){
-    }
-
 
     fun click(hb: HeartBeatMsg){
         val (time) = hb
-        //color:
-        for (key in colorSensors.keys){
-            var red = colorSensors[key]?.red() ?: -1
-            var blue = colorSensors[key]?.blue() ?: -1
-            var green = colorSensors[key]?.green() ?: -1
-            Dispatcher.publish("/colors/$key", ColorMsg(red = red, blue = blue, green = green, priority = 7))
-
-        }
         //imu:
-        angles = imu?.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
-        var angleUnit = angles?.angleUnit
-        var firstAngle = angles?.firstAngle?.toDouble() ?: 0.0
-        var secondAngle = angles?.secondAngle?.toDouble() ?: 0.0
-        var thirdAngle = angles?.thirdAngle?.toDouble() ?: 0.0
+        val angles = imu?.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
+        val angleUnit = angles?.angleUnit
+        val firstAngle = angles?.firstAngle?.toDouble() ?: 0.0
+        val secondAngle = angles?.secondAngle?.toDouble() ?: 0.0
+        val thirdAngle = angles?.thirdAngle?.toDouble() ?: 0.0
         if(angleUnit != null){
-            var heading = AngleUnit.DEGREES.fromUnit(angleUnit, firstAngle)
-            var roll = AngleUnit.DEGREES.fromUnit(angleUnit, secondAngle)
-            var pitch = AngleUnit.DEGREES.fromUnit(angleUnit, thirdAngle)
+            val heading = AngleUnit.DEGREES.fromUnit(angleUnit, firstAngle)
+            val roll = AngleUnit.DEGREES.fromUnit(angleUnit, secondAngle)
+            val pitch = AngleUnit.DEGREES.fromUnit(angleUnit, thirdAngle)
             Dispatcher.publish("/imu", ImuMsg(heading, roll, pitch, priority = 1))
         }
     }
-
-    fun formatAngle(angleUnit: AngleUnit, angle: Double): String {
-        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle))
-    }
-
-    fun formatDegrees(degrees: Double): String {
-        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees))
-    }
-
 }
