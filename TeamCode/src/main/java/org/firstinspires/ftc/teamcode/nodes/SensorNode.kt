@@ -21,14 +21,18 @@ class SensorNode : Node{
         Dispatcher.subscribe("/heartbeat", {click(it as HeartBeatMsg)})
     }
     fun addColorSensors(){
-        colorSensors.put("colorBall", hardwareMap?.colorSensor?.get("color1")!!)
+        colorSensors.put("colorOne", hardwareMap?.colorSensor?.get("color1")!!)
         for (key in colorSensors.keys){
-//            Dispatcher.subscribe("/color/${key}", {setColors(it)})
+            if(colorSensors[key]?.red() != null){
+                var red = colorSensors[key]?.red() ?: -1
+                var blue = colorSensors[key]?.blue() ?: -1
+                var green = colorSensors[key]?.green() ?: -1
+                Dispatcher.publish("/colors/$key", ColorMsg(red = red, blue = blue, green = green, priority = 7))
+            }
         }
     }
-    fun setColors(colorvals: ColorMsg){
-        colorvals.blue
-    }
+
+
     fun click(hb: HeartBeatMsg){
         //Dispatcher.publish()
     }
