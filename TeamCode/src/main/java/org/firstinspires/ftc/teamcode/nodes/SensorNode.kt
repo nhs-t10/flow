@@ -75,9 +75,9 @@ class SensorNode : Node{
         var secondAngle = angles?.secondAngle?.toDouble() ?: 0.0
         var thirdAngle = angles?.thirdAngle?.toDouble() ?: 0.0
         if(angleUnit != null){
-            var heading = formatAngle(angleUnit, firstAngle);
-            var roll = formatAngle(angleUnit, secondAngle);
-            var pitch = formatAngle(angleUnit, thirdAngle);
+            var heading = AngleUnit.DEGREES.fromUnit(angleUnit, firstAngle)
+            var roll = AngleUnit.DEGREES.fromUnit(angleUnit, secondAngle)
+            var pitch = AngleUnit.DEGREES.fromUnit(angleUnit, thirdAngle)
             Dispatcher.publish("/imu", ImuMsg(heading, roll, pitch, priority = 1))
         }
     }
