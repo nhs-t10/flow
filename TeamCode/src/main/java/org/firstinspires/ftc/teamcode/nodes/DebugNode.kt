@@ -14,6 +14,7 @@ class DebugNode : Node{
     var telemetry : Telemetry? = null
     constructor(telemetry: Telemetry){
         this.telemetry = telemetry
+        this.telemetry?.log()?.setCapacity(25)
         //Dispatcher.subscribe("/servos/s0"){this.printMsg(it)}
         //Dispatcher.subscribe("/colors/colorOne"){this.printMsg(it)}
         // Dispatcher.subscribe("/vuforia"){this.printMsg(it)}
