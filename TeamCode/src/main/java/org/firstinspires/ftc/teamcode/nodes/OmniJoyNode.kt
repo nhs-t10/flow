@@ -15,18 +15,10 @@ import org.firstinspires.ftc.teamcode.messages.OmniDrive
 import org.firstinspires.ftc.teamcode.messages.gamepadJoyOrTrigMsg
 import java.lang.Math.abs
 
-class OmniJoyNode : Node{
-    var lf : DcMotor? = null
-    var lr : DcMotor? = null
-    var rf : DcMotor? = null
-    var rr : DcMotor? = null
-    var slowMode = false
+class OmniJoyNode : Node {
     var tempRotation: Float = 0f
     var tempUpDown: Float = 0f
     var tempLeftRight: Float = 0f
-    var forwardsComponent = listOf<Float>(0f, 0f, 0f, 0f)
-    var eastWestComponent = listOf<Float>(0f, 0f, 0f, 0f)
-    var rotationalComponent = listOf<Float>(0f, 0f, 0f, 0f)
 
     constructor(){
         Dispatcher.subscribe("/gamepad1/right_stick_x", {this.recieveMessage(rotation = (it as gamepadJoyOrTrigMsg).value)})
