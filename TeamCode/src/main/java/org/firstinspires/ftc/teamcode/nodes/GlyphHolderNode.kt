@@ -21,14 +21,14 @@ class GlyphHolderNode : Node {
     fun open(state : Message) {
         val (value) = state as gamepadButtonMsg
         if(value){
-            position = 0.2
+            position = 0.3
             Dispatcher.publish("/servos/topServo", ServoMsg(position, priority = 1))
         }
     }
     fun close(state : Message) {
         val (value) = state as gamepadButtonMsg
         if(value){
-            position = 0.0
+            position = -0.1
             Dispatcher.publish("/servos/topServo", ServoMsg(position, priority = 1))
         }
     }

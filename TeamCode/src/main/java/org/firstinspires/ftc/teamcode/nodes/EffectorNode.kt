@@ -26,6 +26,7 @@ class EffectorNode : Node{
         motors.put("lr", hardwareMap?.dcMotor?.get("m1")!!)
         motors.put("rf", hardwareMap?.dcMotor?.get("m4")!!)
         motors.put("rr", hardwareMap?.dcMotor?.get("m2")!!)
+        motors.put("g1", hardwareMap?.dcMotor?.get("m5")!!)
         for(key in motors.keys){
             Dispatcher.subscribe("/motors/$key", {callMotor(key, it)})
         }

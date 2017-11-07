@@ -14,9 +14,11 @@ class DebugNode : Node{
     var telemetry : Telemetry? = null
     constructor(telemetry: Telemetry){
         this.telemetry = telemetry
-        Dispatcher.subscribe("/servos/s0"){this.printMsg(it)}
-        Dispatcher.subscribe("/vuforia"){this.printMsg(it)}
-        //Dispatcher.subscribe("/debug", {this.printMsg(it)})
+        //Dispatcher.subscribe("/servos/s0"){this.printMsg(it)}
+        //Dispatcher.subscribe("/colors/colorOne"){this.printMsg(it)}
+        // Dispatcher.subscribe("/vuforia"){this.printMsg(it)}
+        Dispatcher.subscribe("/imu"){this.printMsg(it)}
+        // Dispatcher.subscribe("/debug", {this.printMsg(it)})
         Dispatcher.subscribe("/warn"){this.printWarning(it)}
     }
     fun printMsg(m : Message){
