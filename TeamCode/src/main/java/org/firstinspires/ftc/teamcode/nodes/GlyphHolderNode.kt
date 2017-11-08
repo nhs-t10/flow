@@ -21,8 +21,6 @@ class GlyphHolderNode : Node {
     constructor() {
         Dispatcher.subscribe("/gamepad1/a", { lower(it) })
         Dispatcher.subscribe("/gamepad1/b", {upper(it)})
-        Dispatcher.publish("/servos/bottomServo", ServoMsg(0.0, priority = 1))
-        Dispatcher.publish("/servos/topServo", ServoMsg(0.0, priority = 1))
     }
 
     fun lower(state : Message) {
