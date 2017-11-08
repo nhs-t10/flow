@@ -21,11 +21,11 @@ class GliftNode : Node {
     }
 
     fun recieveUpMessage(upPower : Boolean) {
-           Dispatcher.publish("/motors/g1", MotorMsg(if (upPower)0.5 else 0.0, priority = 1))
+           Dispatcher.publish("/motors/g1", MotorMsg((if (upPower)0.5 else 0.0), priority = 1))
     }
     fun recieveDownMessage(downPower : Boolean) {
         if(downPower){
-            Dispatcher.publish("/motors/g1", MotorMsg(if (downPower)-0.5 else 0.0, priority = 1))
+            Dispatcher.publish("/motors/g1", MotorMsg((if (downPower)-0.5 else 0.0), priority = 1))
         }
     }
 }

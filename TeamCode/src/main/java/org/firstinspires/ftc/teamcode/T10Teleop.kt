@@ -20,7 +20,7 @@ class T10Teleop : OpMode(){
         val glyphHolderNode = GlyphHolderNode()
         val effectorNode = EffectorNode(hardwareMap)
         val debugNode = DebugNode(telemetry)
-        val vuforiaNode = VuforiaNode(hardwareMap)
+        // val vuforiaNode = VuforiaNode(hardwareMap)
     }
     override fun loop() {
         if(heartbeat != null){

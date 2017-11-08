@@ -11,25 +11,42 @@ import org.firstinspires.ftc.teamcode.messages.gamepadButtonMsg
  */
 
 class GlyphHolderNode : Node {
-    var position = .2
+    val bottomOpenPosition = 0.4
+    val bottomClosedPosition = 0.0
+    val topOpenPosition = 1.0
+    val topClosedPosition = 0.0
+    var bottomIsOpen = true
+    var topIsOpen = true
 
     constructor() {
-        Dispatcher.subscribe("/gamepad1/right_bumper", { open(it) })
-        Dispatcher.subscribe("/gamepad1/left_bumper", { close(it) })
+        Dispatcher.subscribe("/gamepad1/a", { lower(it) })
+        Dispatcher.subscribe("/gamepad1/b", {upper(it)})
+        Dispatcher.publish("/servos/bottomServo", ServoMsg(0.0, priority = 1))
+        Dispatcher.publish("/servos/topServo", ServoMsg(0.0, priority = 1))
     }
 
-    fun open(state : Message) {
+    fun lower(state : Message) {
         val (value) = state as gamepadButtonMsg
         if(value){
-            position = 0.3
-            Dispatcher.publish("/servos/topServo", ServoMsg(position, priority = 1))
+            if(bottomIsOpen){
+                Dispatcher.publish("/servos/bottomServo", ServoMsg(bottomClosedPosition, priority = 1))
+                bottomIsOpen = false
+            } else {
+                Dispatcher.publish("/servos/bottomServo", ServoMsg(bottomOpenPosition, priority = 1))
+                bottomIsOpen = true
+            }
         }
     }
-    fun close(state : Message) {
+    fun upper(state : Message){
         val (value) = state as gamepadButtonMsg
         if(value){
-            position = -0.1
-            Dispatcher.publish("/servos/topServo", ServoMsg(position, priority = 1))
+            if(topIsOpen){
+                Dispatcher.publish("/servos/topServo", ServoMsg(topClosedPosition, priority = 1))
+                topIsOpen = false
+            } else {
+                Dispatcher.publish("/servos/topServo", ServoMsg(topOpenPosition, priority = 1))
+                topIsOpen = true
+            }
         }
     }
 }

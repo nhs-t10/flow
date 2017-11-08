@@ -32,7 +32,9 @@ class EffectorNode : Node{
         }
     }
     fun addServos() {
-        servos.put("topServo", hardwareMap?.servo?.get("s0")!!)
+        servos.put("bottomServo", hardwareMap?.servo?.get("s0")!!)
+        servos.put("topServo", hardwareMap?.servo?.get("s1")!!)
+
         for (key in servos.keys) {
             Dispatcher.subscribe("/servos/$key", { callServo(key, it) })
         }

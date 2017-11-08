@@ -17,7 +17,7 @@ class DebugNode : Node{
         this.telemetry?.log()?.setCapacity(25)
         //Dispatcher.subscribe("/servos/s0"){this.printMsg(it)}
         //Dispatcher.subscribe("/colors/colorOne"){this.printMsg(it)}
-        // Dispatcher.subscribe("/vuforia"){this.printMsg(it)}
+        //Dispatcher.subscribe("/vuforia"){this.printMsg(it)}
         Dispatcher.subscribe("/imu"){this.printMsg(it)}
         // Dispatcher.subscribe("/debug", {this.printMsg(it)})
         Dispatcher.subscribe("/warn"){this.printWarning(it)}
