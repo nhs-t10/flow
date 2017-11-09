@@ -4,14 +4,8 @@ package org.firstinspires.ftc.teamcode.nodes
  * Created by shaash on 10/15/17.
  */
 
-import com.qualcomm.robotcore.hardware.DcMotor
-import com.qualcomm.robotcore.hardware.DcMotorSimple
-import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE
-import com.qualcomm.robotcore.hardware.HardwareMap
-import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.*
-import java.lang.Math.abs
 
 class GliftNode : Node {
     val bottomOpenPosition = 0.4
@@ -24,8 +18,8 @@ class GliftNode : Node {
     constructor(){
     }
     override fun init() {
-        this.subscribe("/gamepad1/dpad_up", {recieveUpMessage(upPower = (it as gamepadButtonMsg).value)})
-        this.subscribe("/gamepad1/dpad_down", {recieveDownMessage(downPower = (it as gamepadButtonMsg).value)})
+        this.subscribe("/pad1/up", {recieveUpMessage(upPower = (it as GamepadButtonMsg).value)})
+        this.subscribe("/pad1/down", {recieveDownMessage(downPower = (it as GamepadButtonMsg).value)})
     }
 
     fun recieveUpMessage(upPower : Boolean) {

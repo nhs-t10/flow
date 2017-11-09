@@ -4,16 +4,9 @@ package org.firstinspires.ftc.teamcode.nodes
  * Created by shaash on 10/15/17.
  */
 
-import com.qualcomm.robotcore.hardware.DcMotor
-import com.qualcomm.robotcore.hardware.DcMotorSimple
-import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE
-import com.qualcomm.robotcore.hardware.HardwareMap
-import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
-import org.firstinspires.ftc.teamcode.messages.HeartBeatMsg
 import org.firstinspires.ftc.teamcode.messages.OmniDrive
-import org.firstinspires.ftc.teamcode.messages.gamepadJoyOrTrigMsg
-import java.lang.Math.abs
+import org.firstinspires.ftc.teamcode.messages.GamepadJoyOrTrigMsg
 
 class OmniJoyNode : Node {
     var tempRotation: Float = 0f
@@ -24,9 +17,9 @@ class OmniJoyNode : Node {
 
     }
     override fun init() {
-        this.subscribe("/gamepad1/left_stick_y", {this.recieveMessage(rotation = (it as gamepadJoyOrTrigMsg).value)})
-        this.subscribe("/gamepad1/right_stick_x", {this.recieveMessage(upDown = (it as gamepadJoyOrTrigMsg).value)})
-        this.subscribe("/gamepad1/left_stick_x", {this.recieveMessage(leftRight = (it as gamepadJoyOrTrigMsg).value)})
+        this.subscribe("/gamepad1/left_stick_y", {this.recieveMessage(rotation = (it as GamepadJoyOrTrigMsg).value)})
+        this.subscribe("/gamepad1/right_stick_x", {this.recieveMessage(upDown = (it as GamepadJoyOrTrigMsg).value)})
+        this.subscribe("/gamepad1/left_stick_x", {this.recieveMessage(leftRight = (it as GamepadJoyOrTrigMsg).value)})
     }
 
     fun recieveMessage(rotation : Float = this.tempRotation, upDown : Float = this.tempUpDown, leftRight: Float = this.tempLeftRight) {

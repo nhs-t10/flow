@@ -1,10 +1,9 @@
 package org.firstinspires.ftc.teamcode.nodes
 
-import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.Message
 import org.firstinspires.ftc.teamcode.messages.ServoMsg
-import org.firstinspires.ftc.teamcode.messages.gamepadButtonMsg
+import org.firstinspires.ftc.teamcode.messages.GamepadButtonMsg
 
 /**
  * Created by shaash on 10/26/17.
@@ -27,7 +26,7 @@ class GlyphHolderNode : Node {
     }
 
     fun lower(state : Message) {
-        val (value) = state as gamepadButtonMsg
+        val (value) = state as GamepadButtonMsg
         if(value){
             if(bottomIsOpen){
                 this.publish("/servos/bottomServo", ServoMsg(bottomClosedPosition, priority = 1))
@@ -39,7 +38,7 @@ class GlyphHolderNode : Node {
         }
     }
     fun upper(state : Message){
-        val (value) = state as gamepadButtonMsg
+        val (value) = state as GamepadButtonMsg
         if(value){
             if(topIsOpen){
                 this.publish("/servos/topServo", ServoMsg(topClosedPosition, priority = 1))
