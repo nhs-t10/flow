@@ -12,7 +12,9 @@ import java.lang.Math.abs
 class OmniDtNode : Node{
 
     constructor(){
-        Dispatcher.subscribe("/drive", {this.recieveMessage(it)})
+    }
+    override fun init() {
+        this.subscribe("/drive", {this.recieveMessage(it)})
     }
     fun recieveMessage(driveCommands : Message){
         val (upDown, leftRight, rotation) = driveCommands as OmniDrive
@@ -28,10 +30,10 @@ class OmniDtNode : Node{
 
         val motorvals = drive(forwardsComponent, eastWestComponent, rotationalComponent).map{it.toDouble()}
         val priority = 2
-        Dispatcher.publish("/motors/lr", MotorMsg(motorvals[0], priority = priority))
-        Dispatcher.publish("/motors/rr", MotorMsg(motorvals[1], priority = priority))
-        Dispatcher.publish("/motors/lf", MotorMsg(motorvals[2], priority = priority))
-        Dispatcher.publish("/motors/rf", MotorMsg(motorvals[3], priority = priority))
+        this.publish("/motors/lr", MotorMsg(motorvals[0], priority = priority))
+        this.publish("/motors/rr", MotorMsg(motorvals[1], priority = priority))
+        this.publish("/motors/lf", MotorMsg(motorvals[2], priority = priority))
+        this.publish("/motors/rf", MotorMsg(motorvals[3], priority = priority))
     }
     fun drive(forwardback : List<Float>, leftright : List<Float>, rotation : List<Float>):List<Float>{
         val sumlf = forwardback[0] + leftright[0] + rotation[0]

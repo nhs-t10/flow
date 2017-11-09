@@ -19,18 +19,21 @@ class GlyphHolderNode : Node {
     var topIsOpen = true
 
     constructor() {
-        Dispatcher.subscribe("/gamepad1/a", { lower(it) })
-        Dispatcher.subscribe("/gamepad1/b", {upper(it)})
+    }
+    override fun init() {
+
+        this.subscribe("/gamepad1/a"){ lower(it) }
+        this.subscribe("/gamepad1/b"){ upper(it) }
     }
 
     fun lower(state : Message) {
         val (value) = state as gamepadButtonMsg
         if(value){
             if(bottomIsOpen){
-                Dispatcher.publish("/servos/bottomServo", ServoMsg(bottomClosedPosition, priority = 1))
+                this.publish("/servos/bottomServo", ServoMsg(bottomClosedPosition, priority = 1))
                 bottomIsOpen = false
             } else {
-                Dispatcher.publish("/servos/bottomServo", ServoMsg(bottomOpenPosition, priority = 1))
+                this.publish("/servos/bottomServo", ServoMsg(bottomOpenPosition, priority = 1))
                 bottomIsOpen = true
             }
         }
@@ -39,10 +42,10 @@ class GlyphHolderNode : Node {
         val (value) = state as gamepadButtonMsg
         if(value){
             if(topIsOpen){
-                Dispatcher.publish("/servos/topServo", ServoMsg(topClosedPosition, priority = 1))
+                this.publish("/servos/topServo", ServoMsg(topClosedPosition, priority = 1))
                 topIsOpen = false
             } else {
-                Dispatcher.publish("/servos/topServo", ServoMsg(topOpenPosition, priority = 1))
+                this.publish("/servos/topServo", ServoMsg(topOpenPosition, priority = 1))
                 topIsOpen = true
             }
         }

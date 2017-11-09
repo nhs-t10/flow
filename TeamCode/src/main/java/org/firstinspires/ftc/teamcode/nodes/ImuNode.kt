@@ -28,8 +28,10 @@ class ImuNode : Node{
     var imu : BNO055IMU? = null
     constructor(hardwareMap: HardwareMap){
         this.hardwareMap = hardwareMap
+    }
+    override fun init() {
         initImu()
-        Dispatcher.subscribe("/heartbeat", {click(it as HeartBeatMsg)})
+        this.subscribe("/heartbeat", {update(it as HeartBeatMsg)})
     }
 
     fun initImu(){
@@ -48,7 +50,7 @@ class ImuNode : Node{
 
     }
 
-    fun click(hb: HeartBeatMsg){
+    fun update(hb: HeartBeatMsg){
         val (time) = hb
         //imu:
         val angles = imu?.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
@@ -60,7 +62,7 @@ class ImuNode : Node{
             val heading = AngleUnit.DEGREES.fromUnit(angleUnit, firstAngle)
             val roll = AngleUnit.DEGREES.fromUnit(angleUnit, secondAngle)
             val pitch = AngleUnit.DEGREES.fromUnit(angleUnit, thirdAngle)
-            Dispatcher.publish("/imu", ImuMsg(heading, roll, pitch, priority = 1))
+            this.publish("/imu", ImuMsg(heading, roll, pitch, priority = 1))
         }
     }
 }

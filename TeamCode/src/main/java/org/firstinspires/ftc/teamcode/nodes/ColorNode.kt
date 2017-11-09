@@ -29,20 +29,22 @@ class ColorNode : Node{
     constructor(hardwareMap: HardwareMap){
         this.hardwareMap = hardwareMap
         addColorSensors()
-        Dispatcher.subscribe("/heartbeat", {click(it as HeartBeatMsg)})
+    }
+    override fun init() {
+        this.subscribe("/heartbeat", {update(it as HeartBeatMsg)})
     }
     fun addColorSensors(){
         colorSensors.put("colorOne", hardwareMap?.colorSensor?.get("color1")!!)
     }
 
-    fun click(hb: HeartBeatMsg){
+    fun update(hb: HeartBeatMsg){
         val (time) = hb
         //color:
         for (key in colorSensors.keys){
             val red = colorSensors[key]?.red() ?: -1
             val blue = colorSensors[key]?.blue() ?: -1
             val green = colorSensors[key]?.green() ?: -1
-            Dispatcher.publish("/colors/$key", ColorMsg(red = red, blue = blue, green = green, priority = 1))
+            this.publish("/colors/$key", ColorMsg(red = red, blue = blue, green = green, priority = 1))
         }
     }
 }

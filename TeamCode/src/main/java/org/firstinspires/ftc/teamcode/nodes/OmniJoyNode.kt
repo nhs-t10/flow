@@ -21,10 +21,12 @@ class OmniJoyNode : Node {
     var tempLeftRight: Float = 0f
 
     constructor(){
-        Dispatcher.subscribe("/gamepad1/left_stick_y", {this.recieveMessage(rotation = (it as gamepadJoyOrTrigMsg).value)})
-        Dispatcher.subscribe("/gamepad1/right_stick_x", {this.recieveMessage(upDown = (it as gamepadJoyOrTrigMsg).value)})
-        Dispatcher.subscribe("/gamepad1/left_stick_x", {this.recieveMessage(leftRight = (it as gamepadJoyOrTrigMsg).value)})
 
+    }
+    override fun init() {
+        this.subscribe("/gamepad1/left_stick_y", {this.recieveMessage(rotation = (it as gamepadJoyOrTrigMsg).value)})
+        this.subscribe("/gamepad1/right_stick_x", {this.recieveMessage(upDown = (it as gamepadJoyOrTrigMsg).value)})
+        this.subscribe("/gamepad1/left_stick_x", {this.recieveMessage(leftRight = (it as gamepadJoyOrTrigMsg).value)})
     }
 
     fun recieveMessage(rotation : Float = this.tempRotation, upDown : Float = this.tempUpDown, leftRight: Float = this.tempLeftRight) {
@@ -37,7 +39,7 @@ class OmniJoyNode : Node {
         if (leftRight != this.tempLeftRight) {
             this.tempLeftRight = leftRight
         }
-        Dispatcher.publish("/drive", OmniDrive(this.tempUpDown, this.tempLeftRight, this.tempRotation, priority = 4))
+        this.publish("/drive", OmniDrive(this.tempUpDown, this.tempLeftRight, this.tempRotation, priority = 4))
     }
 
 }

@@ -6,7 +6,8 @@ import org.firstinspires.ftc.teamcode.messages.HeartBeatMsg
 
 class HeartbeatNode : Node {
     constructor()
+    override fun init() {}
     fun beat(time : Long){
-        val pub = Dispatcher.publish("/heartbeat", HeartBeatMsg(time=time,priority=1))
+        this.publish("/heartbeat", HeartBeatMsg(time=time,priority=1))
     }
 }

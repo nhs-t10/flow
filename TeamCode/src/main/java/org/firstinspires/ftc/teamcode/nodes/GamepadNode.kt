@@ -24,7 +24,6 @@ class GamepadNode : Node
     var gamepad1 : Gamepad? = null
     var gamepad2 : Gamepad? = null
     constructor(gamepad1: Gamepad, gamepad2: Gamepad){
-        Dispatcher.subscribe("/heartbeat", {click(it as HeartBeatMsg)})
         this.gamepad1 = gamepad1
         this.gamepad2 = gamepad2
         //fill gamepad1 maps
@@ -46,7 +45,10 @@ class GamepadNode : Node
             }
         }
     }
-    fun click(hb: HeartBeatMsg){
+    override fun init() {
+        this.subscribe("/heartbeat", {update(it as HeartBeatMsg)})
+    }
+    fun update(hb: HeartBeatMsg){
         val (time) = hb
         //gamepad 1 data publishing
         if(gamepad1 == null){
@@ -58,7 +60,7 @@ class GamepadNode : Node
                 if (gamepad1Buttons[prop.name] != null) {
                     if (gamepad1Buttons[prop.name] != prop.get(gamepad1 as Gamepad)) {
                         gamepad1Buttons.put(prop.name, prop.get(gamepad1 as Gamepad) as Boolean)
-                        Dispatcher.publish("/gamepad1/${prop.name}", gamepadButtonMsg(value = prop.get(gamepad1 as Gamepad) as Boolean, priority = 3))
+                        this.publish("/gamepad1/${prop.name}", gamepadButtonMsg(value = prop.get(gamepad1 as Gamepad) as Boolean, priority = 3))
                     }
                 }
             }
@@ -66,7 +68,7 @@ class GamepadNode : Node
                 if (gamepad1JoyOrTrigs[prop.name] != null) {
                     if (gamepad1JoyOrTrigs[prop.name] != prop.get(gamepad1 as Gamepad)) {
                         gamepad1JoyOrTrigs.put(prop.name, prop.get(gamepad1 as Gamepad) as Float)
-                        Dispatcher.publish("/gamepad1/${prop.name}", gamepadJoyOrTrigMsg(value = prop.get(gamepad1 as Gamepad) as Float, priority = 2))
+                        this.publish("/gamepad1/${prop.name}", gamepadJoyOrTrigMsg(value = prop.get(gamepad1 as Gamepad) as Float, priority = 2))
                     }
                 }
             }
@@ -81,7 +83,7 @@ class GamepadNode : Node
                 if (gamepad2Buttons[prop.name] != null) {
                     if (gamepad2Buttons[prop.name] != prop.get(gamepad2 as Gamepad)) {
                         gamepad2Buttons.put(prop.name, prop.get(gamepad2 as Gamepad) as Boolean)
-                        Dispatcher.publish("/gamepad2/${prop.name}", gamepadButtonMsg(value = prop.get(gamepad2 as Gamepad) as Boolean, priority = 3))
+                        this.publish("/gamepad2/${prop.name}", gamepadButtonMsg(value = prop.get(gamepad2 as Gamepad) as Boolean, priority = 3))
                     }
                 }
             }
@@ -89,7 +91,7 @@ class GamepadNode : Node
                 if (gamepad2JoyOrTrigs[prop.name] != null) {
                     if (gamepad2JoyOrTrigs[prop.name] != prop.get(gamepad2 as Gamepad)) {
                         gamepad2JoyOrTrigs.put(prop.name, prop.get(gamepad2 as Gamepad) as Float)
-                        Dispatcher.publish("/gamepad2/${prop.name}", gamepadJoyOrTrigMsg(value = prop.get(gamepad2 as Gamepad) as Float, priority = 2))
+                        this.publish("/gamepad2/${prop.name}", gamepadJoyOrTrigMsg(value = prop.get(gamepad2 as Gamepad) as Float, priority = 2))
                     }
                 }
             }

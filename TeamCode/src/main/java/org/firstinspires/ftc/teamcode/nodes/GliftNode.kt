@@ -16,16 +16,18 @@ import java.lang.Math.abs
 class GliftNode : Node {
 
     constructor(){
-        Dispatcher.subscribe("/gamepad1/dpad_up", {this.recieveUpMessage(upPower = (it as gamepadButtonMsg).value)})
-        Dispatcher.subscribe("/gamepad1/dpad_down", {this.recieveDownMessage(downPower = (it as gamepadButtonMsg).value)})
+    }
+    override fun init() {
+        this.subscribe("/gamepad1/dpad_up", {recieveUpMessage(upPower = (it as gamepadButtonMsg).value)})
+        this.subscribe("/gamepad1/dpad_down", {recieveDownMessage(downPower = (it as gamepadButtonMsg).value)})
     }
 
     fun recieveUpMessage(upPower : Boolean) {
-           Dispatcher.publish("/motors/g1", MotorMsg((if (upPower)0.5 else 0.0), priority = 1))
+          this.publish("/motors/g1", MotorMsg((if (upPower)0.5 else 0.0), priority = 1))
     }
     fun recieveDownMessage(downPower : Boolean) {
         if(downPower){
-            Dispatcher.publish("/motors/g1", MotorMsg((if (downPower)-0.5 else 0.0), priority = 1))
+            this.publish("/motors/g1", MotorMsg((if (downPower)-0.5 else 0.0), priority = 1))
         }
     }
 }

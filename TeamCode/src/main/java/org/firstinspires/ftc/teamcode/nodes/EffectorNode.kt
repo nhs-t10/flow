@@ -18,6 +18,8 @@ class EffectorNode : Node{
     val servos = HashMap<String, Servo>()
     constructor(hardwareMap: HardwareMap){
         this.hardwareMap = hardwareMap
+    }
+    override fun init() {
         addMotors()
         addServos()
     }
@@ -28,7 +30,7 @@ class EffectorNode : Node{
         motors.put("rr", hardwareMap?.dcMotor?.get("m2")!!)
         motors.put("g1", hardwareMap?.dcMotor?.get("m5")!!)
         for(key in motors.keys){
-            Dispatcher.subscribe("/motors/$key", {callMotor(key, it)})
+            this.subscribe("/motors/$key", {callMotor(key, it)})
         }
     }
     fun addServos() {
@@ -36,7 +38,7 @@ class EffectorNode : Node{
         servos.put("topServo", hardwareMap?.servo?.get("s1")!!)
 
         for (key in servos.keys) {
-            Dispatcher.subscribe("/servos/$key", { callServo(key, it) })
+            this.subscribe("/servos/$key", { callServo(key, it) })
         }
     }
     fun callMotor(motorName : String, motorMsg: Message){
@@ -48,7 +50,7 @@ class EffectorNode : Node{
     fun callServo(servoName : String, msg: Message){
         val (position) = msg as ServoMsg
         if (servos[servoName] != null){
-            Dispatcher.publish("/debug", DebugMsg("$position"))
+            this.publish("/debug", DebugMsg("$position"))
             servos[servoName]?.setPosition(position)
         }
     }

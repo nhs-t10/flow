@@ -26,7 +26,10 @@ class VuforiaNode : Node {
         relicTemplate = relicTrackables?.get(0)
         relicTemplate?.setName("relicVuMarkTemplate") // can help in debugging; otherwise not necessary
 
-        Dispatcher.subscribe("/heartbeat", {refresh()})
+
+    }
+    override fun init() {
+        this.subscribe("/heartbeat", {refresh()})
     }
     fun refresh() {
         val vuMark = RelicRecoveryVuMark.from(relicTemplate)
@@ -39,9 +42,9 @@ class VuforiaNode : Node {
                 val y = translation.get(1) as Double
                 val z = translation.get(2) as Double
 
-                Dispatcher.publish("/vuforia", VuforiaMsg(mark = vuMark, x = x, y = y, z = z, priority = 1))
+                this.publish("/vuforia", VuforiaMsg(mark = vuMark, x = x, y = y, z = z, priority = 1))
             }
-            else Dispatcher.publish("/vuforia", VuforiaMsg(mark = vuMark, x = null, y = null, z = null, priority = 1))
+            else this.publish("/vuforia", VuforiaMsg(mark = vuMark, x = null, y = null, z = null, priority = 1))
         }
     }
 }

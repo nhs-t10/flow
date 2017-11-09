@@ -14,13 +14,15 @@ class DebugNode : Node{
     var telemetry : Telemetry? = null
     constructor(telemetry: Telemetry){
         this.telemetry = telemetry
+    }
+    override fun init() {
         this.telemetry?.log()?.setCapacity(25)
-        //Dispatcher.subscribe("/servos/s0"){this.printMsg(it)}
-        //Dispatcher.subscribe("/colors/colorOne"){this.printMsg(it)}
-        //Dispatcher.subscribe("/vuforia"){this.printMsg(it)}
-        Dispatcher.subscribe("/imu"){this.printMsg(it)}
-        // Dispatcher.subscribe("/debug", {this.printMsg(it)})
-        Dispatcher.subscribe("/warn"){this.printWarning(it)}
+        //this.subscribe("/servos/s0"){this.printMsg(it)}
+        //this.subscribe("/colors/colorOne"){this.printMsg(it)}
+        //this.subscribe("/vuforia"){this.printMsg(it)}
+        this.subscribe("/imu"){this.printMsg(it)}
+        // this.subscribe("/debug", {this.printMsg(it)})
+        this.subscribe("/warn"){this.printWarning(it)}
     }
     fun printMsg(m : Message){
         telemetry?.log()?.add(m.toString())
