@@ -59,7 +59,7 @@ class GamepadNode : Node
                 if (gamepad1Buttons[prop.name] != null) {
                     if (gamepad1Buttons[prop.name] != prop.get(gamepad1 as Gamepad)) {
                         gamepad1Buttons.put(prop.name, prop.get(gamepad1 as Gamepad) as Boolean)
-                        this.publish("/gamepad1/${prop.name}", GamepadButtonMsg(value = prop.get(gamepad1 as Gamepad) as Boolean, priority = 3))
+                        this.publish("/gamepad1/${prop.name}", GamepadButtonMsg(value = prop.get(gamepad1 as Gamepad) as Boolean, priority = 1))
                     }
                 }
             }
@@ -67,7 +67,7 @@ class GamepadNode : Node
                 if (gamepad1JoyOrTrigs[prop.name] != null) {
                     if (gamepad1JoyOrTrigs[prop.name] != prop.get(gamepad1 as Gamepad)) {
                         gamepad1JoyOrTrigs.put(prop.name, prop.get(gamepad1 as Gamepad) as Float)
-                        this.publish("/gamepad1/${prop.name}", GamepadJoyOrTrigMsg(value = prop.get(gamepad1 as Gamepad) as Float, priority = 2))
+                        this.publish("/gamepad1/${prop.name}", GamepadJoyOrTrigMsg(value = prop.get(gamepad1 as Gamepad) as Float, priority = 1))
                     }
                 }
             }
@@ -82,7 +82,7 @@ class GamepadNode : Node
                 if (gamepad2Buttons[prop.name] != null) {
                     if (gamepad2Buttons[prop.name] != prop.get(gamepad2 as Gamepad)) {
                         gamepad2Buttons.put(prop.name, prop.get(gamepad2 as Gamepad) as Boolean)
-                        this.publish("/gamepad2/${prop.name}", GamepadButtonMsg(value = prop.get(gamepad2 as Gamepad) as Boolean, priority = 3))
+                        this.publish("/gamepad2/${prop.name}", GamepadButtonMsg(value = prop.get(gamepad2 as Gamepad) as Boolean, priority = 1))
                     }
                 }
             }
@@ -90,7 +90,7 @@ class GamepadNode : Node
                 if (gamepad2JoyOrTrigs[prop.name] != null) {
                     if (gamepad2JoyOrTrigs[prop.name] != prop.get(gamepad2 as Gamepad)) {
                         gamepad2JoyOrTrigs.put(prop.name, prop.get(gamepad2 as Gamepad) as Float)
-                        this.publish("/gamepad2/${prop.name}", GamepadJoyOrTrigMsg(value = prop.get(gamepad2 as Gamepad) as Float, priority = 2))
+                        this.publish("/gamepad2/${prop.name}", GamepadJoyOrTrigMsg(value = prop.get(gamepad2 as Gamepad) as Float, priority = 1))
                     }
                 }
             }
