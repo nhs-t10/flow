@@ -14,6 +14,12 @@ import org.firstinspires.ftc.teamcode.messages.*
 import java.lang.Math.abs
 
 class GliftNode : Node {
+    val bottomOpenPosition = 0.4
+    val bottomClosedPosition = 0.0
+    val topOpenPosition = 1.0
+    val topClosedPosition = 0.0
+    var bottomIsOpen = true
+    var topIsOpen = true
 
     constructor(){
     }
@@ -23,10 +29,28 @@ class GliftNode : Node {
     }
 
     fun recieveUpMessage(upPower : Boolean) {
-          this.publish("/motors/g1", MotorMsg((if (upPower)0.5 else 0.0), priority = 1))
+        if(upPower){
+            if(bottomIsOpen){
+                this.publish("/servos/bottomServo", ServoMsg(bottomClosedPosition, priority = 1))
+                bottomIsOpen = false
+            } else {
+                this.publish("/servos/bottomServo", ServoMsg(bottomOpenPosition, priority = 1))
+                bottomIsOpen = true
+            }
+            this.publish("/motors/g1", MotorMsg((if (upPower)0.5 else 0.0), priority = 1))
+        }
+
+
     }
     fun recieveDownMessage(downPower : Boolean) {
         if(downPower){
+            if(topIsOpen){
+                this.publish("/servos/topServo", ServoMsg(topClosedPosition, priority = 1))
+                topIsOpen = false
+            } else {
+                this.publish("/servos/topServo", ServoMsg(topOpenPosition, priority = 1))
+                topIsOpen = true
+            }
             this.publish("/motors/g1", MotorMsg((if (downPower)-0.5 else 0.0), priority = 1))
         }
     }
