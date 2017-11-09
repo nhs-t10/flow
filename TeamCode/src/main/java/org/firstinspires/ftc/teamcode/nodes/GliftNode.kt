@@ -23,15 +23,11 @@ class GliftNode : Node {
     }
 
     fun recieveUpMessage(upPower : Boolean) {
-        if(upPower){
-            this.publish("/servos/bottomServo", ServoMsg(bottomClosedPosition, priority = 1))
-            this.publish("/servos/topServo", ServoMsg(topClosedPosition, priority = 1))
-            this.publish("/motors/g1", MotorMsg((if (upPower)0.5 else 0.0), priority = 1))
-        }
+        this.publish("/servos/bottomServo", ServoMsg(bottomClosedPosition, priority = 1))
+        this.publish("/servos/topServo", ServoMsg(topClosedPosition, priority = 1))
+        this.publish("/motors/g1", MotorMsg((if (upPower)0.5 else 0.0), priority = 1))
     }
     fun recieveDownMessage(downPower : Boolean) {
-        if(downPower){
-            this.publish("/motors/g1", MotorMsg((if (downPower)-0.5 else 0.0), priority = 1))
-        }
+        this.publish("/motors/g1", MotorMsg((if (downPower)-0.5 else 0.0), priority = 1))
     }
 }

@@ -31,4 +31,7 @@ class T10Teleop : OpMode(){
             heartbeat?.beat((runtime*10).toLong())
         }
     }
+    override fun stop() {
+        Dispatcher.reset()
+    }
 }

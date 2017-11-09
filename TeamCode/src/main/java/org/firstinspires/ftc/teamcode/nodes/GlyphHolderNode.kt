@@ -41,7 +41,6 @@ class GlyphHolderNode : Node {
     fun upper(state : Message){
         val (value) = state as GamepadButtonMsg
         if(value){
-            this.publish("/debug", DebugMsg("Top $topIsOpen"))
             if(topIsOpen){
                 this.publish("/servos/topServo", ServoMsg(topClosedPosition, priority = 1))
                 topIsOpen = false

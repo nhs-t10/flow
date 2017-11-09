@@ -68,4 +68,7 @@ object Dispatcher {
             this.publish("/warn", WarningMsg("Nobody's listening to $channel, so it wasn't unlocked."))
         }
     }
+    fun reset() {
+        channels.clear()
+    }
 }

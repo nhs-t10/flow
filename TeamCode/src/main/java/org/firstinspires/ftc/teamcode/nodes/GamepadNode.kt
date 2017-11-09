@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.nodes
 
 import com.qualcomm.robotcore.hardware.Gamepad
 import org.firstinspires.ftc.teamcode.Node
+import org.firstinspires.ftc.teamcode.messages.DebugMsg
 import org.firstinspires.ftc.teamcode.messages.HeartBeatMsg
 import org.firstinspires.ftc.teamcode.messages.GamepadButtonMsg
 import org.firstinspires.ftc.teamcode.messages.GamepadJoyOrTrigMsg
@@ -57,9 +58,10 @@ class GamepadNode : Node
             prop.isAccessible = true
             if (prop.get(gamepad1 as Gamepad) != null && prop.get(gamepad1 as Gamepad) is Boolean) {
                 if (gamepad1Buttons[prop.name] != null) {
-                    if (gamepad1Buttons[prop.name] != prop.get(gamepad1 as Gamepad)) {
-                        gamepad1Buttons.put(prop.name, prop.get(gamepad1 as Gamepad) as Boolean)
-                        this.publish("/gamepad1/${prop.name}", GamepadButtonMsg(value = prop.get(gamepad1 as Gamepad) as Boolean, priority = 1))
+                    val value = prop.get(gamepad1 as Gamepad) as Boolean
+                    if (gamepad1Buttons[prop.name] != value) {
+                        gamepad1Buttons.put(prop.name, value)
+                        this.publish("/gamepad1/${prop.name}", GamepadButtonMsg(value = value, priority = 1))
                     }
                 }
             }

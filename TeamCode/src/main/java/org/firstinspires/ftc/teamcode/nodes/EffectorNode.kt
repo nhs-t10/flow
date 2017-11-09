@@ -50,7 +50,6 @@ class EffectorNode : Node{
     fun callServo(servoName : String, msg: Message){
         val (position) = msg as ServoMsg
         if (servos[servoName] != null){
-            this.publish("/debug", DebugMsg("Servo move to $position"))
             servos[servoName]?.setPosition(position)
         }
     }
