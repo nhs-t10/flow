@@ -18,27 +18,20 @@ class GliftNode : Node {
     constructor(){
     }
     override fun init() {
-        this.subscribe("/pad1/up", {recieveUpMessage(upPower = (it as GamepadButtonMsg).value)})
-        this.subscribe("/pad1/down", {recieveDownMessage(downPower = (it as GamepadButtonMsg).value)})
+        this.subscribe("/gamepad1/dpad_up", {recieveUpMessage(upPower = (it as GamepadButtonMsg).value)})
+        this.subscribe("/gamepad1/dpad_down", {recieveDownMessage(downPower = (it as GamepadButtonMsg).value)})
     }
 
     fun recieveUpMessage(upPower : Boolean) {
         if(upPower){
             this.publish("/servos/bottomServo", ServoMsg(bottomClosedPosition, priority = 1))
-            this.publish("/motors/g1", MotorMsg((if (upPower)0.5 else 0.1), priority = 1))
-            this.publish("/servos/topServo", ServoMsg(topOpenPosition, priority = 1))
-        } else {
             this.publish("/servos/topServo", ServoMsg(topClosedPosition, priority = 1))
-
+            this.publish("/motors/g1", MotorMsg((if (upPower)0.5 else 0.0), priority = 1))
         }
     }
     fun recieveDownMessage(downPower : Boolean) {
         if(downPower){
-            this.publish("/servos/topServo", ServoMsg(topOpenPosition, priority = 1))
-            this.publish("/servos/bottomServo", ServoMsg(bottomOpenPosition, priority = 1))
-            this.publish("/motors/g1", MotorMsg((if (downPower)-0.5 else 0.1), priority = 1))
-        } else {
-            this.publish("/servos/bottomServo", ServoMsg(bottomClosedPosition, priority = 1))
+            this.publish("/motors/g1", MotorMsg((if (downPower)-0.5 else 0.0), priority = 1))
         }
     }
 }

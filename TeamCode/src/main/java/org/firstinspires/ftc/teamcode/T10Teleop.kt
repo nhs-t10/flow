@@ -18,7 +18,7 @@ class T10Teleop : OpMode(){
                 OmniJoyNode(),
                 ImuNode(hardwareMap),
                 GliftNode(),
-                //GlyphHolderNode(),
+                GlyphHolderNode(),
                 EffectorNode(hardwareMap),
                 DebugNode(telemetry),
                 heartbeat

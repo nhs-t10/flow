@@ -17,7 +17,7 @@ class DebugNode : Node{
         //this.subscribe("/servos/s0"){this.printMsg(it)}
         //this.subscribe("/colors/colorOne"){this.printMsg(it)}
         //this.subscribe("/vuforia"){this.printMsg(it)}
-        this.subscribe("/imu"){this.printMsg(it)}
+        this.subscribe("/servos/bottomServo"){this.printMsg(it)}
         // this.subscribe("/debug", {this.printMsg(it)})
         this.subscribe("/warn"){this.printWarning(it)}
     }
