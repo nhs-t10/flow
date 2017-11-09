@@ -10,6 +10,6 @@ class GamepadListenerNode : Node{
     constructor()
 
     override fun init() {
-
+        //this.subscribe("/gamepad1/dpad_up", {publish("/up"), })
     }
 }

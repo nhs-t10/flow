@@ -30,28 +30,21 @@ class GliftNode : Node {
 
     fun recieveUpMessage(upPower : Boolean) {
         if(upPower){
-            if(bottomIsOpen){
-                this.publish("/servos/bottomServo", ServoMsg(bottomClosedPosition, priority = 1))
-                bottomIsOpen = false
-            } else {
-                this.publish("/servos/bottomServo", ServoMsg(bottomOpenPosition, priority = 1))
-                bottomIsOpen = true
-            }
-            this.publish("/motors/g1", MotorMsg((if (upPower)0.5 else 0.0), priority = 1))
+            this.publish("/servos/bottomServo", ServoMsg(bottomClosedPosition, priority = 1))
+            this.publish("/motors/g1", MotorMsg((if (upPower)0.5 else 0.1), priority = 1))
+            this.publish("/servos/topServo", ServoMsg(topOpenPosition, priority = 1))
+        } else {
+            this.publish("/servos/topServo", ServoMsg(topClosedPosition, priority = 1))
+
         }
-
-
     }
     fun recieveDownMessage(downPower : Boolean) {
         if(downPower){
-            if(topIsOpen){
-                this.publish("/servos/topServo", ServoMsg(topClosedPosition, priority = 1))
-                topIsOpen = false
-            } else {
-                this.publish("/servos/topServo", ServoMsg(topOpenPosition, priority = 1))
-                topIsOpen = true
-            }
-            this.publish("/motors/g1", MotorMsg((if (downPower)-0.5 else 0.0), priority = 1))
+            this.publish("/servos/topServo", ServoMsg(topOpenPosition, priority = 1))
+            this.publish("/servos/bottomServo", ServoMsg(bottomOpenPosition, priority = 1))
+            this.publish("/motors/g1", MotorMsg((if (downPower)-0.5 else 0.1), priority = 1))
+        } else {
+            this.publish("/servos/bottomServo", ServoMsg(bottomClosedPosition, priority = 1))
         }
     }
 }
