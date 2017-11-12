@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.messages.HeartBeatMsg
 
 class HeartbeatNode : Node {
     constructor()
-    override fun init() {}
+    override fun subscriptions() {}
     fun beat(time : Long){
         this.publish("/heartbeat", HeartBeatMsg(time=time,priority=1))
     }

@@ -23,14 +23,13 @@ import org.firstinspires.ftc.teamcode.messages.ImuMsg
 /**
  * Created by shaash on 10/26/17.
  */
-class ImuNode : Node{
-    var hardwareMap: HardwareMap? = null
+class ImuNode(val hardwareMap: HardwareMap) : Node(){
     var imu : BNO055IMU? = null
-    constructor(hardwareMap: HardwareMap){
-        this.hardwareMap = hardwareMap
-    }
-    override fun init() {
+    init {
         initImu()
+    }
+
+    override fun subscriptions() {
         this.subscribe("/heartbeat", {update(it as HeartBeatMsg)})
     }
 
@@ -43,7 +42,7 @@ class ImuNode : Node{
         parameters.loggingTag = "IMU"
         parameters.accelerationIntegrationAlgorithm = JustLoggingAccelerationIntegrator()
 
-        imu = hardwareMap?.get(BNO055IMU::class.java, "imu")
+        imu = hardwareMap.get(BNO055IMU::class.java, "imu")
         imu?.initialize(parameters)
 
         imu?.startAccelerationIntegration(Position(), Velocity(), 1000)

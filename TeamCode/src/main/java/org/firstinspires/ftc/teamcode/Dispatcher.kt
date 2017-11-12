@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode
 import org.firstinspires.ftc.teamcode.messages.Message
-import org.firstinspires.ftc.teamcode.messages.WarningMsg
+import org.firstinspires.ftc.teamcode.messages.TextMsg
 import java.util.*
 
 /**
@@ -32,7 +32,7 @@ object Dispatcher {
             // otherwise, ignore message
         }
         else { // this ensures a one-time warning. slightly hacky, but shouldn't cause breaking bugs
-            this.publish("/warn", WarningMsg("Nobody heard a message sent to $channel."))
+            this.publish("/warn", TextMsg("Nobody heard a message sent to $channel."))
             setChannel(channel)
         }
     }
@@ -55,7 +55,7 @@ object Dispatcher {
             setChannel(channel, found.second, priority)
         }
         else {
-            this.publish("/warn", WarningMsg("Nobody's listening to $channel, so it wasn't locked."))
+            this.publish("/warn", TextMsg("Nobody's listening to $channel, so it wasn't locked."))
         }
     }
 
@@ -65,7 +65,7 @@ object Dispatcher {
             setChannel(channel, found.second, null)
         }
         else {
-            this.publish("/warn", WarningMsg("Nobody's listening to $channel, so it wasn't unlocked."))
+            this.publish("/warn", TextMsg("Nobody's listening to $channel, so it wasn't unlocked."))
         }
     }
     fun reset() {

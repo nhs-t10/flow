@@ -13,7 +13,7 @@ class OmniDtNode : Node{
 
     constructor(){
     }
-    override fun init() {
+    override fun subscriptions() {
         this.subscribe("/drive", {this.recieveMessage(it)})
     }
     fun recieveMessage(driveCommands : Message){

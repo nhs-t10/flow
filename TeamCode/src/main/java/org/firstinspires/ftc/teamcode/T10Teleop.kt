@@ -11,7 +11,6 @@ import org.firstinspires.ftc.teamcode.nodes.*
 class T10Teleop : OpMode(){
     val heartbeat = HeartbeatNode()
     override fun init() {
-
         val nodes = arrayOf(
                 GamepadNode(gamepad1, gamepad2),
                 OmniDtNode(),
@@ -20,11 +19,12 @@ class T10Teleop : OpMode(){
                 GliftNode(),
                 GlyphHolderNode(),
                 EffectorNode(hardwareMap),
-                DebugNode(telemetry),
+                DebugNode(),
+                TelemetryNode(telemetry),
                 heartbeat
 //                VuforiaNode(hardwareMap)
         )
-        for (node in nodes) node.init()
+        for (node in nodes) node.subscriptions()
     }
     override fun loop() {
         if(heartbeat != null){

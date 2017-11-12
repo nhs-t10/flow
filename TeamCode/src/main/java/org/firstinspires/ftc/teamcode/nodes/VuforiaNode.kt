@@ -13,10 +13,10 @@ import org.firstinspires.ftc.teamcode.messages.VuforiaMsg
  * Created by max on 11/2/17.
  */
 
-class VuforiaNode : Node {
+class VuforiaNode(hardwareMap: HardwareMap) : Node() {
     var vuforia : VuforiaLocalizer? = null
     var relicTemplate : VuforiaTrackable? = null
-    constructor(hardwareMap: HardwareMap) {
+    init {
         val cameraMonitorViewId = hardwareMap.appContext.resources.getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.packageName)
         val parameters = VuforiaLocalizer.Parameters(cameraMonitorViewId)
         parameters.vuforiaLicenseKey = "AS3FQkX/////AAAAGdhA07mf1U07qYC/gobmgK0IAEaYb2HVJDGHxXKOG6I3B5ii9zFBF90rBzAND2oa7JCBWHMk2nra5AoXsXOfChk/N8QS1GZk5MNwbQ/wVwisS/fz04KmSpSXmgDp0PIkdf3dihm/Ax1hNxK3CcSntpaIU6eEHY4INE1AUoOA39YwPcOsYx6TGG6OML2+to5IfoLsIzWJ4URXkSTrF2WoQ8KIBBrqaAAJ6rAoqE8PVl9Ejp/vXMAlyDqoYbRZo6F/5w4v15wUTWjSfuD3QyKOuYRA9nnY8JRDirlQGje8xiCLzsUzrW2QC8eseXiGmEToWpd56UPp9OnnIGWldIkKSdfTHToy+3PdaVLQ45UJ1fLr"
@@ -28,7 +28,7 @@ class VuforiaNode : Node {
 
 
     }
-    override fun init() {
+    override fun subscriptions() {
         this.subscribe("/heartbeat", {refresh()})
     }
     fun refresh() {

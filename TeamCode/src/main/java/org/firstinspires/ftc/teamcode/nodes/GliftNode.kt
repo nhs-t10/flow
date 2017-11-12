@@ -17,7 +17,7 @@ class GliftNode : Node {
 
     constructor(){
     }
-    override fun init() {
+    override fun subscriptions() {
         this.subscribe("/gamepad1/dpad_up", {recieveUpMessage(upPower = (it as GamepadButtonMsg).value)})
         this.subscribe("/gamepad1/dpad_down", {recieveDownMessage(downPower = (it as GamepadButtonMsg).value)})
     }

@@ -23,14 +23,12 @@ import org.firstinspires.ftc.teamcode.messages.ImuMsg
 /**
  * Created by shaash on 10/26/17.
  */
-class ColorNode : Node{
-    var hardwareMap: HardwareMap? = null
+class ColorNode(val hardwareMap: HardwareMap) : Node(){
     val colorSensors = HashMap<String, ColorSensor>()
-    constructor(hardwareMap: HardwareMap){
-        this.hardwareMap = hardwareMap
+    init {
         addColorSensors()
     }
-    override fun init() {
+    override fun subscriptions() {
         this.subscribe("/heartbeat", {update(it as HeartBeatMsg)})
     }
     fun addColorSensors(){

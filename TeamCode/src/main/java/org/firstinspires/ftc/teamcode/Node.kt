@@ -12,6 +12,6 @@ abstract class Node {
     fun publish(channel: String, message: Message) {
         Dispatcher.publish(channel, message)
     }
-    abstract fun init()
+    abstract fun subscriptions()
 
 }

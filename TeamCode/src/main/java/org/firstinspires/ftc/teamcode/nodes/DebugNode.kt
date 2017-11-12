@@ -3,28 +3,20 @@ package org.firstinspires.ftc.teamcode.nodes
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.Message
+import org.firstinspires.ftc.teamcode.messages.TextMsg
 
 /**
  * Created by shaash on 10/24/17.
  */
-class DebugNode : Node{
-    var telemetry : Telemetry? = null
-    constructor(telemetry: Telemetry){
-        this.telemetry = telemetry
-    }
-    override fun init() {
-        this.telemetry?.log()?.setCapacity(25)
-        //this.subscribe("/servos/s0"){this.printMsg(it)}
-        //this.subscribe("/colors/colorOne"){this.printMsg(it)}
-        //this.subscribe("/vuforia"){this.printMsg(it)}
-//        this.subscribe("/gamepad1/a"){this.printMsg(it)}
+class DebugNode : Node() {
+    override fun subscriptions() {
         this.subscribe("/debug", {this.printMsg(it)})
-        this.subscribe("/warn"){this.printWarning(it)}
+        this.subscribe("/warn"){this.printWarning(it as TextMsg)}
     }
     fun printMsg(m : Message){
-        telemetry?.log()?.add(m.toString())
+        this.publish("/telemetry/line", TextMsg(m.toString()))
     }
-    fun printWarning(m : Message) {
-        telemetry?.log()?.add("WARNING: $m")
+    fun printWarning(m : TextMsg) {
+        this.publish("/telemetry/line", TextMsg(text="WARNING: $m.text", priority = 0))
     }
 }

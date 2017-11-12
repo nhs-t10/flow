@@ -12,30 +12,26 @@ import java.util.*
  * Created by shaash on 10/17/17.
  */
 
-class EffectorNode : Node{
-    var hardwareMap: HardwareMap? = null
+class EffectorNode(val hardwareMap: HardwareMap) : Node(){
     val motors = HashMap<String, DcMotor>()
     val servos = HashMap<String, Servo>()
-    constructor(hardwareMap: HardwareMap){
-        this.hardwareMap = hardwareMap
-    }
-    override fun init() {
+    override fun subscriptions() {
         addMotors()
         addServos()
     }
     fun addMotors(){
-        motors.put("lf", hardwareMap?.dcMotor?.get("m3")!!)
-        motors.put("lr", hardwareMap?.dcMotor?.get("m1")!!)
-        motors.put("rf", hardwareMap?.dcMotor?.get("m4")!!)
-        motors.put("rr", hardwareMap?.dcMotor?.get("m2")!!)
-        motors.put("g1", hardwareMap?.dcMotor?.get("m5")!!)
+        motors.put("lf", hardwareMap.dcMotor.get("m3")!!)
+        motors.put("lr", hardwareMap.dcMotor.get("m1")!!)
+        motors.put("rf", hardwareMap.dcMotor.get("m4")!!)
+        motors.put("rr", hardwareMap.dcMotor.get("m2")!!)
+        motors.put("g1", hardwareMap.dcMotor.get("m5")!!)
         for(key in motors.keys){
             this.subscribe("/motors/$key", {callMotor(key, it)})
         }
     }
     fun addServos() {
-        servos.put("bottomServo", hardwareMap?.servo?.get("s0")!!)
-        servos.put("topServo", hardwareMap?.servo?.get("s1")!!)
+        servos.put("bottomServo", hardwareMap.servo.get("s0")!!)
+        servos.put("topServo", hardwareMap.servo.get("s1")!!)
 
         for (key in servos.keys) {
             this.subscribe("/servos/$key", { callServo(key, it) })

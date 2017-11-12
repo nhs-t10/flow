@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.nodes
 
 import org.firstinspires.ftc.teamcode.Node
+import org.firstinspires.ftc.teamcode.messages.GamepadButtonMsg
 import org.firstinspires.ftc.teamcode.messages.Message
 import org.firstinspires.ftc.teamcode.messages.ServoMsg
-import org.firstinspires.ftc.teamcode.messages.GamepadButtonMsg
-import org.firstinspires.ftc.teamcode.messages.DebugMsg
+import org.firstinspires.ftc.teamcode.messages.TextMsg
+import org.firstinspires.ftc.teamcode.util.whenDown
+
 /**
  * Created by shaash on 10/26/17.
  */
@@ -19,35 +21,29 @@ class GlyphHolderNode : Node {
 
     constructor() {
     }
-    override fun init() {
+    override fun subscriptions() {
 
-        this.subscribe("/gamepad1/a"){ lower(it) }
-        this.subscribe("/gamepad1/b"){ upper(it) }
+        this.subscribe("/gamepad1/a", whenDown { lower() })
+        this.subscribe("/gamepad1/b"){ whenDown { upper() } }
     }
 
-    fun lower(state : Message) {
-        val (value) = state as GamepadButtonMsg
-        if(value){
-            this.publish("/debug", DebugMsg("Bottom $bottomIsOpen"))
-            if(bottomIsOpen){
-                this.publish("/servos/bottomServo", ServoMsg(bottomClosedPosition, priority = 1))
-                bottomIsOpen = false
-            } else {
-                this.publish("/servos/bottomServo", ServoMsg(bottomOpenPosition, priority = 1))
-                bottomIsOpen = true
-            }
+    fun lower() {
+        this.publish("/debug", TextMsg("Bottom $bottomIsOpen"))
+        if(bottomIsOpen){
+            this.publish("/servos/bottomServo", ServoMsg(bottomClosedPosition, priority = 1))
+            bottomIsOpen = false
+        } else {
+            this.publish("/servos/bottomServo", ServoMsg(bottomOpenPosition, priority = 1))
+            bottomIsOpen = true
         }
     }
-    fun upper(state : Message){
-        val (value) = state as GamepadButtonMsg
-        if(value){
-            if(topIsOpen){
-                this.publish("/servos/topServo", ServoMsg(topClosedPosition, priority = 1))
-                topIsOpen = false
-            } else {
-                this.publish("/servos/topServo", ServoMsg(topOpenPosition, priority = 1))
-                topIsOpen = true
-            }
+    fun upper(){
+        if(topIsOpen){
+            this.publish("/servos/topServo", ServoMsg(topClosedPosition, priority = 1))
+            topIsOpen = false
+        } else {
+            this.publish("/servos/topServo", ServoMsg(topOpenPosition, priority = 1))
+            topIsOpen = true
         }
     }
 }

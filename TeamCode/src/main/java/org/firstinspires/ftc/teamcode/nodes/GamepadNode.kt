@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.nodes
 
 import com.qualcomm.robotcore.hardware.Gamepad
 import org.firstinspires.ftc.teamcode.Node
-import org.firstinspires.ftc.teamcode.messages.DebugMsg
+import org.firstinspires.ftc.teamcode.messages.TextMsg
 import org.firstinspires.ftc.teamcode.messages.HeartBeatMsg
 import org.firstinspires.ftc.teamcode.messages.GamepadButtonMsg
 import org.firstinspires.ftc.teamcode.messages.GamepadJoyOrTrigMsg
@@ -15,17 +15,13 @@ import kotlin.reflect.jvm.isAccessible
  * Created by dvw06 on 10/12/17.
  */
 
-class GamepadNode : Node
+class GamepadNode(val gamepad1: Gamepad, val gamepad2: Gamepad) : Node()
 {
     var gamepad1Buttons = HashMap<String, Boolean>()
     var gamepad1JoyOrTrigs = HashMap<String, Float>()
     var gamepad2Buttons = HashMap<String, Boolean>()
     var gamepad2JoyOrTrigs = HashMap<String, Float>()
-    var gamepad1 : Gamepad? = null
-    var gamepad2 : Gamepad? = null
-    constructor(gamepad1: Gamepad, gamepad2: Gamepad){
-        this.gamepad1 = gamepad1
-        this.gamepad2 = gamepad2
+    init {
         //fill gamepad1 maps
         for (property in Gamepad::class.declaredMemberProperties) {
             property.isAccessible = true
@@ -45,7 +41,7 @@ class GamepadNode : Node
             }
         }
     }
-    override fun init() {
+    override fun subscriptions() {
         this.subscribe("/heartbeat", {update(it as HeartBeatMsg)})
     }
     fun update(hb: HeartBeatMsg){

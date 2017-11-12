@@ -16,7 +16,7 @@ class OmniJoyNode : Node {
     constructor(){
 
     }
-    override fun init() {
+    override fun subscriptions() {
         this.subscribe("/gamepad1/left_stick_y", {this.recieveMessage(rotation = (it as GamepadJoyOrTrigMsg).value)})
         this.subscribe("/gamepad1/right_stick_x", {this.recieveMessage(upDown = (it as GamepadJoyOrTrigMsg).value)})
         this.subscribe("/gamepad1/left_stick_x", {this.recieveMessage(leftRight = (it as GamepadJoyOrTrigMsg).value)})
