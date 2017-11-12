@@ -7,6 +7,9 @@ import org.firstinspires.ftc.teamcode.util.whenDown
 import java.util.*
 
 /**
+ * Publish to /begin a CallbackMap of menu items
+ * Update the appearance of items with /update "a" -> "b"
+ * Exit with /end, but if you're transitioning menus then /begin with the new menu will do
  * Created by max on 11/11/17.
  */
 class SelectorView : Node() {

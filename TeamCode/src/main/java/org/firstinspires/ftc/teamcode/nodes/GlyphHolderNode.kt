@@ -22,7 +22,7 @@ class GlyphHolderNode : Node() {
     override fun subscriptions() {
 
         this.subscribe("/gamepad1/a", whenDown { lower() })
-        this.subscribe("/gamepad1/b"){ whenDown { upper() } }
+        this.subscribe("/gamepad1/b", whenDown { upper() })
     }
 
     fun lower() {
