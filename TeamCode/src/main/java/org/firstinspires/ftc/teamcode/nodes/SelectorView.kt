@@ -75,6 +75,7 @@ class SelectorView : Node() {
 
     fun begin(msg : CallbackMapMsg) {
         val (callbacks) = msg
+        index = 0
         this.callbacks = callbacks
         this.state = STATES.ON
         Dispatcher.lock("/debug", 0)
