@@ -21,7 +21,9 @@ class T10Teleop : OpMode(){
                 EffectorNode(hardwareMap),
                 DebugNode(),
                 TelemetryNode(telemetry),
-                heartbeat
+                heartbeat,
+                SelectorView(),
+                InspectorNode()
 //                VuforiaNode(hardwareMap)
         )
         for (node in nodes) node.subscriptions()
