@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.util.whenDown
  * Created by shaash on 10/26/17.
  */
 
-class GlyphHolderNode : Node {
+class GlyphHolderNode : Node() {
     val bottomOpenPosition = 0.4
     val bottomClosedPosition = 0.0
     val topOpenPosition = 1.0
@@ -19,8 +19,6 @@ class GlyphHolderNode : Node {
     var bottomIsOpen = true
     var topIsOpen = true
 
-    constructor() {
-    }
     override fun subscriptions() {
 
         this.subscribe("/gamepad1/a", whenDown { lower() })

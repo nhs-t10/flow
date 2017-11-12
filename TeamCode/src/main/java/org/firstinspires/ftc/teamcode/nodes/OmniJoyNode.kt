@@ -8,14 +8,11 @@ import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.OmniDrive
 import org.firstinspires.ftc.teamcode.messages.GamepadJoyOrTrigMsg
 
-class OmniJoyNode : Node {
+class OmniJoyNode : Node() {
     var tempRotation: Float = 0f
     var tempUpDown: Float = 0f
     var tempLeftRight: Float = 0f
 
-    constructor(){
-
-    }
     override fun subscriptions() {
         this.subscribe("/gamepad1/left_stick_y", {this.recieveMessage(rotation = (it as GamepadJoyOrTrigMsg).value)})
         this.subscribe("/gamepad1/right_stick_x", {this.recieveMessage(upDown = (it as GamepadJoyOrTrigMsg).value)})

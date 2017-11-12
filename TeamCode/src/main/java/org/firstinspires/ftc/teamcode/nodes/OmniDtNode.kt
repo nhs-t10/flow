@@ -9,10 +9,7 @@ import java.lang.Math.abs
 /**
  * Created by shaash on 10/17/17.
  */
-class OmniDtNode : Node{
-
-    constructor(){
-    }
+class OmniDtNode : Node(){
     override fun subscriptions() {
         this.subscribe("/drive", {this.recieveMessage(it)})
     }

@@ -7,16 +7,13 @@ package org.firstinspires.ftc.teamcode.nodes
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.*
 
-class GliftNode : Node {
+class GliftNode : Node() {
     val bottomOpenPosition = 0.4
     val bottomClosedPosition = 0.0
     val topOpenPosition = 1.0
     val topClosedPosition = 0.0
     var bottomIsOpen = true
     var topIsOpen = true
-
-    constructor(){
-    }
     override fun subscriptions() {
         this.subscribe("/gamepad1/dpad_up", {recieveUpMessage(upPower = (it as GamepadButtonMsg).value)})
         this.subscribe("/gamepad1/dpad_down", {recieveDownMessage(downPower = (it as GamepadButtonMsg).value)})
