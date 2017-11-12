@@ -55,7 +55,6 @@ class InspectorNode : Node() {
 
     fun inspect(channel : String) {
         this.state = STATES.CHANNELOPT
-        this.publish("/telemetry/clear", UnitMsg())
 
         val menu = hashMapOf(
                 "$channel" to {},
@@ -92,6 +91,7 @@ class InspectorNode : Node() {
         if(state == STATES.TAIL) {
             // Scarily risky, but it'll do
             Dispatcher.channels[tailName]?.second?.removeAt(tailIndice)
+            this.publish("/telemetry/clear", UnitMsg())
             inspect(tailName)
         }
     }
