@@ -63,11 +63,12 @@ class InspectorNode : Node() {
                         // POTENTIAL BUG NOTE: this unlocks channel completely,
                         // so any restrictions before are gone.
                         Dispatcher.unlock(channel)
+                        this.publish("/selector/update", UpdateMsg<String>("Enable", "Disable"))
                     }
                     else {
                         Dispatcher.lock(channel, -1)
+                        this.publish("/selector/update", UpdateMsg<String>("Disable", "Enable"))
                     }
-                    inspect(channel)
                 },
                 "Tail" to {
                     this.publish("/selector/end", UnitMsg())
