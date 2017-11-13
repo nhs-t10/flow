@@ -37,6 +37,11 @@ object Dispatcher {
         }
     }
 
+    /**
+     * Lets a node subscribe to a channel.
+     * @param channel The channel name e,g "/motors/m1"
+     * @param callback The callback lambda, called whenever a message is received. Syntax: `{myCallback(it)}`
+     */
     fun subscribe(channel:String, callback: (Message) -> Unit) {
         val found = channels[channel]
         if (found != null) {

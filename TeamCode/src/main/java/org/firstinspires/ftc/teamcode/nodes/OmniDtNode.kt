@@ -26,7 +26,7 @@ class OmniDtNode : Node(){
         val rotationalComponent = rotationalMultiplier.map { it*rotation}
 
         val motorvals = drive(forwardsComponent, eastWestComponent, rotationalComponent).map{it.toDouble()}
-        val priority = 2
+        val priority = 1
         this.publish("/motors/lr", MotorMsg(motorvals[0], priority = priority))
         this.publish("/motors/rr", MotorMsg(motorvals[1], priority = priority))
         this.publish("/motors/lf", MotorMsg(motorvals[2], priority = priority))

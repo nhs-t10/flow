@@ -31,4 +31,7 @@ data class UnitMsg(override val priority: Int = 1) : Message
  */
 data class CallbackMapMsg(val map: HashMap<String, () -> Unit>, override val priority : Int) : Message
 
+/**
+ * Intent to transform value a -> b
+ */
 data class UpdateMsg<T>(val a : T, val b : T, override val priority: Int = 1) : Message

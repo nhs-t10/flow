@@ -7,7 +7,6 @@ import org.firstinspires.ftc.teamcode.messages.TextMsg
 import org.firstinspires.ftc.teamcode.messages.UnitMsg
 import org.firstinspires.ftc.teamcode.messages.UpdateMsg
 import org.firstinspires.ftc.teamcode.util.whenDown
-import java.nio.charset.IllegalCharsetNameException
 import java.util.*
 
 /**
@@ -90,7 +89,7 @@ class InspectorNode : Node() {
 
     fun tailBack() {
         if(state == STATES.TAIL) {
-            // Scarily risky, but it'll do
+            // TODO: Scarily risky, but it'll do
             Dispatcher.channels[tailName]?.second?.removeAt(tailIndice)
             this.publish("/telemetry/clear", UnitMsg())
             inspect(tailName)
