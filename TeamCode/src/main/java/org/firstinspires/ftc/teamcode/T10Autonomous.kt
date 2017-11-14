@@ -16,4 +16,7 @@ class T10Autonomous : OpMode(){
     override fun loop() {
 
     }
+    override fun stop(){
+        Dispatcher.reset()
+    }
 }
