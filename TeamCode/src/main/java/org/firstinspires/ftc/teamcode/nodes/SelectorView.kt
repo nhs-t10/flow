@@ -23,8 +23,8 @@ class SelectorView : Node() {
         this.subscribe("/selector/begin", {this.begin(it as CallbackMapMsg)})
         this.subscribe("/selector/update", {this.update(it as UpdateMsg<String>)})
         this.subscribe("/selector/end", {this.end()})
-        this.subscribe("/gamepad1/dpad_left", whenDown{down()})
-        this.subscribe("/gamepad1/dpad_right", whenDown{up()})
+        this.subscribe("/gamepad1/dpad_left", whenDown{up()})
+        this.subscribe("/gamepad1/dpad_right", whenDown{down()})
         this.subscribe("/gamepad1/a", whenDown{select()})
     }
 
@@ -78,8 +78,7 @@ class SelectorView : Node() {
         index = 0
         this.callbacks = callbacks
         this.state = STATES.ON
-        this.publish("/debug", TextMsg("received to begin", 0))
-        Dispatcher.lock("/debug", 0)
+        Dispatcher.lock("/debug", -1)
         this.render()
     }
     fun end() {

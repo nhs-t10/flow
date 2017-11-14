@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.messages.TextMsg
  * A centralized effector for sending telemetry messages.
  */
 class TelemetryNode(val telemetry : Telemetry) : Node() {
-
+    var staticCounter = 0
     init {
         telemetry.log().setCapacity(30)
     }
@@ -38,7 +38,8 @@ class TelemetryNode(val telemetry : Telemetry) : Node() {
     }
 
     fun staticLine(msg: TextMsg) {
-        telemetry.addData("0", msg.text)
+        telemetry.addData("$staticCounter", msg.text)
+        staticCounter++
     }
 
     fun clear() {

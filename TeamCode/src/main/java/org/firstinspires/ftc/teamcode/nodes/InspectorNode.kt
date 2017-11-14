@@ -35,7 +35,7 @@ class InspectorNode : Node() {
                 "Disable All Channels" to {disableAll()},
                 "Exit" to {end()}
         )
-            this.publish("/selector/begin", CallbackMapMsg(menu, priority = 1))
+        this.publish("/selector/begin", CallbackMapMsg(menu, priority = 1))
     }
 
     fun isDisabled(channel: String) : Boolean {
@@ -56,7 +56,6 @@ class InspectorNode : Node() {
         this.state = STATES.CHANNELOPT
 
         val menu = hashMapOf(
-                "$channel" to {},
                 "${if (isDisabled(channel)) "Enable" else "Disable"}" to {
                     if (isDisabled(channel)) {
                         // POTENTIAL BUG NOTE: this unlocks channel completely,
@@ -81,6 +80,8 @@ class InspectorNode : Node() {
 
     fun tail(channel: String) {
         this.state = STATES.TAIL
+        this.publish("/telemetry/clear", UnitMsg())
+        this.publish("/telemetry/staticLine", TextMsg("Tailing $channel"))
         this.publish("/telemetry/staticLine", TextMsg("Press A to go back"))
         tailIndice = Dispatcher.channels[channel]?.second?.size ?: -1
         tailName = channel
@@ -98,7 +99,14 @@ class InspectorNode : Node() {
 
     fun disableAll() {
         for (key in Dispatcher.channels.keys) {
-            Dispatcher.lock(key, -1)
+            val disableList = arrayOf("/telemetry/line",
+                    "/telemetry/staticLine",
+                    "/telemetry/lines",
+                    "/telemetry/clear",
+                    "/warn",
+                    "/error"
+            )
+            if(key != "/telemetry/line" && key != "/telemetry") Dispatcher.lock(key, -1)
         }
         this.publish("/selector/update", UpdateMsg<String>("Disable All Channels", "All Channels Disabled."))
     }
