@@ -33,7 +33,7 @@ class TelemetryNode(val telemetry : Telemetry) : Node() {
     fun renderLines(msg: LinesMsg) {
         telemetry.clear()
         for (i in msg.lines.indices) {
-            telemetry.addData(i as String, msg.lines[i])
+            telemetry.addData("$i", msg.lines[i])
         }
     }
 

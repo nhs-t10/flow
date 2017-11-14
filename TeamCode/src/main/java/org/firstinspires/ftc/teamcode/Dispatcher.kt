@@ -25,7 +25,13 @@ object Dispatcher {
                 if (iterator != null) {
                     while (iterator.hasNext()) {
                         val callback = iterator.next()
-                        callback(message)
+                        try {
+                            callback(message)
+                        }
+                        catch(e:Exception) {
+                            // hahahaha this will cause recursion of death at some point
+                            this.publish("/error", TextMsg("$e", 0))
+                        }
                     }
                 }
             }
