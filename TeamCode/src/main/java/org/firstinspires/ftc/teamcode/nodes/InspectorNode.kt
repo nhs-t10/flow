@@ -24,7 +24,7 @@ class InspectorNode : Node() {
     var tailName = ""
 
     override fun subscriptions() {
-        this.subscribe("/gamepad1/back", whenDown { main() })
+        this.subscribe("/gamepad1/start", whenDown { main() })
         this.subscribe("/gamepad1/a", whenDown { tailBack() })
     }
 
@@ -38,8 +38,8 @@ class InspectorNode : Node() {
             this.publish("/selector/begin", CallbackMapMsg(menu, priority = 1))
     }
 
-    fun isDisabled(channel: String) : Boolean {
-        return Dispatcher.channels[channel]?.first ?: -1 == -1
+    fun isDisabled(channel: String) : Boolean { // if not unlocked (null) or >-1
+        return (Dispatcher.channels[channel]?.first ?: 0) == -1
     }
 
     fun inspectAll() {

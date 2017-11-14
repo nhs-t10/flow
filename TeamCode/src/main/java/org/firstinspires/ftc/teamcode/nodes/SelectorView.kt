@@ -78,7 +78,6 @@ class SelectorView : Node() {
         index = 0
         this.callbacks = callbacks
         this.state = STATES.ON
-        this.publish("/debug", TextMsg("received to begin", 0))
         Dispatcher.lock("/debug", 0)
         this.render()
     }
