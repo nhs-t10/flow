@@ -25,7 +25,7 @@ class SelectorView : Node() {
         this.subscribe("/selector/end", {this.end()})
         this.subscribe("/gamepad1/dpad_left", whenDown{up()})
         this.subscribe("/gamepad1/dpad_right", whenDown{down()})
-        this.subscribe("/gamepad1/a", whenDown{select()})
+        this.subscribe("/gamepad1/y", whenDown{select()})
     }
 
     fun down() {
