@@ -78,7 +78,9 @@ class SelectorView : Node() {
         index = 0
         this.callbacks = callbacks
         this.state = STATES.ON
+        Dispatcher.publish("/debug", TextMsg("received to begin", 0))
         Dispatcher.lock("/debug", 0)
+        this.render()
     }
     fun end() {
         this.publish("/telemetry/clear", UnitMsg())

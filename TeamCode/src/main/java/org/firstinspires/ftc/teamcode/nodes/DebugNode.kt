@@ -17,6 +17,6 @@ class DebugNode : Node() {
         this.publish("/telemetry/line", TextMsg(m.toString()))
     }
     fun printWarning(m : TextMsg) {
-        this.publish("/telemetry/line", TextMsg(text="WARNING: $m.text", priority = 0))
+        this.publish("/telemetry/line", TextMsg(text="WARNING: ${m.text}", priority = 0))
     }
 }
