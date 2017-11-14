@@ -12,11 +12,15 @@ class DebugNode : Node() {
     override fun subscriptions() {
         this.subscribe("/debug", {this.printMsg(it)})
         this.subscribe("/warn"){this.printWarning(it as TextMsg)}
+        this.subscribe("/error", {this.printError(it as TextMsg)})
     }
     fun printMsg(m : Message){
         this.publish("/telemetry/line", TextMsg(m.toString()))
     }
     fun printWarning(m : TextMsg) {
         this.publish("/telemetry/line", TextMsg(text="WARNING: ${m.text}", priority = 0))
+    }
+    fun printError(m : TextMsg) {
+        this.publish("/telemetry/line", TextMsg("ERROR: ${m.text}", 0))
     }
 }

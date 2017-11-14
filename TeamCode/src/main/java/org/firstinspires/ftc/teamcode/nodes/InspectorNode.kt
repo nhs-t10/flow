@@ -24,7 +24,7 @@ class InspectorNode : Node() {
     var tailName = ""
 
     override fun subscriptions() {
-        this.subscribe("/gamepad1/dpad_left", whenDown { main() })
+        this.subscribe("/gamepad1/back", whenDown { main() })
         this.subscribe("/gamepad1/a", whenDown { tailBack() })
     }
 
