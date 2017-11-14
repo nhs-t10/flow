@@ -16,17 +16,23 @@ class GlyphHolderNode : Node() {
     val bottomClosedPosition = 0.0
     val topOpenPosition = 1.0
     val topClosedPosition = 0.0
+    val holderLOpenPosition = 1.0
+    val holderLClosedPosition = 0.0
+    val holderROpenPosition = 1.0
+    val holderRClosedPosition = 0.0
     var bottomIsOpen = true
     var topIsOpen = true
+    var holderIsOpen= true
 
     override fun subscriptions() {
 
         this.subscribe("/gamepad1/a", whenDown { lower() })
         this.subscribe("/gamepad1/b", whenDown { upper() })
+        this.subscribe("/gamepad1/x", whenDown { holder() })
     }
 
     fun lower() {
-        this.publish("/debug", TextMsg("Bottom $bottomIsOpen"))
+        // this.publish("/debug", TextMsg("Bottom $bottomIsOpen"))
         if(bottomIsOpen){
             this.publish("/servos/bottomServo", ServoMsg(bottomClosedPosition, priority = 1))
             bottomIsOpen = false
@@ -42,6 +48,17 @@ class GlyphHolderNode : Node() {
         } else {
             this.publish("/servos/topServo", ServoMsg(topOpenPosition, priority = 1))
             topIsOpen = true
+        }
+    }
+    fun holder(){
+        if(holderIsOpen){
+            this.publish("/servos/holderServoL", ServoMsg(holderLClosedPosition, priority = 1))
+            this.publish("/servos/holderServoR", ServoMsg(holderRClosedPosition, priority = 1))
+            holderIsOpen = false
+        } else {
+            this.publish("/servos/holderServoL", ServoMsg(holderLOpenPosition, priority = 1))
+            this.publish("/servos/holderServoR", ServoMsg(holderROpenPosition, priority = 1))
+            holderIsOpen = true
         }
     }
 }

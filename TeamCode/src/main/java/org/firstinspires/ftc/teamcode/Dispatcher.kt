@@ -29,8 +29,8 @@ object Dispatcher {
                             callback(message)
                         }
                         catch(e:Exception) {
-                            // hahahaha this will cause recursion of death at some point
-                            this.publish("/error", TextMsg("$e", 0))
+                            // TODO: hahahaha this will cause recursion of death at some point
+                            this.publish("/error", TextMsg("$message sent to $channel caused $e", 0))
                         }
                     }
                 }
