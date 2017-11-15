@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.nodes
 
 import com.qualcomm.robotcore.hardware.DcMotor
+import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.Dispatcher
@@ -21,7 +22,9 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node(){
     }
     fun addMotors(){
         motors.put("lf", hardwareMap.dcMotor.get("m3")!!)
+        motors["lf"]?.direction = DcMotorSimple.Direction.REVERSE
         motors.put("lr", hardwareMap.dcMotor.get("m1")!!)
+        motors["lr"]?.direction = DcMotorSimple.Direction.REVERSE
         motors.put("rf", hardwareMap.dcMotor.get("m4")!!)
         motors.put("rr", hardwareMap.dcMotor.get("m2")!!)
         motors.put("g1", hardwareMap.dcMotor.get("m5")!!)
