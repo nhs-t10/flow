@@ -16,6 +16,10 @@ object Dispatcher {
         channels.put(channel, Pair(priority, content))
     }
 
+    /**
+     * TODO: currently this creates a computational graph with a trie that propagates into further mutations and calls.
+     * This could lead to concurrency issues.
+     */
     fun publish(channel: String, message: Message){
         val found = channels[channel]
         if (found != null) {

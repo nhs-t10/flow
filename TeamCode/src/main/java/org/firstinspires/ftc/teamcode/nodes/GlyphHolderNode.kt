@@ -12,10 +12,12 @@ import org.firstinspires.ftc.teamcode.util.whenDown
  */
 
 class GlyphHolderNode : Node() {
-    val bottomOpenPosition = 0.4
-    val bottomClosedPosition = 0.0
-    val topOpenPosition = 1.0
-    val topClosedPosition = 0.0
+    val bottomClosedPosition = 0.6
+    val bottomOpenPosition = 0.0
+
+    val topClosedPosition = 0.6
+    val topOpenPosition = 0.0
+
     val holderLOpenPosition = 1.0
     val holderLClosedPosition = 0.0
     val holderROpenPosition = 1.0
@@ -32,23 +34,12 @@ class GlyphHolderNode : Node() {
     }
 
     fun lower() {
-        // this.publish("/debug", TextMsg("Bottom $bottomIsOpen"))
-        if(bottomIsOpen){
-            this.publish("/servos/bottomServo", ServoMsg(bottomClosedPosition, priority = 1))
-            bottomIsOpen = false
-        } else {
-            this.publish("/servos/bottomServo", ServoMsg(bottomOpenPosition, priority = 1))
-            bottomIsOpen = true
-        }
+        this.publish("/servos/bottomServo", ServoMsg(if(bottomIsOpen) bottomClosedPosition else bottomOpenPosition, priority = 1))
+        bottomIsOpen = !bottomIsOpen
     }
     fun upper(){
-        if(topIsOpen){
-            this.publish("/servos/topServo", ServoMsg(topClosedPosition, priority = 1))
-            topIsOpen = false
-        } else {
-            this.publish("/servos/topServo", ServoMsg(topOpenPosition, priority = 1))
-            topIsOpen = true
-        }
+        this.publish("/servos/topServo", ServoMsg(if(topIsOpen) topClosedPosition else topOpenPosition, priority = 1))
+        topIsOpen = !topIsOpen
     }
     fun holder(){
         if(holderIsOpen){
