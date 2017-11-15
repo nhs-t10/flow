@@ -41,6 +41,8 @@ class OmniDtNode : Node(){
         val findhighestinthis = sums.map{abs(it)}
         val highestsum:Float? = findhighestinthis.max()
         var attenuationfactor = 1f
+        val fast = false
+        val slowrate = .6f
         if (highestsum == null){
             attenuationfactor = 1f
         }
@@ -51,8 +53,13 @@ class OmniDtNode : Node(){
             attenuationfactor = 1f
         }
 
-        val finalvals = sums.map { it / attenuationfactor }
-        return finalvals
+       if (fast) {
+           val finalvals = sums.map { it / attenuationfactor }
+           return finalvals
+       } else {
+           val finalvals = sums.map { it / attenuationfactor * slowrate }
+           return finalvals
+       }
     }
 
 }
