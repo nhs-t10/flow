@@ -12,18 +12,18 @@ import org.firstinspires.ftc.teamcode.util.whenDown
  */
 
 class GlyphHolderNode : Node() {
-    val bottomClosedPosition = 0.5
-    val bottomOpenPosition = 0.95
+    val bottomOpenPosition = 0.5
+    val bottomClosedPosition = 0.95
 
-    val topClosedPosition = 0.05
-    val topOpenPosition = 0.65
+    val topOpenPosition = 0.05
+    val topClosedPosition = 0.65
 
     val holderLOpenPosition = 1.0
     val holderLClosedPosition = 0.0
     val holderROpenPosition = 1.0
     val holderRClosedPosition = 0.0
-    var bottomIsOpen = false
-    var topIsOpen = false
+    var bottomIsOpen = true
+    var topIsOpen = true
     var holderIsOpen= true
 
     override fun subscriptions() {
