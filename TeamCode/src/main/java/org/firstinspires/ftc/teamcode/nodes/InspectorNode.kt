@@ -2,10 +2,7 @@ package org.firstinspires.ftc.teamcode.nodes
 
 import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
-import org.firstinspires.ftc.teamcode.messages.CallbackMapMsg
-import org.firstinspires.ftc.teamcode.messages.TextMsg
-import org.firstinspires.ftc.teamcode.messages.UnitMsg
-import org.firstinspires.ftc.teamcode.messages.UpdateMsg
+import org.firstinspires.ftc.teamcode.messages.*
 import org.firstinspires.ftc.teamcode.util.whenDown
 import java.util.*
 
@@ -17,7 +14,8 @@ class InspectorNode : Node() {
         MAIN, // main menu
         INSPECTALL, // list of channels
         CHANNELOPT, // channel menu
-        TAIL // watch live stream of channel
+        TAIL, // watch live stream of channel
+        TAILING
     }
     var state = STATES.OFF
     var tailIndice = 0
@@ -25,7 +23,7 @@ class InspectorNode : Node() {
 
     override fun subscriptions() {
         this.subscribe("/gamepad1/start", whenDown { main() })
-        this.subscribe("/gamepad1/y", whenDown { tailBack() })
+        this.subscribe("/gamepad1/y", {tailBack(it as GamepadButtonMsg)} )
     }
 
     fun main() {
@@ -88,8 +86,11 @@ class InspectorNode : Node() {
         this.state = STATES.TAIL
     }
 
-    fun tailBack() {
-        if(state == STATES.TAIL) {
+    fun tailBack(m: GamepadButtonMsg) {
+        if(state == STATES.TAIL && !m.value ) {
+            this.state = STATES.TAILING
+        }
+        else if(state == STATES.TAILING && m.value) {
             // TODO: Scarily risky, but it'll do
             Dispatcher.channels[tailName]?.second?.removeAt(tailIndice)
             this.publish("/telemetry/line", TextMsg("AAAA"))
