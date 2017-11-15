@@ -21,17 +21,14 @@ object Dispatcher {
         if (found != null) {
             val (priority, listeners) = found
             if (priority == null || priority >= message.priority) {
-                val iterator = listeners?.listIterator()
-                if (iterator != null) {
-                    while (iterator.hasNext()) {
-                        val callback = iterator.next()
-                        try {
-                            callback(message)
-                        }
-                        catch(e:Exception) {
-                            // TODO: hahahaha this will cause recursion of death at some point
-                            this.publish("/error", TextMsg("$message sent to $channel caused $e", 0))
-                        }
+                val locked = listeners.toTypedArray()
+                for (callback in locked) {
+                    try {
+                        callback(message)
+                    }
+                    catch(e:Exception) {
+                        // TODO: hahahaha this will cause recursion of death at some point
+                        this.publish("/error", TextMsg("$message sent to $channel caused $e", 0))
                     }
                 }
             }
