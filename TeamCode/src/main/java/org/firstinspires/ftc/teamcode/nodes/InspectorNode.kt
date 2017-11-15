@@ -79,19 +79,20 @@ class InspectorNode : Node() {
     }
 
     fun tail(channel: String) {
-        this.state = STATES.TAIL
         this.publish("/telemetry/clear", UnitMsg())
         this.publish("/telemetry/staticLine", TextMsg("Tailing $channel"))
         this.publish("/telemetry/staticLine", TextMsg("Press A to go back"))
         tailIndice = Dispatcher.channels[channel]?.second?.size ?: -1
         tailName = channel
         this.subscribe(channel, {this.publish("/telemetry/line", TextMsg(it.toString()))})
+        this.state = STATES.TAIL
     }
 
     fun tailBack() {
         if(state == STATES.TAIL) {
             // TODO: Scarily risky, but it'll do
             Dispatcher.channels[tailName]?.second?.removeAt(tailIndice)
+            this.publish("/telemetry/line", TextMsg("AAAA"))
             this.publish("/telemetry/clear", UnitMsg())
             inspect(tailName)
         }

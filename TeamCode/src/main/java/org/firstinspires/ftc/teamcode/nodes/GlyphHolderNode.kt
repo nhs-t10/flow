@@ -13,10 +13,10 @@ import org.firstinspires.ftc.teamcode.util.whenDown
 
 class GlyphHolderNode : Node() {
     val bottomClosedPosition = 0.6
-    val bottomOpenPosition = 0.0
+    val bottomOpenPosition = 0.95
 
-    val topClosedPosition = 0.6
-    val topOpenPosition = 0.0
+    val topClosedPosition = 0.1
+    val topOpenPosition = 0.65
 
     val holderLOpenPosition = 1.0
     val holderLClosedPosition = 0.0
