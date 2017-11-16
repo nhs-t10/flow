@@ -1,9 +1,8 @@
 package org.firstinspires.ftc.teamcode.nodes
 
 import org.firstinspires.ftc.teamcode.Node
-import org.firstinspires.ftc.teamcode.PID
+import org.firstinspires.ftc.teamcode.lib.PID
 import org.firstinspires.ftc.teamcode.messages.ImuMsg
-import org.firstinspires.ftc.teamcode.messages.OmniDrive
 
 /**
  * Created by shaash on 11/12/17.
