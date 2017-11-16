@@ -85,7 +85,7 @@ class OmniTeleop : OpMode() {
         }
 
         else if (abs(highestsum) > 1f) {
-            attenuationfactor = highestsum
+            attenuationfactor = highestsum*2
         } else {
             attenuationfactor = 1f
         }

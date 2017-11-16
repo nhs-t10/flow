@@ -31,7 +31,7 @@ class GlyphHolderNode : Node() {
 
         this.subscribe("/gamepad1/a", whenDown { lower() })
         this.subscribe("/gamepad1/b", whenDown { upper() })
-        this.subscribe("/gamepad1/x", whenDown { holder() })
+        //this.subscribe("/gamepad1/x", whenDown { holder() })
     }
 
     fun lower() {
@@ -42,6 +42,7 @@ class GlyphHolderNode : Node() {
         this.publish("/servos/topServo", ServoMsg(if(topIsOpen) topClosedPosition else topOpenPosition, priority = 1))
         topIsOpen = !topIsOpen
     }
+    /*
     fun holder(){
         if(holderIsOpen){
             this.publish("/servos/holderServoL", ServoMsg(holderLClosedPosition, priority = 1))
@@ -53,4 +54,5 @@ class GlyphHolderNode : Node() {
             holderIsOpen = true
         }
     }
+    */
 }

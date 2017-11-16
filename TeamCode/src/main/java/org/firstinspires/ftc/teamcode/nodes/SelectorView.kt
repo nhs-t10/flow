@@ -58,7 +58,7 @@ class SelectorView : Node() {
     }
 
     fun render() {
-        val mapped = listOf("Up and Down to move, A to select") + callbacks.keys.map{"${if (callbacks.keys.elementAt(index) == it) ">" else ""}$it"}
+        val mapped = listOf("Up and Down to move, Y to select") + callbacks.keys.map{"${if (callbacks.keys.elementAt(index) == it) ">" else ""}$it"}
         this.publish("/telemetry/lines", LinesMsg(mapped, 0))
     }
 

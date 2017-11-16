@@ -6,6 +6,7 @@ package org.firstinspires.ftc.teamcode.nodes
 
 import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
+import org.firstinspires.ftc.teamcode.messages.GamepadButtonMsg
 import org.firstinspires.ftc.teamcode.messages.OmniDrive
 import org.firstinspires.ftc.teamcode.messages.GamepadJoyOrTrigMsg
 
@@ -15,8 +16,8 @@ class OmniJoyNode : Node() {
     var tempLeftRight: Float = 0f
 
     override fun subscriptions() {
-        this.subscribe("/gamepad1/left_stick_y", {this.recieveMessage(rotation = (it as GamepadJoyOrTrigMsg).value)})
-        this.subscribe("/gamepad1/right_stick_x", {this.recieveMessage(upDown = (it as GamepadJoyOrTrigMsg).value)})
+        this.subscribe("/gamepad1/left_stick_y", {this.recieveMessage(upDown = (it as GamepadJoyOrTrigMsg).value)})
+        this.subscribe("/gamepad1/right_stick_x", {this.recieveMessage(rotation = (it as GamepadJoyOrTrigMsg).value)})
         this.subscribe("/gamepad1/left_stick_x", {this.recieveMessage(leftRight = (it as GamepadJoyOrTrigMsg).value)})
     }
 
@@ -39,6 +40,7 @@ class OmniJoyNode : Node() {
             this.tempLeftRight = leftRight
             zeroLock()
         }
+
 
         this.publish("/drive", OmniDrive(this.tempUpDown, this.tempLeftRight, this.tempRotation, priority = 1))
     }

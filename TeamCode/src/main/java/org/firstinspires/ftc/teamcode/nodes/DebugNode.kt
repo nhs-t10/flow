@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.nodes
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.Message
+import org.firstinspires.ftc.teamcode.messages.MotorMsg
 import org.firstinspires.ftc.teamcode.messages.TextMsg
 
 /**

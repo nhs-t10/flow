@@ -5,26 +5,37 @@ import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.*
 import java.lang.Math.abs
+import  org.firstinspires.ftc.teamcode.util.whenDown
 
 /**
  * Created by shaash on 10/17/17.
  */
 class OmniDtNode : Node(){
+    var isSlow: Boolean = false
     override fun subscriptions() {
-        this.subscribe("/drive", {this.recieveMessage(it)})
+        this.subscribe("/drive", {this.recieveMessage(driveCommands = it)})
+        this.subscribe("/gamepad1/x", whenDown { slowModeToggle() })
+    }
+    fun slowModeToggle (){
+        this.isSlow = !this.isSlow
     }
     fun recieveMessage(driveCommands : Message){
+
         val (upDown, leftRight, rotation) = driveCommands as OmniDrive
-        val forwardMultiplier = arrayOf(1f, 1f,
-                1f, 1f)
+        val forwardMultiplier = arrayOf(-1f, -1f,
+                -1f, -1f)
         val leftRightMultiplier = arrayOf(1f, -1f,
                 -1f, 1f)
-        val rotationalMultiplier = arrayOf(1f, -1f,
-                1f, -1f)
-        val forwardsComponent = forwardMultiplier.map { it*upDown}
-        val eastWestComponent = leftRightMultiplier.map { it*leftRight}
-        val rotationalComponent = rotationalMultiplier.map { it*rotation}
-
+        val rotationalMultiplier = arrayOf(-1f, 1f,
+                -1f, 1f)
+        var forwardsComponent = forwardMultiplier.map { it*upDown}
+        var eastWestComponent = leftRightMultiplier.map { it*leftRight}
+        var rotationalComponent = rotationalMultiplier.map { it*rotation}
+        if(this.isSlow){
+            forwardsComponent = forwardsComponent.map { it * 0.5f}
+            eastWestComponent = eastWestComponent.map { it * 0.5f}
+            rotationalComponent = rotationalComponent.map { it * 0.5f}
+        }
         val motorvals = drive(forwardsComponent, eastWestComponent, rotationalComponent).map{it.toDouble()}
         val priority = 1
         this.publish("/motors/lr", MotorMsg(motorvals[0], priority = priority))
