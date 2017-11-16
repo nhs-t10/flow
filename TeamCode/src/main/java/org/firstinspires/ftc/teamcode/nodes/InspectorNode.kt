@@ -93,6 +93,7 @@ class InspectorNode : Node() {
         else if(state == STATES.TAILING && m.value) {
             // TODO: Scarily risky, but it'll do
             Dispatcher.channels[tailName]?.second?.removeAt(tailIndice)
+            this.publish("/telemetry/line", TextMsg("AAAA"))
             this.publish("/telemetry/clear", UnitMsg())
             inspect(tailName)
         }
