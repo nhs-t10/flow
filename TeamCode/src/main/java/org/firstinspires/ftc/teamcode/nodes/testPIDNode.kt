@@ -10,18 +10,12 @@ import org.firstinspires.ftc.teamcode.messages.OmniDrive
  */
 
 class testPIDNode : Node() {
-    val pid = PID()
-    init {
-
-        pid.setConstants(.2, 0.0, 0.0)
-        pid.setDest(20.0)
-    }
+    val turn1pid = PID(kP = 0.1, kD = 0.1, kI = 0.1, destination = 30.0)
     override fun subscriptions() {
         this.subscribe("/imu", {update(it as ImuMsg)})
     }
     fun update (imuData : ImuMsg){
-        pid.setCurr(imuData.heading)
-        val power = pid.computeOutput().toFloat()
-        this.publish("/drive", OmniDrive(leftRight = 0f, upDown = 0f, rotation = power, priority = 2))
+        val heading = (imuData.heading)
+        turn1pid.computePID(heading)
     }
 }
