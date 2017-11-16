@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode.nodes
 
-import com.qualcomm.robotcore.hardware.DcMotor
-import com.qualcomm.robotcore.hardware.DcMotorSimple
-import com.qualcomm.robotcore.hardware.HardwareMap
-import com.qualcomm.robotcore.hardware.Servo
+import com.qualcomm.robotcore.hardware.*
 import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.*
 import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * Created by shaash on 10/17/17.
@@ -16,9 +14,11 @@ import java.util.*
 class EffectorNode(val hardwareMap: HardwareMap) : Node(){
     val motors = HashMap<String, DcMotor>()
     val servos = HashMap<String, Servo>()
+    val crServos = HashMap<String, CRServo>()
     override fun subscriptions() {
         addMotors()
         addServos()
+        addCrServos()
     }
     fun addMotors(){
         motors.put("lf", hardwareMap.dcMotor.get("m3")!!)
@@ -42,6 +42,13 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node(){
             this.subscribe("/servos/$key", { callServo(key, it) })
         }
     }
+    fun addCrServos() {
+        crServos.put("liftServo", hardwareMap.crservo.get("cr0")!!)
+        for(key in crServos.keys){
+            this.subscribe("/crServos/$key", {callCrServo(key, it)})
+        }
+
+    }
     fun callMotor(motorName : String, motorMsg: Message){
         val (power) = motorMsg as MotorMsg
         if (motors[motorName] != null){
@@ -50,8 +57,13 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node(){
     }
     fun callServo(servoName : String, msg: Message){
         val (position) = msg as ServoMsg
-        if (servos[servoName] != null){
-            servos[servoName]?.setPosition(position)
+        if (servos[servoName] != null){ servos[servoName]?.setPosition(position)
+        }
+    }
+    fun callCrServo(crServoName : String, motorMsg: Message){
+        val(power) = motorMsg as MotorMsg
+        if(crServos[crServoName] != null){
+            crServos[crServoName]?.setPower(power)
         }
     }
 }
