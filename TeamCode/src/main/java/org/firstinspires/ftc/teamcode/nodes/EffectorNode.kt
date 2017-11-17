@@ -5,13 +5,12 @@ import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.*
 import java.util.*
-import kotlin.collections.HashMap
 
 /**
  * Created by shaash on 10/17/17.
  */
 
-class EffectorNode(val hardwareMap: HardwareMap) : Node(){
+class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
     val motors = HashMap<String, DcMotor>()
     val servos = HashMap<String, Servo>()
     val crServos = HashMap<String, CRServo>()

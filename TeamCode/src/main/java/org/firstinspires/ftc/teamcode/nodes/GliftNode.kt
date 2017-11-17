@@ -7,7 +7,7 @@ package org.firstinspires.ftc.teamcode.nodes
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.*
 
-class GliftNode : Node() {
+class GliftNode : Node("Glyph Lift") {
     override fun subscriptions() {
         this.subscribe("/gamepad1/dpad_up", {recieveUpMessage(upPower = (it as GamepadButtonMsg).value)})
         this.subscribe("/gamepad1/dpad_down", {recieveDownMessage(downPower = (it as GamepadButtonMsg).value)})

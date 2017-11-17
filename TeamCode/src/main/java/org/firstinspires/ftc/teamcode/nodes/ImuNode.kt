@@ -23,7 +23,7 @@ import org.firstinspires.ftc.teamcode.messages.ImuMsg
 /**
  * Created by shaash on 10/26/17.
  */
-class ImuNode(val hardwareMap: HardwareMap) : Node(){
+class ImuNode(val hardwareMap: HardwareMap) : Node("IMU"){
     var imu : BNO055IMU? = null
     init {
         initImu()

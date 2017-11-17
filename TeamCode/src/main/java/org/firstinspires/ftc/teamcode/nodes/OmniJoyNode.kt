@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.messages.GamepadButtonMsg
 import org.firstinspires.ftc.teamcode.messages.OmniDrive
 import org.firstinspires.ftc.teamcode.messages.GamepadJoyOrTrigMsg
 
-class OmniJoyNode : Node() {
+class OmniJoyNode : Node("Omni Joystick") {
     var tempRotation: Float = 0f
     var tempUpDown: Float = 0f
     var tempLeftRight: Float = 0f

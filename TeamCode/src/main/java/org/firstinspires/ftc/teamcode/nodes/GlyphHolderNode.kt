@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.util.whenDown
  * Created by shaash on 10/26/17.
  */
 
-class GlyphHolderNode : Node() {
+class GlyphHolderNode : Node("Glyph Holder") {
 
     val bottomOpenPosition = 0.5
     val bottomClosedPosition = 0.95

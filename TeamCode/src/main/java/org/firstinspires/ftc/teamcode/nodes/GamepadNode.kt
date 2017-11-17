@@ -15,8 +15,7 @@ import kotlin.reflect.jvm.isAccessible
  * Created by dvw06 on 10/12/17.
  */
 
-class GamepadNode(val gamepad1: Gamepad, val gamepad2: Gamepad) : Node()
-{
+class GamepadNode(val gamepad1: Gamepad, val gamepad2: Gamepad) : Node("Gamepad") {
     var gamepad1Buttons = HashMap<String, Boolean>()
     var gamepad1JoyOrTrigs = HashMap<String, Float>()
     var gamepad2Buttons = HashMap<String, Boolean>()

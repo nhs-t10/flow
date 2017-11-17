@@ -5,12 +5,13 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.HeartBeatMsg
 import org.firstinspires.ftc.teamcode.messages.TouchMsg
+import java.util.*
 
 /**
  * Created by shaash on 11/14/17.
  */
 
-class TouchNode(val hardwareMap: HardwareMap) : Node() {
+class TouchNode(val hardwareMap: HardwareMap) : Node("Touch Sensor") {
     val touchSensors = HashMap<String, DigitalChannel>()
     init {
         addTouchSensors()

@@ -23,7 +23,7 @@ class T10Teleop : OpMode(){
                 DebugNode(),
                 TelemetryNode(telemetry),
                 heartbeat,
-                SelectorView(),
+                SelectorViewNode(),
                 InspectorNode()
 //                VuforiaNode(hardwareMap)
         )

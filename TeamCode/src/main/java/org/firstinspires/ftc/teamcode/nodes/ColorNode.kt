@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.messages.ImuMsg
  * Created by shaash on 10/26/17.
  */
 
-class ColorNode(val hardwareMap: HardwareMap) : Node(){
+class ColorNode(val hardwareMap: HardwareMap) : Node("Color"){
     val colorSensors = HashMap<String, ColorSensor>()
     init {
         addColorSensors()
