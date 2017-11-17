@@ -9,7 +9,7 @@ import java.util.*
 /**
  * Created by max on 11/10/17.
  */
-class InspectorNode : Node() {
+class InspectorNode : Node("Inspector") {
     enum class STATES { OFF,
         MAIN, // main menu
         INSPECTALL, // list of channels
@@ -107,7 +107,7 @@ class InspectorNode : Node() {
                     "/warn",
                     "/error"
             )
-            if(key != "/telemetry/line" && key != "/telemetry") Dispatcher.lock(key, -1)
+            if(!disableList.contains(key)) Dispatcher.lock(key, -1)
         }
         this.publish("/selector/update", UpdateMsg<String>("Disable All Channels", "All Channels Disabled."))
     }

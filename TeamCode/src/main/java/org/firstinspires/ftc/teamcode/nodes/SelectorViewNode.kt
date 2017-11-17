@@ -12,7 +12,7 @@ import java.util.*
  * Exit with /end, but if you're transitioning menus then /begin with the new menu will do
  * Created by max on 11/11/17.
  */
-class SelectorView : Node() {
+class SelectorViewNode : Node("Selector View") {
     enum class STATES { OFF, ON }
     var state = STATES.OFF
 
@@ -58,7 +58,7 @@ class SelectorView : Node() {
     }
 
     fun render() {
-        val mapped = listOf("Up and Down to move, Y to select") + callbacks.keys.map{"${if (callbacks.keys.elementAt(index) == it) ">" else ""}$it"}
+        val mapped = listOf("< and > to move, Y to select") + callbacks.keys.map{"${if (callbacks.keys.elementAt(index) == it) ">" else ""}$it"}
         this.publish("/telemetry/lines", LinesMsg(mapped, 0))
     }
 

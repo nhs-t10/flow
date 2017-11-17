@@ -10,7 +10,7 @@ import  org.firstinspires.ftc.teamcode.util.whenDown
 /**
  * Created by shaash on 10/17/17.
  */
-class OmniDtNode : Node(){
+class OmniDtNode : Node("Omni Drivetrain"){
     var isSlow: Boolean = false
     override fun subscriptions() {
         this.subscribe("/drive", {this.recieveMessage(driveCommands = it)})

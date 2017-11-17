@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.messages.TextMsg
 /**
  * A centralized effector for sending telemetry messages.
  */
-class TelemetryNode(val telemetry : Telemetry) : Node() {
+class TelemetryNode(val telemetry : Telemetry) : Node("Telemetry") {
     var staticCounter = 0
     init {
         telemetry.log().setCapacity(30)

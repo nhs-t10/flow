@@ -5,7 +5,7 @@ import org.firstinspires.ftc.teamcode.messages.Message
 /**
  * Created by shaash on 10/7/17.
  */
-abstract class Node {
+abstract class Node(val nodeName : String) {
     fun subscribe(channel: String, callback: (Message) -> Unit) {
         Dispatcher.subscribe(channel, callback)
     }

@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.messages.VuforiaMsg
  * Created by max on 11/2/17.
  */
 
-class VuforiaNode(hardwareMap: HardwareMap) : Node() {
+class VuforiaNode(hardwareMap: HardwareMap) : Node("Vuforia") {
     var vuforia : VuforiaLocalizer? = null
     var relicTemplate : VuforiaTrackable? = null
     init {

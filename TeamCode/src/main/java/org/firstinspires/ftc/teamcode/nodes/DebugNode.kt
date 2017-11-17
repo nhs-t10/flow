@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.messages.TextMsg
 /**
  * Created by shaash on 10/24/17.
  */
-class DebugNode : Node() {
+class DebugNode : Node("Debug") {
     override fun subscriptions() {
         this.subscribe("/debug", {this.printMsg(it)})
         this.subscribe("/warn"){this.printWarning(it as TextMsg)}
