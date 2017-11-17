@@ -16,9 +16,9 @@ class GliftNode : Node("Glyph Lift") {
     fun recieveUpMessage(upPower : Boolean) {
 //        this.publish("/servos/bottomServo", ServoMsg(bottomClosedPosition, priority = 1))
 //        this.publish("/servos/topServo", ServoMsg(topClosedPosition, priority = 1))
-        this.publish("/crServos/cr0", MotorMsg((if (upPower)-0.5 else 0.0), priority = 1))
+        this.publish("/crServos/liftServo", MotorMsg((if (upPower)-1.0 else 0.0), priority = 1))
     }
     fun recieveDownMessage(downPower : Boolean) {
-        this.publish("/crServos/cr0", MotorMsg((if (downPower)0.5 else 0.0), priority = 1))
+        this.publish("/crServos/liftServo", MotorMsg((if (downPower)1.0 else 0.0), priority = 1))
     }
 }

@@ -60,7 +60,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         }
     }
     fun callCrServo(crServoName : String, motorMsg: Message){
-        val(power) = motorMsg as MotorMsg
+        val (power) = motorMsg as MotorMsg
         if(crServos[crServoName] != null){
             crServos[crServoName]?.setPower(power)
         }
