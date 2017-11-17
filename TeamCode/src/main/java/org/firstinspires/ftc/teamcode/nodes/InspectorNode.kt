@@ -79,7 +79,7 @@ class InspectorNode : Node("Inspector") {
     fun tail(channel: String) {
         this.publish("/telemetry/clear", UnitMsg())
         this.publish("/telemetry/staticLine", TextMsg("Tailing $channel"))
-        this.publish("/telemetry/staticLine", TextMsg("Press A to go back"))
+        this.publish("/telemetry/staticLine", TextMsg("Press Y to go back"))
         tailIndice = Dispatcher.channels[channel]?.second?.size ?: -1
         tailName = channel
         this.subscribe(channel, {this.publish("/telemetry/line", TextMsg(it.toString()))})

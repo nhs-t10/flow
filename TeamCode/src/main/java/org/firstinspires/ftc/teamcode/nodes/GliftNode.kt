@@ -9,16 +9,20 @@ import org.firstinspires.ftc.teamcode.messages.*
 
 class GliftNode : Node("Glyph Lift") {
     override fun subscriptions() {
-        this.subscribe("/gamepad1/dpad_up", {recieveUpMessage(upPower = (it as GamepadButtonMsg).value)})
-        this.subscribe("/gamepad1/dpad_down", {recieveDownMessage(downPower = (it as GamepadButtonMsg).value)})
+        this.subscribe("/gamepad1/dpad_up", org.firstinspires.ftc.teamcode.util.whenDown { this.receiveUpMessage() })
+        this.subscribe("/gamepad1/dpad_down", org.firstinspires.ftc.teamcode.util.whenDown { this.receiveDownMessage() })
+        this.subscribe("/gamepad1/left_bumper", {org.firstinspires.ftc.teamcode.util.whenDown { this.stop() }})
     }
 
-    fun recieveUpMessage(upPower : Boolean) {
+    fun receiveUpMessage() {
 //        this.publish("/servos/bottomServo", ServoMsg(bottomClosedPosition, priority = 1))
 //        this.publish("/servos/topServo", ServoMsg(topClosedPosition, priority = 1))
-        this.publish("/crServos/liftServo", MotorMsg((if (upPower)-1.0 else 0.0), priority = 1))
+        this.publish("/crServos/liftServo", MotorMsg((-0.8), priority = 1))
     }
-    fun recieveDownMessage(downPower : Boolean) {
-        this.publish("/crServos/liftServo", MotorMsg((if (downPower)1.0 else 0.0), priority = 1))
+    fun receiveDownMessage() {
+        this.publish("/crServos/liftServo", MotorMsg((-0.1), priority = 1))
+    }
+    fun stop() {
+        this.publish("/crServos/liftServo", MotorMsg(0.5, 1))
     }
 }

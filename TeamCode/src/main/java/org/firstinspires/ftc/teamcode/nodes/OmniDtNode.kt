@@ -18,6 +18,7 @@ class OmniDtNode : Node("Omni Drivetrain"){
     }
     fun slowModeToggle (){
         this.isSlow = !this.isSlow
+        this.publish("/debug", TextMsg("SLOW MODE: ${this.isSlow}"))
     }
     fun recieveMessage(driveCommands : Message){
 
