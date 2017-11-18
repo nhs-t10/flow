@@ -6,7 +6,10 @@ import java.lang.Math.abs
  * Created by shaash on 11/18/17.
  */
 
-class AngleTurning(val kP : Double, val kI : Double, val kD : Double, val destination: Double){
+class AngleTurning(val destination: Double){
+    val kP = 0.1
+    val kD = 0.0
+    val kI = 0.1
     val turn = PID(kP, kI, kD, destination)
     fun computeTurnMotorVals(current : Double):List<Double>{
         val rotationalMultiplier = arrayOf<Double>(1.0, -1.0, 1.0, -1.0)

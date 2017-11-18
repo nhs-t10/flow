@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.messages.MotorMsg
  */
 
 class AngleTurningNode : Node("Angle Turning Test") {
-    val turn1 = AngleTurning(kI = 0.1, kD = 0.0, kP = 0.1, destination = 30.0)
+    val turn1 = AngleTurning(destination = 30.0)
     override fun subscriptions() {
         this.subscribe("/imu", {update(it as ImuMsg)})
     }
