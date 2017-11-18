@@ -4,9 +4,6 @@ package org.firstinspires.ftc.teamcode.lib
  * Created by shaash on 11/12/17.
  */
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 class PID(val kP : Double, val kI : Double, val kD : Double, val destination: Double) {
 
     private var error = 0.0
@@ -21,7 +18,9 @@ class PID(val kP : Double, val kI : Double, val kD : Double, val destination: Do
     fun computePID(curr : Double) : Double{
         val currenttime = getCurrentTime()
         val elapsedtime = currenttime - prevtime
-        error = destination - curr
+
+        error = getError(destination, curr)
+
         val p = kP * error
         val d = -Math.signum(error) * Math.abs(kD * ((error - preverror)/elapsedtime))
         sumerror += (error*elapsedtime)/1000
@@ -29,6 +28,22 @@ class PID(val kP : Double, val kI : Double, val kD : Double, val destination: Do
         preverror = error
         prevtime = currenttime
         return p+i+d
+    }
+
+    private fun getError(dest : Double, curr: Double): Double {
+        val a = dest - curr
+        val b = 360 - Math.abs(a)
+        if (a > 0) {
+            if (Math.abs(a) > Math.abs(b)) {
+                return -b
+            }
+            return a
+        } else {
+            if (Math.abs(a) > Math.abs(b)) {
+                return b
+            }
+            return a
+        }
     }
 
     private fun getElapsedTime() : Double{
