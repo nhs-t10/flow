@@ -8,9 +8,13 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode
  */
 @Autonomous(name = "autonomous")
 class T10Autonomous : OpMode(){
-
+    var routine : RoutineGroup? = null
     override fun init() {
+        routine = RoutineGroup(listOf())
+    }
 
+    override fun start() {
+        routine?.begin {  }
     }
 
     override fun loop() {
