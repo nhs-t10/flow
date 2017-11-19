@@ -41,13 +41,14 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
             this.subscribe("/servos/$key", { callServo(key, it) })
         }
     }
+
     fun addCrServos() {
         crServos.put("liftServo", hardwareMap.crservo.get("cr0")!!)
         for(key in crServos.keys){
             this.subscribe("/crServos/$key", {callCrServo(key, it)})
         }
-
     }
+
     fun callMotor(motorName : String, motorMsg: Message){
         val (power) = motorMsg as MotorMsg
         if (motors[motorName] != null){
