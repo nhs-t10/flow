@@ -129,14 +129,18 @@ class InspectorNode : Node("Inspector") {
 
     fun disableAll() {
         for (key in Dispatcher.channels.keys) {
-            val disableList = arrayOf("/telemetry/line",
+            val whiteList = arrayOf("/telemetry/line",
+                    "/gamepad1/dpad_left",
+                    "/gamepad1/dpad_right",
+                    "/gamepad1/y",
+                    "/gamepad1/start",
                     "/telemetry/staticLine",
                     "/telemetry/lines",
                     "/telemetry/clear",
                     "/warn",
                     "/error"
             )
-            if(!disableList.contains(key)) Dispatcher.lock(key, -1)
+            if(!whiteList.contains(key)) Dispatcher.lock(key, -1)
         }
         this.publish("/selector/update", UpdateMsg<String>("Disable All Channels", "All Channels Disabled."))
     }

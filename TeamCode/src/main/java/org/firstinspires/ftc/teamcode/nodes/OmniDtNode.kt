@@ -11,7 +11,8 @@ import  org.firstinspires.ftc.teamcode.util.whenDown
  * Created by shaash on 10/17/17.
  */
 class OmniDtNode : Node("Omni Drivetrain"){
-    var isSlow: Boolean = false
+    var isSlow: Boolean = true
+
     override fun subscriptions() {
         this.subscribe("/drive", {this.recieveMessage(driveCommands = it)})
         this.subscribe("/gamepad1/x", whenDown { slowModeToggle() })
