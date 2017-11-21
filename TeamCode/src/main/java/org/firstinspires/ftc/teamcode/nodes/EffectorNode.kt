@@ -14,10 +14,12 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
     val motors = HashMap<String, DcMotor>()
     val servos = HashMap<String, Servo>()
     val crServos = HashMap<String, CRServo>()
+    val crServoStates = HashMap<String, Double>()
     override fun subscriptions() {
         addMotors()
         addServos()
         addCrServos()
+        this.subscribe("/heartbeat", {this.thumpCrServos(it)})
     }
     fun addMotors(){
         motors.put("lf", hardwareMap.dcMotor.get("m3")!!)
@@ -42,11 +44,26 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         }
     }
 
+    fun addCrServoStates() {
+        for(key in crServos.keys) {
+            crServoStates.put(key, crServos[key]?.getPower()!!)
+        }
+    }
+
+    fun thumpCrServos(m: Message) {
+        val (time) = m as HeartBeatMsg
+        val timeDivided = time / 100
+        for (key in crServos.keys) {
+            crServos[key]?.setPower(crServoStates[key]!!)
+        }
+    }
+
     fun addCrServos() {
         crServos.put("liftServo", hardwareMap.crservo.get("cr0")!!)
         for(key in crServos.keys){
             this.subscribe("/crServos/$key", {callCrServo(key, it)})
         }
+        addCrServoStates()
     }
 
     fun callMotor(motorName : String, motorMsg: Message){
@@ -64,6 +81,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         val (power) = motorMsg as MotorMsg
         if(crServos[crServoName] != null){
             crServos[crServoName]?.setPower(power)
+            crServoStates.put(crServoName, power)
         }
     }
 }

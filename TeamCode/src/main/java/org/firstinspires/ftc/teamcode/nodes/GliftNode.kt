@@ -20,7 +20,7 @@ class GliftNode : Node("Glyph Lift") {
         this.publish("/crServos/liftServo", MotorMsg((-0.8), priority = 1))
     }
     fun receiveDownMessage() {
-        this.publish("/crServos/liftServo", MotorMsg((-0.1), priority = 1))
+        this.publish("/crServos/liftServo", MotorMsg((0.1), priority = 1))
     }
     fun stop() {
         this.publish("/crServos/liftServo", MotorMsg(0.5, 1))
