@@ -24,6 +24,7 @@ class TelemetryNode(val telemetry : Telemetry) : Node("Telemetry") {
         this.subscribe("/telemetry/staticLine", {this.staticLine(it as TextMsg)})
         this.subscribe("/telemetry/lines", {this.renderLines(it as LinesMsg)})
         this.subscribe("/telemetry/clear", {this.clear()})
+        this.subscribe("/telemetry/clearLines", {this.clearLines()})
     }
 
     fun addLine(m: TextMsg) {
@@ -44,5 +45,9 @@ class TelemetryNode(val telemetry : Telemetry) : Node("Telemetry") {
 
     fun clear() {
         telemetry.clearAll()
+    }
+
+    fun clearLines() {
+        telemetry.log().clear()
     }
 }
