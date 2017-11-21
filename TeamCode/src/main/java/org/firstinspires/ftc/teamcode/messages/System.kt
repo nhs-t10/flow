@@ -35,3 +35,7 @@ data class CallbackMapMsg(val map: HashMap<String, () -> Unit>, override val pri
  * Intent to transform value a -> b
  */
 data class UpdateMsg<T>(val a : T, val b : T, override val priority: Int = 1) : Message
+
+enum class IncrementState {ZERO, HOLD, INCREMENT}
+
+data class IncrementMsg(val state: IncrementState, val increment : Double = 0.0, override val priority: Int = 1) : Message

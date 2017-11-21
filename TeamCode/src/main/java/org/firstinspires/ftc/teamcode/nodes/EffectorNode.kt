@@ -14,12 +14,14 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
     val motors = HashMap<String, DcMotor>()
     val servos = HashMap<String, Servo>()
     val crServos = HashMap<String, CRServo>()
+
     val crServoStates = HashMap<String, Double>()
     override fun subscriptions() {
         addMotors()
         addServos()
         addCrServos()
         this.subscribe("/heartbeat", {this.thumpCrServos(it)})
+        this.subscribe("/heartbeat", {this.thumpServos(it)})
     }
     fun addMotors(){
         motors.put("lf", hardwareMap.dcMotor.get("m3")!!)
@@ -58,6 +60,15 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         }
     }
 
+
+    fun thumpServos(m: Message) {
+        val (time) = m as HeartBeatMsg
+        val timeDivided = time / 100
+        for (key in servos.keys) {
+            servos[key]?.setPosition(servos[key]?.getPosition()!!)
+        }
+    }
+
     fun addCrServos() {
         crServos.put("liftServo", hardwareMap.crservo.get("cr0")!!)
         for(key in crServos.keys){
@@ -73,15 +84,46 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         }
     }
     fun callServo(servoName : String, msg: Message){
-        val (position) = msg as ServoMsg
-        if (servos[servoName] != null){ servos[servoName]?.setPosition(position)
+        if (msg is ServoMsg) {
+            val (position) = msg
+            if (servos[servoName] != null){
+                servos[servoName]?.setPosition(position)
+            }
+        }
+        else if (msg is IncrementMsg) {
+            val (state, increment) = msg
+            if (servos[servoName] != null) {
+                val s = servos[servoName]
+                when (state) {
+                    IncrementState.INCREMENT -> s?.setPosition(s.getPosition() + increment)
+                    IncrementState.ZERO -> s?.setPosition(0.0)
+                    IncrementState.HOLD -> s?.setPosition(s.getPosition())
+                }
+                this.publish("/debug", TextMsg("Incremented $servoName to ${s?.getPosition()}"))
+            }
         }
     }
-    fun callCrServo(crServoName : String, motorMsg: Message){
-        val (power) = motorMsg as MotorMsg
+    fun callCrServo(crServoName : String, msg: Message){
         if(crServos[crServoName] != null){
-            crServos[crServoName]?.setPower(power)
-            crServoStates.put(crServoName, power)
+            if (msg is MotorMsg) {
+                val (power) = msg
+                crServos[crServoName]?.setPower(power)
+                crServoStates.put(crServoName, power)
+            }
+            else if (msg is IncrementMsg) {
+                val (state, increment) = msg
+                val s = crServos[crServoName]
+                when (state) {
+                    IncrementState.INCREMENT -> {
+                        val p = crServoStates[crServoName]!! + increment
+                        s?.setPower(p)
+                        crServoStates.put(crServoName, p)
+                    }
+                    IncrementState.ZERO -> s?.setPower(0.0)
+                    IncrementState.HOLD -> s?.setPower(s.getPower())
+                }
+                this.publish("/debug", TextMsg("Incremented $crServoName to ${s?.getPower()}"))
+            }
         }
     }
 }

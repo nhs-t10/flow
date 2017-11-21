@@ -5,6 +5,7 @@ import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.*
 import org.firstinspires.ftc.teamcode.util.whenDown
 import java.util.*
+import org.firstinspires.ftc.teamcode.messages.IncrementState
 
 /**
  * Created by max on 11/10/17.
@@ -15,6 +16,7 @@ class InspectorNode : Node("Inspector") {
         INSPECTALL, // list of channels
         CHANNELOPT, // channel menu
         TAIL, // watch live stream of channel
+        CMD, // command pallette
         TAILING
     }
     var state = STATES.OFF
@@ -99,9 +101,24 @@ class InspectorNode : Node("Inspector") {
                     this.publish("/selector/end", UnitMsg())
                     tail(channel)
                 },
+                "Command Palette" to {
+                  commandPalette(channel)
+                },
                 "Back" to {inspectBack(channel)}
         )
 
+        this.publish("/selector/begin", CallbackMapMsg(menu, 0))
+    }
+
+    fun commandPalette(channel: String) {
+        this.state = STATES.CMD
+        val menu = hashMapOf(
+                "Don't send this to sketchy channels." to {},
+                "Increment +0.1" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, 0.1))},
+                "Increment -0.1" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, -0.1))},
+                "Zero" to {this.publish(channel, IncrementMsg(IncrementState.ZERO))},
+                "Back" to {this.inspect(channel)}
+        )
         this.publish("/selector/begin", CallbackMapMsg(menu, 0))
     }
 
@@ -109,6 +126,7 @@ class InspectorNode : Node("Inspector") {
         this.publish("/telemetry/clear", UnitMsg())
         this.publish("/telemetry/staticLine", TextMsg("Tailing $channel"))
         this.publish("/telemetry/staticLine", TextMsg("Press Y to go back"))
+        Dispatcher.lock("/debug", -1)
         tailIndice = Dispatcher.channels[channel]?.second?.size ?: -1
         tailName = channel
         this.subscribe(channel, {this.publish("/telemetry/line", TextMsg(it.toString()))})
@@ -121,6 +139,7 @@ class InspectorNode : Node("Inspector") {
         }
         else if(state == STATES.TAILING && m.value) {
             // TODO: Scarily risky, but it'll do
+            Dispatcher.unlock("/debug")
             Dispatcher.channels[tailName]?.second?.removeAt(tailIndice)
             this.publish("/telemetry/clear", UnitMsg())
             inspect(tailName)

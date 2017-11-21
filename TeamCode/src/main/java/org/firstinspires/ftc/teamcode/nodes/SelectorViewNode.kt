@@ -74,16 +74,15 @@ class SelectorViewNode : Node("Selector View") {
     }
 
     fun begin(msg : CallbackMapMsg) {
+        this.publish("/telemetry/clearLines", UnitMsg())
         val (callbacks) = msg
         index = 0
         this.callbacks = callbacks
         this.state = STATES.ON
-        Dispatcher.lock("/debug", -1)
         this.render()
     }
     fun end() {
         this.publish("/telemetry/clear", UnitMsg())
-        Dispatcher.unlock("/debug")
         this.state = STATES.OFF
     }
 }
