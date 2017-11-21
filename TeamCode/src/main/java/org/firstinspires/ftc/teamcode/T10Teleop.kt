@@ -17,7 +17,7 @@ class T10Teleop : OpMode(){
                 OmniDtNode(),
                 OmniJoyNode(),
                 ImuNode(hardwareMap),
-                TouchNode(hardwareMap),
+                DigitalSensorNode(hardwareMap),
                 GliftNode(),
                 GlyphHolderNode(),
                 EffectorNode(hardwareMap),

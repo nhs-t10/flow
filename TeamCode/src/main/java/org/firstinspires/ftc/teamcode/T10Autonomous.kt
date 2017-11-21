@@ -23,7 +23,7 @@ class T10Autonomous : OpMode(){
                 OmniDtNode(),
                 OmniJoyNode(),
                 ImuNode(hardwareMap),
-                TouchNode(hardwareMap),
+                DigitalSensorNode(hardwareMap),
                 GliftNode(),
                 GlyphHolderNode(),
                 EffectorNode(hardwareMap),

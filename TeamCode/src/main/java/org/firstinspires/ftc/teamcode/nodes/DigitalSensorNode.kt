@@ -11,22 +11,21 @@ import java.util.*
  * Created by shaash on 11/14/17.
  */
 
-class TouchNode(val hardwareMap: HardwareMap) : Node("Touch Sensor") {
-    val touchSensors = HashMap<String, DigitalChannel>()
+class DigitalSensorNode(val hardwareMap: HardwareMap) : Node("Touch Sensor") {
+    val sensors = HashMap<String, DigitalChannel>()
     init {
-        addTouchSensors()
+        addSensors()
     }
     override fun subscriptions() {
         this.subscribe("/heartbeat", {update(it as HeartBeatMsg)})
     }
-    fun addTouchSensors(){
-        touchSensors.put("touchOne", hardwareMap?.digitalChannel.get("touch1")!!)
+    fun addSensors(){
+        sensors.put("touchOne", hardwareMap?.digitalChannel.get("touch1")!!)
     }
     fun update(hb: HeartBeatMsg){
-        //touch:
-        for (key in touchSensors.keys){
-            val isPressed = touchSensors[key]?.getState() ?: false
-            this.publish("/touch/$key", TouchMsg(isPressed, 1))
+        for (key in sensors.keys){
+            val isPressed = sensors[key]?.getState() ?: false
+            this.publish("/digital/$key", TouchMsg(isPressed, 1))
         }
     }
 }
