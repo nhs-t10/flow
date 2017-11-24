@@ -14,25 +14,27 @@ class GliftNode : Node("Glyph Lift") {
         this.subscribe("/gamepad1/dpad_down", org.firstinspires.ftc.teamcode.util.whenDown { this.receiveDownMessage() })
         this.subscribe("/gamepad1/left_bumper", org.firstinspires.ftc.teamcode.util.whenDown { this.incrementUp() })
         this.subscribe("/gamepad1/right_bumper", org.firstinspires.ftc.teamcode.util.whenDown { this.incrementDown() })
-//        this.subscribe("/gamepad1/left_bumper", {org.firstinspires.ftc.teamcode.util.whenDown { this.stop() }})
+    }
+
+    /**
+     * Safety measure so lower gripper doesn't get caught on rails
+     */
+    fun safetyClose() {
+        this.publish("/glyph/lower", GripperMsg(GripperState.CLOSED, 2))
     }
 
     fun receiveUpMessage() {
-//        this.publish("/servos/bottomServo", ServoMsg(bottomClosedPosition, priority = 1))
-//        this.publish("/servos/topServo", ServoMsg(topClosedPosition, priority = 1))
         this.publish("/crServos/liftServo", MotorMsg((-0.8), priority = 1))
     }
     fun receiveDownMessage() {
         this.publish("/crServos/liftServo", MotorMsg((0.1), priority = 1))
+        safetyClose()
     }
     fun incrementUp() {
         this.publish("/crServos/liftServo", IncrementMsg(IncrementState.INCREMENT, -0.1))
     }
     fun incrementDown() {
         this.publish("/crServos/liftServo", IncrementMsg(IncrementState.INCREMENT, 0.1))
-    }
-
-    fun stop() {
-        this.publish("/crServos/liftServo", MotorMsg(0.5, 1))
+        safetyClose()
     }
 }

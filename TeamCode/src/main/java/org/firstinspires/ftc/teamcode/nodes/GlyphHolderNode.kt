@@ -1,10 +1,7 @@
 package org.firstinspires.ftc.teamcode.nodes
 
 import org.firstinspires.ftc.teamcode.Node
-import org.firstinspires.ftc.teamcode.messages.GamepadButtonMsg
-import org.firstinspires.ftc.teamcode.messages.Message
-import org.firstinspires.ftc.teamcode.messages.ServoMsg
-import org.firstinspires.ftc.teamcode.messages.TextMsg
+import org.firstinspires.ftc.teamcode.messages.*
 import org.firstinspires.ftc.teamcode.util.whenDown
 
 /**
@@ -28,19 +25,26 @@ class GlyphHolderNode : Node("Glyph Holder") {
     var holderIsOpen= true
 
     override fun subscriptions() {
-
-        this.subscribe("/gamepad1/a", whenDown { lower() })
-        this.subscribe("/gamepad1/b", whenDown { upper() })
+        this.subscribe("/glyph/upper", {upper(it)})
+        this.subscribe("/glyph/lower", {lower(it)})
         //this.subscribe("/gamepad1/x", whenDown { holder() })
     }
 
-    fun lower() {
-        this.publish("/servos/bottomServo", ServoMsg(if(bottomIsOpen) bottomClosedPosition else bottomOpenPosition, priority = 1))
-        bottomIsOpen = !bottomIsOpen
+    fun findState (current : Boolean, state : GripperState) = when (state) {
+        GripperState.TOGGLE -> !current
+        GripperState.OPEN -> true
+        GripperState.CLOSED -> false
     }
-    fun upper(){
-        this.publish("/servos/topServo", ServoMsg(if(topIsOpen) topClosedPosition else topOpenPosition, priority = 1))
-        topIsOpen = !topIsOpen
+
+    fun lower(m : Message) {
+        val (state) = m as GripperMsg
+        bottomIsOpen = findState(bottomIsOpen, state)
+        this.publish("/servos/bottomServo", ServoMsg(if(bottomIsOpen) bottomClosedPosition else bottomOpenPosition, priority = 1))
+    }
+    fun upper(m: Message){
+        val (state) = m as GripperMsg
+        topIsOpen = findState(topIsOpen, state)
+        this.publish("/servos/topServo", ServoMsg(if (topIsOpen) topClosedPosition else topOpenPosition, priority = 1))
     }
     /*
     fun holder(){

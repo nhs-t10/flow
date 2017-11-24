@@ -13,6 +13,8 @@ import java.util.*
 
 class DigitalSensorNode(val hardwareMap: HardwareMap) : Node("Touch Sensor") {
     val sensors = HashMap<String, DigitalChannel>()
+    val sensorStates = HashMap<String, Boolean>()
+
     init {
         addSensors()
     }
@@ -21,11 +23,20 @@ class DigitalSensorNode(val hardwareMap: HardwareMap) : Node("Touch Sensor") {
     }
     fun addSensors(){
         sensors.put("touchOne", hardwareMap?.digitalChannel.get("touch1")!!)
+        addSensorStates()
+    }
+    fun addSensorStates() {
+        for (key in sensors.keys) {
+            sensorStates.put(key, false)
+        }
     }
     fun update(hb: HeartBeatMsg){
         for (key in sensors.keys){
             val isPressed = sensors[key]?.getState() ?: false
-            this.publish("/digital/$key", TouchMsg(isPressed, 1))
+            if (isPressed != sensorStates[key]) {
+                sensorStates.put(key, isPressed)
+                this.publish("/digital/$key", TouchMsg(isPressed, 1))
+            }
         }
     }
 }
