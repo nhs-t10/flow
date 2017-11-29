@@ -11,23 +11,22 @@ import org.firstinspires.ftc.teamcode.messages.OmniDrive
  */
 
 class AngleTurningNode : Node("Angle Turning Test") {
-    val tempHeading = 0.0;
-    val tempDest = 0.0
+    var tempDest = 0.0
     var cb : (() -> Unit)? = null
 
     override fun subscriptions() {
-        this.subscribe("/imu", { this.update(heading = (it as ImuMsg).heading) })
-        this.subscribe("/AngleTurning/turnTo", { turnTo(it as AngleTurnMsg) })
+        this.subscribe("/imu", { this.update((it as ImuMsg).heading)})
+        this.subscribe("/AngleTurning/turnTo", {this.setTurnTo(it as AngleTurnMsg)})
     }
 
-    fun turnTo(m : Message){
+    fun setTurnTo(m : Message){
         val (angle, callback) = m as AngleTurnMsg
+        this.tempDest = angle
         this.cb = callback
-        update(destinationAngle = angle)
     }
 
-    fun update(heading: Double = tempHeading, destinationAngle: Double = tempDest) {
-        val turn1 = AngleTurning(destination = destinationAngle)
+    fun update(heading : Double) {
+        val turn1 = AngleTurning(destination = tempDest)
         val rotation = (turn1.computeHeading(heading)).toFloat()
         if(rotation < 0.1){
             if (cb != null){
