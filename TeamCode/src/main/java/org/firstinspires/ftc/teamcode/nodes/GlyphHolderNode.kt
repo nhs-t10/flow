@@ -10,11 +10,12 @@ import org.firstinspires.ftc.teamcode.util.whenDown
 
 class GlyphHolderNode : Node("Glyph Holder") {
 
-    val bottomOpenPosition = 1.0
-    val bottomClosedPosition = 0.5
+    val bottomFullOpenPosition = 0.5
+    val bottomClosedPosition = 1.0
+    val bottomOpenPosition = 0.65
 
-    val topOpenPosition = 0.7
-    val topClosedPosition = 0.05
+    val topClosedPosition = 0.7
+    val topOpenPosition = 0.05
 
     val holderLOpenPosition = 1.0
     val holderLClosedPosition = 0.0
@@ -39,12 +40,12 @@ class GlyphHolderNode : Node("Glyph Holder") {
     fun lower(m : Message) {
         val (state) = m as GripperMsg
         bottomIsOpen = findState(bottomIsOpen, state)
-        this.publish("/servos/bottomServo", ServoMsg(if(bottomIsOpen) bottomClosedPosition else bottomOpenPosition, priority = 1))
+        this.publish("/servos/bottomServo", ServoMsg(if(bottomIsOpen) bottomOpenPosition else bottomClosedPosition, priority = 1))
     }
     fun upper(m: Message){
         val (state) = m as GripperMsg
         topIsOpen = findState(topIsOpen, state)
-        this.publish("/servos/topServo", ServoMsg(if (topIsOpen) topClosedPosition else topOpenPosition, priority = 1))
+        this.publish("/servos/topServo", ServoMsg(if (topIsOpen) topOpenPosition else topClosedPosition, priority = 1))
     }
     /*
     fun holder(){
