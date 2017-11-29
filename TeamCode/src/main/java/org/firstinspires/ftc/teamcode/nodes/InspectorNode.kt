@@ -38,6 +38,7 @@ class InspectorNode : Node("Inspector") {
             val menu = hashMapOf(
                     "Inspect Channels" to { inspectAll("/") },
                     "Disable All Channels" to { disableAll() },
+                    "Global Command Palette" to {commandPalette()},
                     "Exit" to { end() }
             )
             this.publish("/selector/begin", CallbackMapMsg(menu, priority = 1))
@@ -47,6 +48,19 @@ class InspectorNode : Node("Inspector") {
         return (Dispatcher.channels[channel]?.first ?: 0) == -1
     }
 
+    // Global command palette with pre-assigned channel destinations.
+    // For stuff where you know it's going.
+    fun commandPalette() {
+        val AngleTurn30 = AngleTurnMsg(angle=30.0, callback = {}, priority = 1)
+        val menu = hashMapOf(
+                "/AngleTurning/turnTo $AngleTurn30" to {this.publish("/AngleTurning/turnTo", AngleTurn30)},
+                "Back" to {main()}
+        )
+        this.publish("/selector/begin", CallbackMapMsg(menu, priority = 1))
+    }
+
+    // Starts at "/" and truncates all the sub-routes.
+    // Once you call it with "/servo" it shows everything prefixed with "/servo"
     fun inspectAll(currentRoute : String) {
         this.state = STATES.INSPECTALL
         val menu = HashMap<String, () -> Unit>()
@@ -77,6 +91,7 @@ class InspectorNode : Node("Inspector") {
         this.publish("/selector/begin", CallbackMapMsg(menu, 0))
     }
 
+    // Go "up" a channel route
     fun inspectBack(channel: String) {
         if(channel == "/") main()
         else {
@@ -86,6 +101,7 @@ class InspectorNode : Node("Inspector") {
         }
     }
 
+    // Channel inspection menu.
     fun inspect(channel : String) {
         this.state = STATES.CHANNELOPT
 
@@ -107,7 +123,7 @@ class InspectorNode : Node("Inspector") {
                     tail(channel)
                 },
                 "Command Palette" to {
-                  commandPalette(channel)
+                  channelCommandPalette(channel)
                 },
                 "Back" to {inspectBack(channel)}
         )
@@ -115,18 +131,20 @@ class InspectorNode : Node("Inspector") {
         this.publish("/selector/begin", CallbackMapMsg(menu, 0))
     }
 
-    fun commandPalette(channel: String) {
+    // Channel specific commands menu item
+    fun channelCommandPalette(channel: String) {
         this.state = STATES.CMD
         val menu = hashMapOf(
-                "Don't send this to sketchy channels." to {},
-                "Increment +0.1" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, 0.1))},
-                "Increment -0.1" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, -0.1))},
-                "Zero" to {this.publish(channel, IncrementMsg(IncrementState.ZERO))},
+                "If there's an error at the bottom when sending these, you sent to the wrong channel / didn't handle it right." to {},
+                "[Increment] +0.1" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, 0.1))},
+                "[Increment] -0.1" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, -0.1))},
+                "[Increment] Zero" to {this.publish(channel, IncrementMsg(IncrementState.ZERO))},
                 "Back" to {this.inspect(channel)}
         )
         this.publish("/selector/begin", CallbackMapMsg(menu, 0))
     }
 
+    // Monitor the channel's chatter.
     fun tail(channel: String) {
         this.publish("/telemetry/clear", UnitMsg())
         this.publish("/telemetry/staticLine", TextMsg("Tailing $channel"))
@@ -138,6 +156,7 @@ class InspectorNode : Node("Inspector") {
         this.state = STATES.TAIL
     }
 
+    // Really edgy unsubscribing function for tail()
     fun tailBack(m: GamepadButtonMsg) {
         if(state == STATES.TAIL && !m.value ) {
             this.state = STATES.TAILING
@@ -151,13 +170,13 @@ class InspectorNode : Node("Inspector") {
         }
     }
 
+    // Disable all the channels except...
     fun disableAll() {
         for (key in Dispatcher.channels.keys) {
             val whiteList = arrayOf("/telemetry/line",
                     "/gamepad1/dpad_left",
                     "/gamepad1/dpad_right",
                     "/gamepad1/y",
-                    "/gamepad1/start",
                     "/telemetry/staticLine",
                     "/telemetry/lines",
                     "/telemetry/clear",
@@ -169,6 +188,7 @@ class InspectorNode : Node("Inspector") {
         this.publish("/selector/update", UpdateMsg<String>("Disable All Channels", "All Channels Disabled."))
     }
 
+    // Bye bye!!!
     fun end() {
         state = STATES.OFF
         this.publish("/selector/end", UnitMsg())
