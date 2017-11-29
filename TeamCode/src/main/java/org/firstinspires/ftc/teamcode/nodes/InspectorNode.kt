@@ -24,18 +24,23 @@ class InspectorNode : Node("Inspector") {
     var tailName = ""
 
     override fun subscriptions() {
-        this.subscribe("/gamepad1/start", whenDown { main() })
+        this.subscribe("/gamepad1/y", whenDown { start() })
         this.subscribe("/gamepad1/y", {tailBack(it as GamepadButtonMsg)} )
     }
 
+    fun start() {
+        if (this.state == STATES.OFF) {
+            main()
+        }
+    }
     fun main() {
-        this.state = STATES.MAIN
-        val menu = hashMapOf(
-                "Inspect Channels" to {inspectAll("/")},
-                "Disable All Channels" to {disableAll()},
-                "Exit" to {end()}
-        )
-        this.publish("/selector/begin", CallbackMapMsg(menu, priority = 1))
+            this.state = STATES.MAIN
+            val menu = hashMapOf(
+                    "Inspect Channels" to { inspectAll("/") },
+                    "Disable All Channels" to { disableAll() },
+                    "Exit" to { end() }
+            )
+            this.publish("/selector/begin", CallbackMapMsg(menu, priority = 1))
     }
 
     fun isDisabled(channel: String) : Boolean { // if not unlocked (null) or >-1
