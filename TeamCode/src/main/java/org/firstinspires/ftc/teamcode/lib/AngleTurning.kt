@@ -9,8 +9,8 @@ import java.lang.Math.abs
  */
 
 class AngleTurning(val destination: Double){
-    val kP = 0.1
-    val kD = 0.2
+    val kP = 2.0
+    val kD = 0.0
     val kI = 0.0
     val turn = PID(kP, kI, kD, destination)
     fun computeHeading(current : Double):Double{

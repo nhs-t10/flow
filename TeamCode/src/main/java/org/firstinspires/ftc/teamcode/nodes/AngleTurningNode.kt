@@ -6,6 +6,7 @@ import org.firstinspires.ftc.teamcode.messages.ImuMsg
 import org.firstinspires.ftc.teamcode.messages.AngleTurnMsg
 import org.firstinspires.ftc.teamcode.messages.Message
 import org.firstinspires.ftc.teamcode.messages.OmniDrive
+import org.firstinspires.ftc.teamcode.messages.TextMsg
 import java.lang.Math.abs
 
 /**
@@ -33,9 +34,10 @@ class AngleTurningNode : Node("Angle Turning Test") {
         if(turning){
         val turn1 = AngleTurning(destination = tempDest)
         val rotation = (turn1.computeHeading(scaledheading)).toFloat()
-        if(abs(heading - tempDest) < 20){
+        if(abs(heading - tempDest) < 0.2){
             if (cb != null){
                 turning = false
+                this.publish("/debug", TextMsg("STOPPING", -9))
                 this.publish("/drive", OmniDrive(rotation = 0f, leftRight = 0f, upDown = 0f, priority = 1))
                 this.cb?.invoke()
             }
