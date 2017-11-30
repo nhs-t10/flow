@@ -11,9 +11,9 @@ import java.lang.Math.abs
 
 class AngleTurningNode : Node("Angle Turning Test") {
 
-    val kP = 0.1
-    val kD = 0.2
-    val kI = 0.0
+    var kP = 0.1
+    var kD = 0.2
+    var kI = 0.0
 
     var destAngle = 0.0
     var turn = PID(kP, kI, kD) // temp instance
@@ -23,7 +23,21 @@ class AngleTurningNode : Node("Angle Turning Test") {
     override fun subscriptions() {
         this.subscribe("/imu", { this.update((it as ImuMsg).heading)})
         this.subscribe("/AngleTurning/turnTo", {this.setTurnTo(it as AngleTurnMsg)})
+
+        this.subscribe("/AngleTurning/kP", {this.setkP(it)})
+        this.subscribe("/AngleTurning/kI", {this.setkI(it)})
+        this.subscribe("/AngleTurning/kD", {this.setkD(it)})
     }
+
+    fun increment(value : Double, m: IncrementMsg) = when (m.state){
+        IncrementState.INCREMENT -> value + m.increment
+        IncrementState.ZERO -> 0.0
+        IncrementState.HOLD -> value
+    }
+
+    fun setkP(m: Message) { kP = increment(kP, m as IncrementMsg) }
+    fun setkI(m: Message) { kI = increment(kI, m as IncrementMsg) }
+    fun setkD(m: Message) { kD = increment(kD, m as IncrementMsg) }
 
     fun setTurnTo(m : Message){
         val (angle, callback) = m as AngleTurnMsg

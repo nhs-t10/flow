@@ -138,6 +138,8 @@ class InspectorNode : Node("Inspector") {
                 "If there's an error at the bottom when sending these, you sent to the wrong channel / didn't handle it right." to {},
                 "[Increment] +0.1" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, 0.1))},
                 "[Increment] -0.1" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, -0.1))},
+                "[Increment] +0.05" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, 0.05))},
+                "[Increment] -0.05" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, -0.05))},
                 "[Increment] Zero" to {this.publish(channel, IncrementMsg(IncrementState.ZERO))},
                 "Back" to {this.inspect(channel)}
         )
