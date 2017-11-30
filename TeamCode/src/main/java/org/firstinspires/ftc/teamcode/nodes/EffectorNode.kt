@@ -51,6 +51,10 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
 
     fun addCrServos() {
         crServos.put("liftServo", hardwareMap.crservo.get("cr0")!!)
+        crServos.put("hugger1", hardwareMap.crservo.get("cr1")!!)
+        crServos.put("hugger2", hardwareMap.crservo.get("cr2")!!)
+
+
         for(key in crServos.keys){
             this.subscribe("/crServos/$key", {callCrServo(key, it)})
         }

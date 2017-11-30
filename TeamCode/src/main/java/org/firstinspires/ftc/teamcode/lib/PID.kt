@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.messages.TextMsg
  * Created by shaash on 11/12/17.
  */
 
-class PID(val kP : Double, val kI : Double, val kD : Double, val destination: Double) {
+class PID(val kP : Double, val kI : Double, val kD : Double) {
 
     private var error = 0.0
     private var preverror = 0.0
@@ -18,11 +18,9 @@ class PID(val kP : Double, val kI : Double, val kD : Double, val destination: Do
         prevtime = getElapsedTime()
     }
 
-    fun computePID(curr : Double) : Double{
+    fun computePID(error : Double) : Double{
         val currenttime = getCurrentTime()
         val elapsedtime = currenttime - prevtime
-
-        error = getError(destination, curr)
         Dispatcher.publish("/debug", TextMsg(text = "error: $error", priority = 1))
         val p = kP * error
         val d = -Math.signum(error) * Math.abs(kD * ((error - preverror)/elapsedtime))
@@ -34,22 +32,6 @@ class PID(val kP : Double, val kI : Double, val kD : Double, val destination: Do
             return 0.0
         }
         return p+i+d
-    }
-
-    private fun getError(dest : Double, curr: Double): Double {
-        val a = dest - curr
-        val b = 360 - Math.abs(a)
-        if (a > 0) {
-            if (Math.abs(a) > Math.abs(b)) {
-                return -b
-            }
-            return a
-        } else {
-            if (Math.abs(a) > Math.abs(b)) {
-                return b
-            }
-            return a
-        }
     }
 
     private fun getElapsedTime() : Double{
