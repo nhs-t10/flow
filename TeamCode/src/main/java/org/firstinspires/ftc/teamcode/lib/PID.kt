@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.lib
 
+import org.firstinspires.ftc.teamcode.Dispatcher
+import org.firstinspires.ftc.teamcode.messages.TextMsg
+
 /**
  * Created by shaash on 11/12/17.
  */
@@ -20,7 +23,7 @@ class PID(val kP : Double, val kI : Double, val kD : Double, val destination: Do
         val elapsedtime = currenttime - prevtime
 
         error = getError(destination, curr)
-
+        Dispatcher.publish("/debug", TextMsg(text = "error: $error", priority = 1))
         val p = kP * error
         val d = -Math.signum(error) * Math.abs(kD * ((error - preverror)/elapsedtime))
         sumerror += (error*elapsedtime)/1000
