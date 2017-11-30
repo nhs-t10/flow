@@ -35,14 +35,23 @@ class AngleTurningNode : Node("Angle Turning Test") {
         IncrementState.HOLD -> value
     }
 
-    fun setkP(m: Message) { kP = increment(kP, m as IncrementMsg) }
-    fun setkI(m: Message) { kI = increment(kI, m as IncrementMsg) }
-    fun setkD(m: Message) { kD = increment(kD, m as IncrementMsg) }
+    fun setkP(m: Message) {
+        kP = increment(kP, m as IncrementMsg)
+        this.publish("/debug", TextMsg("Incremented kP to $kP"))
+    }
+    fun setkI(m: Message) {
+        kI = increment(kI, m as IncrementMsg)
+        this.publish("/debug", TextMsg("Incremented kI to $kI"))
+    }
+    fun setkD(m: Message) {
+        kD = increment(kD, m as IncrementMsg)
+        this.publish("/debug", TextMsg("Incremented kD to $kD"))
+    }
 
     fun setTurnTo(m : Message){
         val (angle, callback) = m as AngleTurnMsg
         turn = PID(kP, kI, kD)
-        destAngle = angle + 180
+        destAngle = angle
         this.cb = callback
         turning = true
     }
@@ -69,9 +78,10 @@ class AngleTurningNode : Node("Angle Turning Test") {
 
 
     fun getRotation(heading : Double):Double{
-        val error = getError(destAngle, heading + 180)
+        val error = getError(destAngle+180, heading+180)
+        this.publish("/debug", TextMsg("Error: $error"))
         // determine if error done
-        if (error < 5.0) return 0.0
+        if (abs(error) < 5.0) return 0.0
 
         var rotation = turn.computePID(error)/180.0 //converts angle to motor vals
         // just in case, but angle to turn should never be > 1.

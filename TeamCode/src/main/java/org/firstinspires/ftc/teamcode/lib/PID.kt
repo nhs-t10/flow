@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.messages.TextMsg
 
 class PID(val kP : Double, val kI : Double, val kD : Double) {
 
-    private var error = 0.0
     private var preverror = 0.0
     private var starttime = 0.0
     private var sumerror = 0.0
@@ -21,7 +20,6 @@ class PID(val kP : Double, val kI : Double, val kD : Double) {
     fun computePID(error : Double) : Double{
         val currenttime = getCurrentTime()
         val elapsedtime = currenttime - prevtime
-        Dispatcher.publish("/debug", TextMsg(text = "error: $error", priority = 1))
         val p = kP * error
         val d = -Math.signum(error) * Math.abs(kD * ((error - preverror)/elapsedtime))
         sumerror += (error*elapsedtime)/1000
