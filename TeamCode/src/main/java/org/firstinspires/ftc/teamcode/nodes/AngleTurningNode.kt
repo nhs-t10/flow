@@ -33,7 +33,7 @@ class AngleTurningNode : Node("Angle Turning Test") {
         if(turning){
         val turn1 = AngleTurning(destination = tempDest)
         val rotation = (turn1.computeHeading(scaledheading)).toFloat()
-        if(abs(heading - tempDest) < 0.2){
+        if(abs(heading - tempDest) < 20){
             if (cb != null){
                 turning = false
                 this.publish("/drive", OmniDrive(rotation = 0f, leftRight = 0f, upDown = 0f, priority = 1))
