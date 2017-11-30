@@ -13,9 +13,11 @@ class GlyphHolderNode : Node("Glyph Holder") {
     val bottomFullOpenPosition = 0.5
     val bottomClosedPosition = 1.0
     val bottomOpenPosition = 0.65
+    val bottomHalfPosition = 0.8
 
     val topClosedPosition = 0.7
     val topOpenPosition = 0.05
+    val topHalfPosition = 0.5
 
     val holderLOpenPosition = 1.0
     val holderLClosedPosition = 0.0
@@ -28,6 +30,7 @@ class GlyphHolderNode : Node("Glyph Holder") {
     override fun subscriptions() {
         this.subscribe("/glyph/upper", {upper(it)})
         this.subscribe("/glyph/lower", {lower(it)})
+        this.subscribe("/gamepad1/x", {releasePosition(it)})
         //this.subscribe("/gamepad1/x", whenDown { holder() })
     }
 
@@ -46,6 +49,14 @@ class GlyphHolderNode : Node("Glyph Holder") {
         val (state) = m as GripperMsg
         topIsOpen = findState(topIsOpen, state)
         this.publish("/servos/topServo", ServoMsg(if (topIsOpen) topOpenPosition else topClosedPosition, priority = 1))
+    }
+    fun releasePosition(m : Message) {
+        val isPressed = m as GamepadButtonMsg
+        bottomIsOpen = false
+        topIsOpen = false
+        this.publish("/servos/bottomServo", ServoMsg(position = bottomHalfPosition, priority = 1))
+        this.publish("/servos/topServo", ServoMsg(position = topHalfPosition, priority = 1))
+
     }
     /*
     fun holder(){

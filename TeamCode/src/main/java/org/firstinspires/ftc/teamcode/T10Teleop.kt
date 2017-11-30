@@ -26,7 +26,8 @@ class T10Teleop : OpMode(){
                 heartbeat,
                 SelectorViewNode(),
                 InspectorNode(),
-                ControlsNode()
+                ControlsNode(),
+                AngleTurningNode()
 //                VuforiaNode(hardwareMap)
         )
     }

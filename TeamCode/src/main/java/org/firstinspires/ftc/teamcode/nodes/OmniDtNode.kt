@@ -15,12 +15,14 @@ class OmniDtNode : Node("Omni Drivetrain"){
 
     override fun subscriptions() {
         this.subscribe("/drive", {this.recieveMessage(driveCommands = it)})
-        this.subscribe("/gamepad1/x", whenDown { slowModeToggle() })
+        //this.subscribe("/gamepad1/x", whenDown { slowModeToggle() })
     }
+    /*
     fun slowModeToggle (){
         this.isSlow = !this.isSlow
         this.publish("/debug", TextMsg("SLOW MODE: ${this.isSlow}"))
     }
+    */
     fun recieveMessage(driveCommands : Message){
 
         val (upDown, leftRight, rotation) = driveCommands as OmniDrive
@@ -33,11 +35,10 @@ class OmniDtNode : Node("Omni Drivetrain"){
         var forwardsComponent = forwardMultiplier.map { it*upDown}
         var eastWestComponent = leftRightMultiplier.map { it*leftRight}
         var rotationalComponent = rotationalMultiplier.map { it*rotation}
-        if(this.isSlow){
-            forwardsComponent = forwardsComponent.map { it * 0.5f}
-            eastWestComponent = eastWestComponent.map { it * 0.5f}
-            rotationalComponent = rotationalComponent.map { it * 0.5f}
-        }
+        forwardsComponent = forwardsComponent.map { it * 0.5f}
+        eastWestComponent = eastWestComponent.map { it * 0.5f}
+        rotationalComponent = rotationalComponent.map { it * 0.5f}
+
         val motorvals = drive(forwardsComponent, eastWestComponent, rotationalComponent).map{it.toDouble()}
         val priority = 1
         this.publish("/motors/lr", MotorMsg(motorvals[0], priority = priority))
