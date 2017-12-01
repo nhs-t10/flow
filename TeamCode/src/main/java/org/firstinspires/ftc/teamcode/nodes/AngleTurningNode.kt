@@ -23,6 +23,7 @@ class AngleTurningNode : Node("Angle Turning Test") {
     override fun subscriptions() {
         this.subscribe("/imu", { this.update((it as ImuMsg).heading)})
         this.subscribe("/AngleTurning/turnTo", {this.setTurnTo(it as AngleTurnMsg)})
+        this.subscribe("/AngleTurning/cancel", {this.stop()})
 
         this.subscribe("/AngleTurning/kP", {this.setkP(it)})
         this.subscribe("/AngleTurning/kI", {this.setkI(it)})
@@ -48,6 +49,12 @@ class AngleTurningNode : Node("Angle Turning Test") {
         this.publish("/debug", TextMsg("Incremented kD to $kD"))
     }
 
+    fun stop() {
+        turning = false
+        this.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
+        this.cb?.invoke()
+    }
+
     fun setTurnTo(m : Message){
         val (angle, callback) = m as AngleTurnMsg
         turn = PID(kP, kI, kD)
@@ -60,11 +67,7 @@ class AngleTurningNode : Node("Angle Turning Test") {
         if(turning){
             val rotation = (getRotation(heading)).toFloat()
             if(rotation == 0.0f){
-                if (cb != null){
-                    turning = false
-                    this.publish("/drive", OmniDrive(rotation = 0f, leftRight = 0f, upDown = 0f, priority = 1))
-                    this.cb?.invoke()
-                }
+                this.stop()
             }
         this.publish("/drive", OmniDrive(rotation = rotation, leftRight = 0f, upDown = 0f, priority = 1))
         }

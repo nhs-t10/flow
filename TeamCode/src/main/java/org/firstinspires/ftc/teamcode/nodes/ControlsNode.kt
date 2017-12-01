@@ -5,6 +5,8 @@ import org.firstinspires.ftc.teamcode.messages.GripperMsg
 import org.firstinspires.ftc.teamcode.messages.GripperState
 import org.firstinspires.ftc.teamcode.util.whenDown
 import org.firstinspires.ftc.teamcode.messages.AngleTurnMsg
+import org.firstinspires.ftc.teamcode.messages.UnitMsg
+
 /**
  * Created by max on 11/24/17.
  */
@@ -19,6 +21,9 @@ class ControlsNode : Node("Controls") {
         })
         this.subscribe("/gamepad1/left_stick_button", whenDown {
             publish("/AngleTurning/turnTo", AngleTurnMsg(angle = 30.0, callback = {}, priority = 1))
+        })
+        this.subscribe("/gamepad1/right_stick_button", whenDown {
+            publish("/AngleTurning/cancel", UnitMsg())
         })
 
     }
