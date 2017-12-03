@@ -14,6 +14,5 @@ class SpinRoutine : RoutineNode(name = "Spin Routine"){
         end()
     }
 
-    override fun subscriptions() {
-    }
+    override fun subscriptions(){}
 }

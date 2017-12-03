@@ -9,4 +9,5 @@ enum class GripperState {
     CLOSED,
     TOGGLE
 }
+
 data class GripperMsg(val state: GripperState, override val priority : Int) : Message

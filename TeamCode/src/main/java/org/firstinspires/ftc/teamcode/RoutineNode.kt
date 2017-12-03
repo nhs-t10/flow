@@ -5,7 +5,7 @@ import org.firstinspires.ftc.teamcode.messages.Message
 /**
  * Created by dvw06 on 11/16/17.
  */
-abstract class RoutineNode(name : String) : Node(name), Routinable {
+abstract class RoutineNode(name : String ) : Node(name), Routinable {
 
     var callback : (() -> Unit)? = null
 
@@ -25,6 +25,8 @@ abstract class RoutineNode(name : String) : Node(name), Routinable {
         this.callback = callback
         this.subscriptions()
         this.start()
+
+
         active = true
     }
 
