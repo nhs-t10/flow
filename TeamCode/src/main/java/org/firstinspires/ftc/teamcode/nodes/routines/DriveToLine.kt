@@ -26,8 +26,9 @@ class DriveToLine : RoutineNode("Drive to line") {
 
         if(Red>=200 && Green<55 && Blue<55){
             this.publish("/drive",OmniDrive(0f,0f,0f,1))
+            this.end()
         } else {
-            this.publish("/drive",OmniDrive(1f,0f,0f,1))
+            this.publish("/drive",OmniDrive(0.25f,0f,0f,1))
         }
 
 
