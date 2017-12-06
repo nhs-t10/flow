@@ -40,6 +40,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
     fun addServos() {
         servos.put("bottomServo", hardwareMap.servo.get("s0")!!)
         servos.put("topServo", hardwareMap.servo.get("s1")!!)
+        servos.put("liftServo", hardwareMap.servo.get("s2")!!)
         // servos.put("holderServoL", hardwareMap.servo.get("s2")!!)
         // servos.put("holderServoR", hardwareMap.servo.get("s3")!!)
 
@@ -50,9 +51,9 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
     }
 
     fun addCrServos() {
-        crServos.put("liftServo", hardwareMap.crservo.get("cr0")!!)
-        crServos.put("hugger1", hardwareMap.crservo.get("cr1")!!)
-        crServos.put("hugger2", hardwareMap.crservo.get("cr2")!!)
+
+        crServos.put("hugger1", hardwareMap.crservo.get("cr0")!!)
+        crServos.put("hugger2", hardwareMap.crservo.get("cr1")!!)
 
 
         for(key in crServos.keys){
