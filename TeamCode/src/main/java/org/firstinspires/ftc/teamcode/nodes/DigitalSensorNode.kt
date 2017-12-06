@@ -22,7 +22,7 @@ class DigitalSensorNode(val hardwareMap: HardwareMap) : Node("Touch Sensor") {
         this.subscribe("/heartbeat", {update(it as HeartBeatMsg)})
     }
     fun addSensors(){
-        sensors.put("touchOne", hardwareMap?.digitalChannel.get("touch1")!!)
+//        sensors.put("touchOne", hardwareMap?.digitalChannel.get("touch1")!!)
         addSensorStates()
     }
     fun addSensorStates() {
