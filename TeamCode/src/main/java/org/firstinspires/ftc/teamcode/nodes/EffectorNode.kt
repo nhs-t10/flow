@@ -48,6 +48,9 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
             this.subscribe("/servos/$key", { callServo(key, it) })
         }
         addServoStates()
+
+        // specific default servo values
+        servoStates.put("liftServo", 0.6)
     }
 
     fun addCrServos() {
@@ -70,7 +73,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
 
     fun addServoStates() {
         for (key in servos.keys) {
-            servoStates.put(key, servos[key]?.getPosition()!!)
+            servoStates.put(key, 0.5) // moves everything to 0.5 by default
         }
     }
 

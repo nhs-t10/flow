@@ -17,6 +17,7 @@ class TelemetryNode(val telemetry : Telemetry) : Node("Telemetry") {
     var staticCounter = 0
     init {
         telemetry.log().setCapacity(30)
+        addLine(TextMsg("Warning: Servos/lifts will move on start."))
     }
 
     override fun subscriptions() {
