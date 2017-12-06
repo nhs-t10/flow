@@ -32,7 +32,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         motors["lr"]?.direction = DcMotorSimple.Direction.REVERSE
         motors.put("rf", hardwareMap.dcMotor.get("m4")!!)
         motors.put("rr", hardwareMap.dcMotor.get("m2")!!)
-        motors.put("g1", hardwareMap.dcMotor.get("m5")!!)
+        //motors.put("g1", hardwareMap.dcMotor.get("m5")!!)
         for(key in motors.keys){
             this.subscribe("/motors/$key", {callMotor(key, it)})
         }
@@ -86,7 +86,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         val (time) = m as HeartBeatMsg
 //        val timeDivided = time / 100
         for (key in servos.keys) {
-            servos[key]?.setPosition(servoStates[key] ?: 0.0)
+            setServoPosition(key, servoStates[key] ?: 0.0)
         }
     }
 
@@ -94,6 +94,9 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         val (power) = motorMsg as MotorMsg
         if (motors[motorName] != null){
             motors[motorName]?.setPower(power)
+        }
+        else {
+            this.publish("/warn", TextMsg("$motorName does not exist. Check effectors list."))
         }
     }
     fun callServo(servoName : String, msg: Message){
@@ -117,6 +120,9 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         if (s != null) {
             s?.setPosition(position)
             servoStates.put(servoName, position)
+        }
+        else {
+            this.publish("/warn", TextMsg("$servoName does not exist. Check effectors list."))
         }
     }
 
