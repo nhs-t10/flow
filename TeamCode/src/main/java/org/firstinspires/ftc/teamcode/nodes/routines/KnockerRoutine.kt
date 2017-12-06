@@ -9,17 +9,18 @@ import org.firstinspires.ftc.teamcode.util.TeamColor
  */
 class KnockerRoutine(val team : TeamColor = TeamColor.RED) : RoutineNode (name = "Knocker Routine"){
     var turned = false
+    val downPosition = 0.0
+    val upPosition = 1.0
 
     override fun start() {
-        val downPosition = 0.0
         this.publish("/servos/knocker", ServoMsg(downPosition, 1))
     }
 
     override fun subscriptions() {
-        this.subscribe("/colors/colorOne") { setColors(it) }
+        this.subscribe("/colors/colorOne") { doOnce(it) }
     }
 
-    fun setColors(m : Message){
+    fun doOnce(m : Message){
         if(!turned){
             knockBall(m)
             turned = true
@@ -28,20 +29,24 @@ class KnockerRoutine(val team : TeamColor = TeamColor.RED) : RoutineNode (name =
 
     fun knockBall(m : Message){
         val (red, blue, green) = m as ColorMsg
-        if (red > blue){
+        if (red > (blue+50)){
             if(team == TeamColor.RED){
-                this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, {end()}, 1))
+                this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, {retractKnocker()}, 1))
             } else {
-                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, {end()}, 1))
+                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, {retractKnocker()}, 1))
+            }
+        } else if (blue > (red+50)) {
+            if (team == TeamColor.BLUE) {
+                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, { retractKnocker() }, 1))
+            } else {
+                this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, { retractKnocker() }, 1))
             }
         } else {
-            if(team == TeamColor.BLUE){
-                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, {end()}, 1))
-            } else {
-                this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, {end()}, 1))
-            }
+            this.publish("/warn", TextMsg("Saw nuthin"))
         }
-
     }
 
+    fun retractKnocker(){
+        this.publish("/servos/knocker", ServoMsg(upPosition, 1))
+    }
 }
