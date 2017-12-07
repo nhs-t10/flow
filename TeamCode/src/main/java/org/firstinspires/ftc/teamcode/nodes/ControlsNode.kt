@@ -25,7 +25,5 @@ class ControlsNode : Node("Controls") {
         this.subscribe("/gamepad1/right_stick_button", whenDown {
             publish("/AngleTurning/cancel", UnitMsg())
         })
-
-
     }
 }
