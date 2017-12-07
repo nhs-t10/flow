@@ -6,7 +6,7 @@ package org.firstinspires.ftc.teamcode.messages
 
 enum class GripperState {
     OPEN,
+    MIDDLE,
     CLOSED,
-    TOGGLE
 }
 data class GripperMsg(val state: GripperState, override val priority : Int) : Message

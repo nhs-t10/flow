@@ -9,10 +9,12 @@ import org.firstinspires.ftc.teamcode.nodes.*
  */
 @TeleOp(name = "KotlinOp")
 class T10Teleop : OpMode(){
-    val heartbeat = HeartbeatNode()
+    val heartbeatNode = HeartbeatNode()
+    val systemNode = SystemNode()
     var nodes : List<Node>? = null
     override fun init() {
         nodes = listOf(
+                systemNode,
                 GamepadNode(gamepad1, gamepad2),
                 OmniDtNode(),
                 OmniJoyNode(),
@@ -23,7 +25,7 @@ class T10Teleop : OpMode(){
                 EffectorNode(hardwareMap),
                 DebugNode(),
                 TelemetryNode(telemetry),
-                heartbeat,
+                heartbeatNode,
                 SelectorViewNode(),
                 InspectorNode(),
                 ControlsNode(),
@@ -35,9 +37,10 @@ class T10Teleop : OpMode(){
         nodes?.forEach{
             it.subscriptions()
         }
+        systemNode.publishStart()
     }
     override fun loop() {
-        heartbeat.beat((runtime*10).toLong())
+        heartbeatNode.beat((runtime*10).toLong())
     }
     override fun stop() {
         Dispatcher.reset()

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.util
 
 import org.firstinspires.ftc.teamcode.messages.GamepadButtonMsg
+import org.firstinspires.ftc.teamcode.messages.GamepadJoyOrTrigMsg
 import org.firstinspires.ftc.teamcode.messages.Message
 
 /**
@@ -8,13 +9,15 @@ import org.firstinspires.ftc.teamcode.messages.Message
  */
 
 /**
- * Higher order function which calls a callback when given a gamepad button that's DOWN.
+ * Higher order function which calls a callback when given a gamepad button or trigger that's DOWN.
  */
 fun whenDown(callback: () -> Unit) : (msg: Message) -> Unit {
     return fun(msg: Message) {
-        val (value) = msg as GamepadButtonMsg
-        if (value) {
-            callback()
+        val value = when(msg) {
+            is GamepadButtonMsg -> msg.value
+            is GamepadJoyOrTrigMsg -> msg.value > 0.5
+            else -> false
         }
+        if (value) callback()
     }
 }
