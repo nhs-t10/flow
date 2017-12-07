@@ -1,12 +1,8 @@
 package org.firstinspires.ftc.teamcode.nodes
 
 import org.firstinspires.ftc.teamcode.Node
-import org.firstinspires.ftc.teamcode.messages.GripperMsg
-import org.firstinspires.ftc.teamcode.messages.GripperState
+import org.firstinspires.ftc.teamcode.messages.*
 import org.firstinspires.ftc.teamcode.util.whenDown
-import org.firstinspires.ftc.teamcode.messages.AngleTurnMsg
-import org.firstinspires.ftc.teamcode.messages.GamepadJoyOrTrigMsg
-import org.firstinspires.ftc.teamcode.messages.UnitMsg
 
 /**
  * Created by max on 11/24/17.
@@ -17,6 +13,7 @@ class ControlsNode : Node("Controls") {
         var lower = GripperState.OPEN
         var upper = GripperState.OPEN
     }
+
 
     // Finite State Machine for Grippers
     fun gripperTransition(prevState: GripperState) = when(prevState) {
@@ -32,7 +29,31 @@ class ControlsNode : Node("Controls") {
         publish("/glyph/upper", GripperMsg(upper, 1))
     }
 
+    // Hugger:
+    fun updateHugger(){
+
+    }
+
     override fun subscriptions() {
+        /**
+         * Press X to do the macro thing hahahahah.
+         */
+        subscribe("/gamepad1/x", whenDown {
+            publish("/glift/middle", UnitMsg())
+            publish("/hugger", HuggerMsg(closeIt = true, onClosed = {
+                publish("/glyph/lower", GripperMsg(state = GripperState.MIDDLE, priority = 2))
+                publish("/glift/bottom", UnitMsg())
+                publish("/glyph/upper", GripperMsg(GripperState.CLOSED, 2))
+            }, priority = 2))
+        })
+
+        /**
+         * Press right stick button
+         */
+        subscribe("/gamepad1/right_stick_button", {
+            publish("/hugger/cancel", UnitMsg())
+        })
+
         /**
          * Press A to toggle grabbing or ejecting a lower block.
          */

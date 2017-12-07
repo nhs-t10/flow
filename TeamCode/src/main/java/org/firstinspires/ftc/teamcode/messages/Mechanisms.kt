@@ -10,4 +10,7 @@ enum class GripperState {
     CLOSED,
 }
 
+
 data class GripperMsg(val state: GripperState, override val priority : Int) : Message
+
+data class HuggerMsg(val closeIt: Boolean, val onClosed: () -> Unit, override val priority: Int) : Message

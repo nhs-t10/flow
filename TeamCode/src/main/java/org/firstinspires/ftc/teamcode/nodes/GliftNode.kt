@@ -14,6 +14,8 @@ class GliftNode : Node("Glyph Lift") {
         this.subscribe("/gamepad1/dpad_down", org.firstinspires.ftc.teamcode.util.whenDown { this.receiveDownMessage() })
         this.subscribe("/gamepad1/left_bumper", org.firstinspires.ftc.teamcode.util.whenDown { this.incrementUp() })
         this.subscribe("/gamepad1/right_bumper", org.firstinspires.ftc.teamcode.util.whenDown { this.incrementDown() })
+        this.subscribe("/glift/middle", {receiveMiddleMessage()})
+        this.subscribe("/glift/down", {receiveDownMessage()})
     }
 
     /**
