@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import org.firstinspires.ftc.teamcode.nodes.*
 import org.firstinspires.ftc.teamcode.nodes.routines.KnockerRoutine
+import org.firstinspires.ftc.teamcode.nodes.routines.OpenHuggerRoutine
 import org.firstinspires.ftc.teamcode.util.TeamColor
 import org.firstinspires.ftc.teamcode.nodes.routines.SpinRoutine
 
@@ -19,6 +20,7 @@ class T10Autonomous : OpMode(){
 
     override fun init() {
         routine = RoutineGroup(listOf(
+                OpenHuggerRoutine(),
                 KnockerRoutine(TeamColor.RED)
 
         ))

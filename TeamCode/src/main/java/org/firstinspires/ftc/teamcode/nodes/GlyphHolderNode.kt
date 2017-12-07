@@ -75,10 +75,12 @@ class GlyphHolderNode : Node("Glyph Holder") {
             this.publish("/crServos/hugger_l", MotorMsg(0.0, 0))
             this.publish("/crServos/hugger_r", MotorMsg(0.0, 0))
             huggerCallback()
+            huggerCallback = {}
             huggerStatus = HuggerStatus.OFF
         }
         else if (huggerStatus == HuggerStatus.CLOSED && System.currentTimeMillis()-huggerTime > huggerLimit) { // Keep going tho
             huggerCallback()
+            huggerCallback = {}
             huggerStatus = HuggerStatus.OFF
         }
     }
