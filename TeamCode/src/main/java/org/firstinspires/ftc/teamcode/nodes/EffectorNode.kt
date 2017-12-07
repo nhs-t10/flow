@@ -32,7 +32,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         motors["lr"]?.direction = DcMotorSimple.Direction.REVERSE
         motors.put("rf", hardwareMap.dcMotor.get("m4")!!)
         motors.put("rr", hardwareMap.dcMotor.get("m2")!!)
-        motors.put("g1", hardwareMap.dcMotor.get("m5")!!)
+        //motors.put("g1", hardwareMap.dcMotor.get("m5")!!)
         for(key in motors.keys){
             this.subscribe("/motors/$key", {callMotor(key, it)})
         }
@@ -40,6 +40,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
     fun addServos() {
         servos.put("bottomServo", hardwareMap.servo.get("s0")!!)
         servos.put("topServo", hardwareMap.servo.get("s1")!!)
+        servos.put("liftServo", hardwareMap.servo.get("s2")!!)
         // servos.put("holderServoL", hardwareMap.servo.get("s2")!!)
         // servos.put("holderServoR", hardwareMap.servo.get("s3")!!)
 
@@ -47,12 +48,15 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
             this.subscribe("/servos/$key", { callServo(key, it) })
         }
         addServoStates()
+
+        // specific default servo values
+        servoStates.put("liftServo", 0.6)
     }
 
     fun addCrServos() {
-        crServos.put("liftServo", hardwareMap.crservo.get("cr0")!!)
-        crServos.put("hugger1", hardwareMap.crservo.get("cr1")!!)
-        crServos.put("hugger2", hardwareMap.crservo.get("cr2")!!)
+
+        crServos.put("hugger1", hardwareMap.crservo.get("cr0")!!)
+        crServos.put("hugger2", hardwareMap.crservo.get("cr1")!!)
 
 
         for(key in crServos.keys){
@@ -69,7 +73,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
 
     fun addServoStates() {
         for (key in servos.keys) {
-            servoStates.put(key, servos[key]?.getPosition()!!)
+            servoStates.put(key, 0.5) // moves everything to 0.5 by default
         }
     }
 
@@ -86,7 +90,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         val (time) = m as HeartBeatMsg
 //        val timeDivided = time / 100
         for (key in servos.keys) {
-            servos[key]?.setPosition(servoStates[key] ?: 0.0)
+            setServoPosition(key, servoStates[key] ?: 0.0)
         }
     }
 
@@ -94,6 +98,9 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         val (power) = motorMsg as MotorMsg
         if (motors[motorName] != null){
             motors[motorName]?.setPower(power)
+        }
+        else {
+            this.publish("/warn", TextMsg("$motorName does not exist. Check effectors list."))
         }
     }
     fun callServo(servoName : String, msg: Message){
@@ -117,6 +124,9 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         if (s != null) {
             s?.setPosition(position)
             servoStates.put(servoName, position)
+        }
+        else {
+            this.publish("/warn", TextMsg("$servoName does not exist. Check effectors list."))
         }
     }
 
