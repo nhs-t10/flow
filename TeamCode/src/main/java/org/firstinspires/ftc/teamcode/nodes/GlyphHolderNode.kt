@@ -11,12 +11,12 @@ class GlyphHolderNode : Node("Glyph Holder") {
     // Top Holder Servo Position Constants
 
     fun getBottomPosition (state : GripperState) = when (state) {
-        GripperState.OPEN -> 0.65
+        GripperState.OPEN -> 0.64
         GripperState.CLOSED -> 1.0
         GripperState.MIDDLE -> 0.8
     }
     fun getTopPosition (state : GripperState) = when (state) {
-        GripperState.OPEN -> 0.05
+        GripperState.OPEN -> 0.3
         GripperState.CLOSED -> 0.7
         GripperState.MIDDLE -> 0.5
     }
@@ -26,6 +26,15 @@ class GlyphHolderNode : Node("Glyph Holder") {
         CLOSED,
         OFF
     }
+
+    val cr_stop = 0.5
+    val right_inward = 0.51
+    val right_outward = 0.49
+
+    val left_inward = 0.51
+    val left_outward = 0.49
+
+
     var huggerStatus = HuggerStatus.OFF
     var huggerTime : Long = 0
     val huggerLimit = 3000
@@ -35,6 +44,7 @@ class GlyphHolderNode : Node("Glyph Holder") {
     override fun subscriptions() {
         this.subscribe("/glyph/upper", {upper(it)})
         this.subscribe("/glyph/lower", {lower(it)})
+        this.subscribe("/start", {start()})
         subscribe("/hugger", {updateHugger(it)})
         subscribe("/hugger/cancel", {cancelHugger()})
         subscribe("/heartbeat", {pollHugging()})
@@ -59,21 +69,21 @@ class GlyphHolderNode : Node("Glyph Holder") {
         huggerCallback = onClosed
         if (!closeIt) { // NEED TO OPEN IT DOOD
             huggerTime = System.currentTimeMillis()
-            this.publish("/crServos/hugger_l", MotorMsg(0.3, 2))
-            this.publish("/crServos/hugger_r", MotorMsg(-0.3, 2))
+            this.publish("/crServos/hugger_l", MotorMsg(left_outward, 2))
+            this.publish("/crServos/hugger_r", MotorMsg(right_outward, 2))
             huggerStatus = HuggerStatus.OPEN
         }
         else { // NEED TO CLOSE IT DOOD
             huggerTime = System.currentTimeMillis()
-            this.publish("/crServos/hugger_l", MotorMsg(-0.2, 2))
-            this.publish("/crServos/hugger_r", MotorMsg(0.2, 2))
+            this.publish("/crServos/hugger_l", MotorMsg(left_inward, 2))
+            this.publish("/crServos/hugger_r", MotorMsg(right_inward, 2))
             huggerStatus = HuggerStatus.CLOSED
         }
     }
     fun pollHugging() {
         if (huggerStatus == HuggerStatus.OPEN && System.currentTimeMillis()-huggerTime > huggerLimit) {
-            this.publish("/crServos/hugger_l", MotorMsg(0.0, 0))
-            this.publish("/crServos/hugger_r", MotorMsg(0.0, 0))
+            this.publish("/crServos/hugger_l", MotorMsg(cr_stop, 0))
+            this.publish("/crServos/hugger_r", MotorMsg(cr_stop, 0))
             huggerCallback()
             huggerCallback = {}
             huggerStatus = HuggerStatus.OFF
@@ -85,7 +95,7 @@ class GlyphHolderNode : Node("Glyph Holder") {
         }
     }
     fun cancelHugger() {
-        this.publish("/crServos/hugger_l", MotorMsg(0.0, 0))
-        this.publish("/crServos/hugger_r", MotorMsg(0.0, 0))
+        this.publish("/crServos/hugger_l", MotorMsg(cr_stop, 0))
+        this.publish("/crServos/hugger_r", MotorMsg(cr_stop, 0))
     }
 }

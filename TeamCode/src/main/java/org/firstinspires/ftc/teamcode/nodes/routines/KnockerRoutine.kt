@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.util.TeamColor
  */
 class KnockerRoutine(val team : TeamColor = TeamColor.RED) : RoutineNode (name = "Knocker Routine"){
     var turned = false
-    val downPosition = 0.0
-    val upPosition = 1.0
+    val downPosition = 1.0
+    val upPosition = 0.3
 
     override fun start() {
         this.publish("/servos/knocker", ServoMsg(downPosition, 1))
