@@ -15,6 +15,9 @@ class TimedCallbackRoutine(val initialCallback: () -> Unit, val time : Long, val
         subscribe("/heartbeat", {checkTime()})
     }
     fun checkTime() {
-        if (System.currentTimeMillis() - initialTime >= time) finalCallback()
+        if (System.currentTimeMillis() - initialTime >= time) {
+            finalCallback()
+            end()
+        }
     }
 }

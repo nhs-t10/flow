@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.nodes
 
 import org.firstinspires.ftc.teamcode.Node
+import org.firstinspires.ftc.teamcode.RoutineGroup
 import org.firstinspires.ftc.teamcode.messages.*
+import org.firstinspires.ftc.teamcode.nodes.routines.TimedCallbackRoutine
 import org.firstinspires.ftc.teamcode.util.whenDown
 
 /**
@@ -39,12 +41,21 @@ class ControlsNode : Node("Controls") {
          * Press X to do the macro thing hahahahah.
          */
         subscribe("/gamepad1/x", whenDown {
-            publish("/glift/middle", UnitMsg())
-            publish("/hugger", HuggerMsg(closeIt = true, onClosed = {
+//            val routine = RoutineGroup(
+//                    TimedCallbackRoutine({
+//                        publish("/glift/middle", UnitMsg(), 1000, {
+//                            publish("/hugger", HuggerMsg(closeIt = true, onClosed = {
+//                                publish("/glyph/upper", GripperMsg(GripperState.CLOSED, 2))
+//                            }, priority = 2))
+//                        })
+//                    })
+//            )
+
+            val r2 = TimedCallbackRoutine({
                 publish("/glyph/lower", GripperMsg(state = GripperState.MIDDLE, priority = 2))
+            }, 500, {
                 publish("/glift/bottom", UnitMsg())
-                publish("/glyph/upper", GripperMsg(GripperState.CLOSED, 2))
-            }, priority = 2))
+            })
         })
 
         /**

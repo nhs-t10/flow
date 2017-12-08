@@ -22,7 +22,6 @@ class T10Autonomous : OpMode(){
         routine = RoutineGroup(listOf(
                 OpenHuggerRoutine(),
                 KnockerRoutine(TeamColor.RED)
-
         ))
         nodes = listOf(
                 GamepadNode(gamepad1, gamepad2),

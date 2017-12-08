@@ -53,7 +53,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         addServoStates()
 
         // specific default servo values
-        servoStates.put("liftServo", 0.6)
+        servoStates.put("liftServo", 0.55)
         servoStates.put("knocker", 0.3)
         servoStates.put("bottomServo", 0.64)
         servoStates.put("topServo", 0.3)
