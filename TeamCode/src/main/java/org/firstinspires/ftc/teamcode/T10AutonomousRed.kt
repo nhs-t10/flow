@@ -19,7 +19,6 @@ class T10AutonomousRed : CoreOp(){
 
     override fun registration() {
         routine = RoutineGroup(listOf(
-//                OpenHuggerRoutine(),
                 KnockerRoutine(TeamColor.RED)
         ))
     }
