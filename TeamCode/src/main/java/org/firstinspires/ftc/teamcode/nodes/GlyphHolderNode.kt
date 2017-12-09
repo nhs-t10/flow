@@ -27,12 +27,12 @@ class GlyphHolderNode : Node("Glyph Holder") {
         OFF
     }
 
-    val cr_stop = 0.5
-    val right_inward = 0.51
-    val right_outward = 0.49
+    val cr_stop = 0.0
+    val right_inward = 0.1
+    val right_outward = -0.1
 
-    val left_inward = 0.51
-    val left_outward = 0.49
+    val left_inward = -0.1
+    val left_outward = 0.1
 
 
     var huggerStatus = HuggerStatus.OFF

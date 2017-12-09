@@ -70,6 +70,8 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
             this.subscribe("/crServos/$key", {callCrServo(key, it)})
         }
         addCrServoStates()
+        crServoStates.put("hugger_l", 0.0)
+        crServoStates.put("hugger_r", 0.0)
     }
 
     fun addCrServoStates() {

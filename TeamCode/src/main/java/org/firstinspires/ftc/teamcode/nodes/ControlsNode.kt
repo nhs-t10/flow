@@ -36,27 +36,30 @@ class ControlsNode : Node("Controls") {
          * Press X to do the hugger macro.
          */
         subscribe("/gamepad1/x", whenDown {
-            val routine = listOf(
-                    TimedCallbackRoutine({
-                        publish("/glift/middle", UnitMsg()) // Move glift up...
-                    }, 1000, {cb ->
-                        publish("/hugger", HuggerMsg(closeIt = true, onClosed = cb, priority = 1)) //... close the hugger
-                    }),
-                    TimedCallbackRoutine({
-                        updateGrippers(lower=GripperState.MIDDLE) // loosen grip on block
-                    }, 500, {cb -> cb()}),
-                    TimedCallbackRoutine({
-                        publish("/glift/bottom", UnitMsg()) // hugger now has block. move lift down
-                    }, 2000, {cb ->
-                        updateGrippers(upper = GripperState.CLOSED) // grab block with upper grabber
-                        publish("/hugger", HuggerMsg(closeIt = false, onClosed = cb, priority = 1)) // open huggers
-                    }) // donezo!
-            )
-            val routineGroup = RoutineGroup(routine)
-            publish("/status", TextMsg("Hugger routine STARTED"))
-            routineGroup.begin {
-                publish("/status", TextMsg("Hugger routine FINISHED"))
-            }
+            publish("/hugger", HuggerMsg(closeIt = true, onClosed = {
+                publish("/debug", TextMsg("done"))
+            }, priority = 1))
+//            val routine = listOf(
+//                    TimedCallbackRoutine({
+//                        publish("/glift/middle", UnitMsg()) // Move glift up...
+//                    }, 1000, {cb ->
+//                        publish("/hugger", HuggerMsg(closeIt = true, onClosed = cb, priority = 1)) //... close the hugger
+//                    }),
+//                    TimedCallbackRoutine({
+//                        updateGrippers(lower=GripperState.MIDDLE) // loosen grip on block
+//                    }, 500, {cb -> cb()}),
+//                    TimedCallbackRoutine({
+//                        publish("/glift/bottom", UnitMsg()) // hugger now has block. move lift down
+//                    }, 2000, {cb ->
+//                        updateGrippers(upper = GripperState.CLOSED) // grab block with upper grabber
+//                        publish("/hugger", HuggerMsg(closeIt = false, onClosed = cb, priority = 1)) // open huggers
+//                    }) // donezo!
+//            )
+//            val routineGroup = RoutineGroup(routine)
+//            publish("/status", TextMsg("Hugger routine STARTED"))
+//            routineGroup.begin {
+//                publish("/status", TextMsg("Hugger routine FINISHED"))
+//            }
         })
 
         /**
