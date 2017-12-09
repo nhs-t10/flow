@@ -33,7 +33,7 @@ class OmniJoyNode : Node("Omni Joystick") {
             zeroLock()
         }
         if (upDown != this.tempUpDown) {
-            this.tempUpDown = upDown
+            this.tempUpDown = -upDown
             zeroLock()
         }
         if (leftRight != this.tempLeftRight) {

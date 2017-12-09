@@ -18,10 +18,12 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
     val crServoStates = HashMap<String, Double>()
     val servoStates = HashMap<String, Double>()
 
-    override fun subscriptions() {
+    init {
         addMotors()
         addServos()
         addCrServos()
+    }
+    override fun subscriptions() {
         this.subscribe("/heartbeat", {this.thumpCrServos(it)})
         this.subscribe("/heartbeat", {this.thumpServos(it)})
     }
@@ -41,6 +43,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         servos.put("bottomServo", hardwareMap.servo.get("s0")!!)
         servos.put("topServo", hardwareMap.servo.get("s1")!!)
         servos.put("liftServo", hardwareMap.servo.get("s2")!!)
+        servos.put("knocker", hardwareMap.servo.get("s3")!!)
         // servos.put("holderServoL", hardwareMap.servo.get("s2")!!)
         // servos.put("holderServoR", hardwareMap.servo.get("s3")!!)
 
@@ -50,13 +53,17 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         addServoStates()
 
         // specific default servo values
-        servoStates.put("liftServo", 0.6)
+        servoStates.put("liftServo", 0.55)
+        servoStates.put("knocker", 0.3)
+        servoStates.put("bottomServo", 0.64)
+        servoStates.put("topServo", 0.3)
+        this.thumpServos(HeartBeatMsg(0, 1))
     }
 
     fun addCrServos() {
 
-        crServos.put("hugger1", hardwareMap.crservo.get("cr0")!!)
-        crServos.put("hugger2", hardwareMap.crservo.get("cr1")!!)
+        crServos.put("hugger_l", hardwareMap.crservo.get("cr0")!!)
+        crServos.put("hugger_r", hardwareMap.crservo.get("cr1")!!)
 
 
         for(key in crServos.keys){

@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannel
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.HeartBeatMsg
-import org.firstinspires.ftc.teamcode.messages.TouchMsg
+import org.firstinspires.ftc.teamcode.messages.DigitalMsg
 import java.util.*
 
 /**
@@ -22,7 +22,7 @@ class DigitalSensorNode(val hardwareMap: HardwareMap) : Node("Touch Sensor") {
         this.subscribe("/heartbeat", {update(it as HeartBeatMsg)})
     }
     fun addSensors(){
-//        sensors.put("touchOne", hardwareMap?.digitalChannel.get("touch1")!!)
+        sensors.put("touchOne", hardwareMap.digitalChannel.get("touch1")!!)
         addSensorStates()
     }
     fun addSensorStates() {
@@ -35,7 +35,7 @@ class DigitalSensorNode(val hardwareMap: HardwareMap) : Node("Touch Sensor") {
             val isPressed = sensors[key]?.getState() ?: false
             if (isPressed != sensorStates[key]) {
                 sensorStates.put(key, isPressed)
-                this.publish("/digital/$key", TouchMsg(isPressed, 1))
+                this.publish("/digital/$key", DigitalMsg(isPressed, 1))
             }
         }
     }

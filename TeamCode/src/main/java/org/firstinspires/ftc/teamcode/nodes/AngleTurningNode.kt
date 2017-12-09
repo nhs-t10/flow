@@ -14,7 +14,7 @@ class AngleTurningNode : Node("Angle Turning Test") {
     var kP = 0.1
     var kD = 0.2
     var kI = 0.0
-
+    val stopThreshold = 5.0
     var destAngle = 0.0
     var turn = PID(kP, kI, kD) // temp instance
 
@@ -71,6 +71,7 @@ class AngleTurningNode : Node("Angle Turning Test") {
             }
         this.publish("/drive", OmniDrive(rotation = rotation, leftRight = 0f, upDown = 0f, priority = 1))
         }
+
         /*
         this.publish("/motors/lf", MotorMsg(motorvals[0], priority = 1))
         this.publish("/motors/rf", MotorMsg(motorvals[1], priority = 1))
@@ -84,7 +85,7 @@ class AngleTurningNode : Node("Angle Turning Test") {
         val error = getError(destAngle+180, heading+180)
         this.publish("/debug", TextMsg("Error: $error"))
         // determine if error done
-        if (abs(error) < 5.0) return 0.0
+        if (abs(error) < stopThreshold) return 0.0
 
         var rotation = turn.computePID(error)/180.0 //converts angle to motor vals
         // just in case, but angle to turn should never be > 1.

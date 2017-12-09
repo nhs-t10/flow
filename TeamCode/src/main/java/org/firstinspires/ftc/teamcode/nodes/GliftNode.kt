@@ -14,6 +14,8 @@ class GliftNode : Node("Glyph Lift") {
         this.subscribe("/gamepad1/dpad_down", org.firstinspires.ftc.teamcode.util.whenDown { this.receiveDownMessage() })
         this.subscribe("/gamepad1/left_bumper", org.firstinspires.ftc.teamcode.util.whenDown { this.incrementUp() })
         this.subscribe("/gamepad1/right_bumper", org.firstinspires.ftc.teamcode.util.whenDown { this.incrementDown() })
+        this.subscribe("/glift/middle", {receiveMiddleMessage()})
+        this.subscribe("/glift/down", {receiveDownMessage()})
     }
 
     /**
@@ -24,21 +26,21 @@ class GliftNode : Node("Glyph Lift") {
     }
 
     fun receiveUpMessage() {
-        this.publish("/servos/liftServo", ServoMsg(0.36, priority = 1))
+        this.publish("/servos/liftServo", ServoMsg(0.77, priority = 1))
     }
     fun receiveDownMessage() {
-        this.publish("/servos/liftServo", ServoMsg(0.64, priority = 1))
+        this.publish("/servos/liftServo", ServoMsg(0.55, priority = 1))
         safetyClose()
     }
     fun receiveMiddleMessage() {
-        this.publish("/servos/liftServo", ServoMsg(0.49, priority = 1))
+        this.publish("/servos/liftServo", ServoMsg(0.64, priority = 1))
         safetyClose()
     }
     fun incrementUp() {
-        this.publish("/servos/liftServo", IncrementMsg(IncrementState.INCREMENT, -0.1))
+        this.publish("/servos/liftServo", IncrementMsg(IncrementState.INCREMENT, -0.05))
     }
     fun incrementDown() {
-        this.publish("/servos/liftServo", IncrementMsg(IncrementState.INCREMENT, 0.1))
+        this.publish("/servos/liftServo", IncrementMsg(IncrementState.INCREMENT, 0.05))
         safetyClose()
     }
 }
