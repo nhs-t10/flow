@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.nodes
 
+import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.RoutineGroup
 import org.firstinspires.ftc.teamcode.messages.*
@@ -10,7 +11,7 @@ import org.firstinspires.ftc.teamcode.util.whenDown
  * Created by max on 11/24/17.
  */
 
-class ControlsNode : Node("Controls") {
+class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
     object gripperStates {
         var lower = GripperState.OPEN
         var upper = GripperState.OPEN
@@ -36,30 +37,30 @@ class ControlsNode : Node("Controls") {
          * Press X to do the hugger macro.
          */
         subscribe("/gamepad1/x", whenDown {
-            publish("/hugger", HuggerMsg(closeIt = true, onClosed = {
-                publish("/debug", TextMsg("done"))
-            }, priority = 1))
-//            val routine = listOf(
-//                    TimedCallbackRoutine({
-//                        publish("/glift/middle", UnitMsg()) // Move glift up...
-//                    }, 1000, {cb ->
-//                        publish("/hugger", HuggerMsg(closeIt = true, onClosed = cb, priority = 1)) //... close the hugger
-//                    }),
-//                    TimedCallbackRoutine({
-//                        updateGrippers(lower=GripperState.MIDDLE) // loosen grip on block
-//                    }, 500, {cb -> cb()}),
-//                    TimedCallbackRoutine({
-//                        publish("/glift/bottom", UnitMsg()) // hugger now has block. move lift down
-//                    }, 2000, {cb ->
-//                        updateGrippers(upper = GripperState.CLOSED) // grab block with upper grabber
-//                        publish("/hugger", HuggerMsg(closeIt = false, onClosed = cb, priority = 1)) // open huggers
-//                    }) // donezo!
-//            )
-//            val routineGroup = RoutineGroup(routine)
-//            publish("/status", TextMsg("Hugger routine STARTED"))
-//            routineGroup.begin {
-//                publish("/status", TextMsg("Hugger routine FINISHED"))
-//            }
+//            publish("/hugger", HuggerMsg(closeIt = true, onClosed = {
+//                publish("/debug", TextMsg("done"))
+//            }, priority = 1))
+            val routine = listOf(
+                    TimedCallbackRoutine({
+                        publish("/glift/middle", UnitMsg()) // Move glift up...
+                    }, 1000, {cb ->
+                        publish("/hugger", HuggerMsg(closeIt = true, onClosed = cb, priority = 1)) //... close the hugger
+                    }),
+                    TimedCallbackRoutine({
+                        updateGrippers(lower=GripperState.MIDDLE) // loosen grip on block
+                    }, 500, {cb -> cb()}),
+                    TimedCallbackRoutine({
+                        publish("/glift/bottom", UnitMsg()) // hugger now has block. move lift down
+                    }, 2000, {cb ->
+                        updateGrippers(upper = GripperState.CLOSED) // grab block with upper grabber
+                        publish("/hugger", HuggerMsg(closeIt = false, onClosed = cb, priority = 1)) // open huggers
+                    }) // donezo!
+            )
+            val routineGroup = RoutineGroup(routine)
+            publish("/status", TextMsg("Hugger routine STARTED"))
+            routineGroup.begin {
+                publish("/status", TextMsg("Hugger routine FINISHED"))
+            }
         })
 
         /**
@@ -100,7 +101,7 @@ class ControlsNode : Node("Controls") {
          * TEST BUTTON 1: Turn 30º with PID
          */
         subscribe("/gamepad1/left_stick_button", whenDown {
-            publish("/AngleTurning/turnTo", AngleTurnMsg(angle = 30.0, callback = {}, priority = 1))
+            publish("/glift/middle", UnitMsg())
         })
 
         /**

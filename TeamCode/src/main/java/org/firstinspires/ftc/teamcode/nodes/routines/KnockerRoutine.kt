@@ -41,19 +41,19 @@ class KnockerRoutine(val team : TeamColor = TeamColor.RED) : RoutineNode (name =
         if (red > (blue+50)){ // If red is in front
             turned = true
             if(team == TeamColor.RED){
-                createMoveRoutine(1).begin {  } // Go forward, stop.
+                createMoveRoutine(-1).begin {  } // Go forward, stop.
 //                this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, {retractKnocker()}, 1))
             } else {
-                createMoveRoutine(-1).begin {  } // Go backward, stop.
+                createMoveRoutine(1).begin {  } // Go backward, stop.
 //                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, {retractKnocker()}, 1))
             }
         } else if (blue > (red+50)) { // If blue is in front
             turned = true
             if (team == TeamColor.BLUE) {
-                createMoveRoutine(1).begin {  } // Go forward, stop.
+                createMoveRoutine(-1).begin {  } // Go forward, stop.
 //                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, { retractKnocker() }, 1))
             } else {
-                createMoveRoutine(-1).begin {  } // Go backward, stop.
+                createMoveRoutine(1).begin {  } // Go backward, stop.
 //              this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, { retractKnocker() }, 1))
             }
         } else {

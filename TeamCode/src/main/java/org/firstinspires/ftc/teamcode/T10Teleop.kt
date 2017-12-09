@@ -13,7 +13,8 @@ class T10Teleop : CoreOp() {
         register(GamepadNode(gamepad1, gamepad2))
         register(SelectorViewNode())
         register(InspectorNode())
-        register(ControlsNode())
+        register(ControlsNode(telemetry))
         register(OmniJoyNode())
+        Dispatcher.tempSetTelemetry(telemetry)
     }
 }

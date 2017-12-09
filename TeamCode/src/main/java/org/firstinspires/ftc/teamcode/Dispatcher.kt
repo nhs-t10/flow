@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode
+import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.messages.Message
 import org.firstinspires.ftc.teamcode.messages.TextMsg
 import java.util.*
@@ -9,6 +10,8 @@ import java.util.*
 object Dispatcher {
 
     val channels = HashMap<String, Pair<Int?, MutableList<(Message) -> Unit>>>()
+
+    var telemetry : Telemetry? = null
 
     fun setChannel(channel: String,
                    content: MutableList<(Message) -> Unit> = mutableListOf<(Message) -> Unit>(),
@@ -26,14 +29,18 @@ object Dispatcher {
             val (priority, listeners) = found
             if (priority == null || priority >= message.priority) {
                 val locked = listeners.toTypedArray()
+                var x = 0
                 for (callback in locked) {
                     try {
+                        if (channel.equals("/heartbeat")) {
+                        }
                         callback(message)
                     }
                     catch(e:Exception) {
                         // TODO: hahahaha this will cause recursion of death at some point
                         this.publish("/error", TextMsg("$message sent to $channel caused $e", 0))
                     }
+                    x++
                 }
             }
             // otherwise, ignore message
@@ -82,5 +89,9 @@ object Dispatcher {
     }
     fun reset() {
         channels.clear()
+    }
+
+    fun tempSetTelemetry(t: Telemetry) {
+        telemetry = t
     }
 }

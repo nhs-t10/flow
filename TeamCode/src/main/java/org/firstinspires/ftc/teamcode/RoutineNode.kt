@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode
 
 import org.firstinspires.ftc.teamcode.messages.Message
+import org.firstinspires.ftc.teamcode.messages.TextMsg
 
 /**
  * Created by dvw06 on 11/16/17.
@@ -11,14 +12,16 @@ abstract class RoutineNode(name : String ) : Node(name), Routinable {
 
     var active = false
 
-    fun callIfActive(callback: (Message) -> Unit) : (Message) -> Unit {
+    fun callIfActive(cb: (Message) -> Unit) : (Message) -> Unit {
         return fun(m: Message) {
-            if (active) callback(m)
+            if (active) {
+                cb(m)
+            }
         }
     }
 
-    override fun subscribe(channel: String, callback: (Message) -> Unit) {
-        Dispatcher.subscribe(channel, callIfActive { callback })
+    override fun subscribe(channel: String, cb: (Message) -> Unit) {
+        Dispatcher.subscribe(channel, callIfActive { cb(it) })
     }
 
     override fun begin(callback: () -> Unit) {

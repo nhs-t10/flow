@@ -74,6 +74,7 @@ class GlyphHolderNode : Node("Glyph Holder") {
             huggerStatus = HuggerStatus.OPEN
         }
         else { // NEED TO CLOSE IT DOOD
+            publish("/debug", TextMsg("Closin'"))
             huggerTime = System.currentTimeMillis()
             this.publish("/crServos/hugger_l", MotorMsg(left_inward, 2))
             this.publish("/crServos/hugger_r", MotorMsg(right_inward, 2))
@@ -89,6 +90,7 @@ class GlyphHolderNode : Node("Glyph Holder") {
             huggerStatus = HuggerStatus.OFF
         }
         else if (huggerStatus == HuggerStatus.CLOSED && System.currentTimeMillis()-huggerTime > huggerLimit) { // Keep going tho
+            publish("/debug", TextMsg("Done closin"))
             huggerCallback()
             huggerCallback = {}
             huggerStatus = HuggerStatus.OFF
