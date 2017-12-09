@@ -31,38 +31,32 @@ class ControlsNode : Node("Controls") {
         publish("/glyph/upper", GripperMsg(upper, 1))
     }
 
-    // Hugger:
-    fun updateHugger(){
-
-    }
-
     override fun subscriptions() {
         /**
          * Press X to do the macro thing hahahahah.
          */
         subscribe("/gamepad1/x", whenDown {
-//            val routine = RoutineGroup(
-//                    TimedCallbackRoutine({
-//                        publish("/glift/middle", UnitMsg(), 1000, {
-//                            publish("/hugger", HuggerMsg(closeIt = true, onClosed = {
-//                                publish("/glyph/upper", GripperMsg(GripperState.CLOSED, 2))
-//                            }, priority = 2))
-//                        })
-//                    })
-//            )
-
-            val r2 = TimedCallbackRoutine({
-                publish("/glyph/lower", GripperMsg(state = GripperState.MIDDLE, priority = 2))
-            }, 500, {
-                publish("/glift/bottom", UnitMsg())
-            })
-        })
-
-        /**
-         * Press right stick button
-         */
-        subscribe("/gamepad1/right_stick_button", {
-            publish("/hugger/cancel", UnitMsg())
+            val routine = listOf(
+                    TimedCallbackRoutine({
+                        publish("/glift/middle", UnitMsg()) // Move glift up...
+                    }, 1000, {cb ->
+                        publish("/hugger", HuggerMsg(closeIt = true, onClosed = cb, priority = 1)) //... close the hugger
+                    }),
+                    TimedCallbackRoutine({
+                        updateGrippers(lower=GripperState.MIDDLE) // loosen grip on block
+                    }, 500, {cb -> cb()}),
+                    TimedCallbackRoutine({
+                        publish("/glift/bottom", UnitMsg()) // hugger now has block. move lift down
+                    }, 2000, {cb ->
+                        updateGrippers(upper = GripperState.CLOSED) // grab block with upper grabber
+                        publish("/hugger", HuggerMsg(closeIt = false, onClosed = cb, priority = 1)) // open huggers
+                    }) // donezo!
+            )
+            val routineGroup = RoutineGroup(routine)
+            publish("/status", TextMsg("Hugger routine STARTED"))
+            routineGroup.begin {
+                publish("/status", TextMsg("Hugger routine FINISHED"))
+            }
         })
 
         /**
@@ -100,10 +94,11 @@ class ControlsNode : Node("Controls") {
         })
 
         /**
-         * TEST BUTTON 2: Cancel PID Turn
+         * TEST BUTTON 2: Cancel PID Turn and hugger.
          */
         subscribe("/gamepad1/right_stick_button", whenDown {
             publish("/AngleTurning/cancel", UnitMsg())
+            publish("/hugger/cancel", UnitMsg())
         })
     }
 }
