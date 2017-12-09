@@ -21,26 +21,26 @@ class GliftNode : Node("Glyph Lift") {
     /**
      * Safety measure so lower gripper doesn't get caught on rails
      */
-    fun safetyClose() {
-        this.publish("/glyph/lower", GripperMsg(GripperState.CLOSED, 2))
-    }
+//    fun safetyClose() {
+//        this.publish("/glyph/lower", GripperMsg(GripperState.CLOSED, 2))
+//    }
 
     fun receiveUpMessage() {
         this.publish("/servos/liftServo", ServoMsg(0.77, priority = 1))
     }
     fun receiveDownMessage() {
         this.publish("/servos/liftServo", ServoMsg(0.55, priority = 1))
-        safetyClose()
+//        safetyClose()
     }
     fun receiveMiddleMessage() {
         this.publish("/servos/liftServo", ServoMsg(0.64, priority = 1))
-        safetyClose()
+//        safetyClose()
     }
     fun incrementUp() {
         this.publish("/servos/liftServo", IncrementMsg(IncrementState.INCREMENT, -0.05))
     }
     fun incrementDown() {
         this.publish("/servos/liftServo", IncrementMsg(IncrementState.INCREMENT, 0.05))
-        safetyClose()
+//        safetyClose()
     }
 }

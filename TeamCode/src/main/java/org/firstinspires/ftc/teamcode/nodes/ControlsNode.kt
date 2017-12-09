@@ -33,7 +33,7 @@ class ControlsNode : Node("Controls") {
 
     override fun subscriptions() {
         /**
-         * Press X to do the macro thing hahahahah.
+         * Press X to do the hugger macro.
          */
         subscribe("/gamepad1/x", whenDown {
             val routine = listOf(
@@ -84,6 +84,13 @@ class ControlsNode : Node("Controls") {
             else if(gripperStates.lower == GripperState.MIDDLE && gripperStates.upper == GripperState.MIDDLE) {
                 updateGrippers(lower=GripperState.OPEN, upper=GripperState.OPEN)
             }
+        })
+
+        /**
+         * Press RT to grab both blocks.
+         */
+        subscribe("/gamepad1/right_trigger", whenDown {
+            updateGrippers(lower=GripperState.CLOSED, upper = GripperState.CLOSED)
         })
 
         /**
