@@ -54,7 +54,7 @@ class ControlsNode : Node("Controls") {
             val (value) = (msg as GamepadJoyOrTrigMsg)
             // If intent detected
             if (value > 0.5) updateGrippers(lower=GripperState.MIDDLE, upper=GripperState.MIDDLE)
-            // If user is done and not the initial push-in
+            // If user is done and not the initial push-in. Ready to collect.
             else if(gripperStates.lower == GripperState.MIDDLE && gripperStates.upper == GripperState.MIDDLE) {
                 updateGrippers(lower=GripperState.OPEN, upper=GripperState.OPEN)
             }
