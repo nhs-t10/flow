@@ -12,46 +12,19 @@ import org.firstinspires.ftc.teamcode.nodes.routines.SpinRoutine
  * Created by shaash on 10/26/17.
  */
 @Autonomous(name = "autonomous")
-class T10Autonomous : OpMode(){
+class T10Autonomous : CoreOp(){
     var routine : RoutineGroup? = null
-    var nodes : List<Node>? = null
 
     val heartbeat = HeartbeatNode()
 
-    override fun init() {
+    override fun registration() {
         routine = RoutineGroup(listOf(
                 OpenHuggerRoutine(),
                 KnockerRoutine(TeamColor.RED)
         ))
-        nodes = listOf(
-                GamepadNode(gamepad1, gamepad2),
-                OmniDtNode(),
-                OmniJoyNode(),
-                ImuNode(hardwareMap),
-                DigitalSensorNode(hardwareMap),
-                GliftNode(),
-                GlyphHolderNode(),
-                EffectorNode(hardwareMap),
-                DebugNode(),
-                TelemetryNode(telemetry),
-                heartbeat,
-                SelectorViewNode(),
-                InspectorNode()
-//                VuforiaNode(hardwareMap)
-        )
     }
 
-    override fun start() {
-        nodes?.forEach{
-            it.subscriptions()
-        }
+    override fun begin() {
         routine?.begin {  }
-    }
-
-    override fun loop() {
-        heartbeat.beat((runtime*10).toLong())
-    }
-    override fun stop(){
-        Dispatcher.reset()
     }
 }
