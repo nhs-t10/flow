@@ -11,8 +11,8 @@ import org.firstinspires.ftc.teamcode.nodes.routines.SpinRoutine
 /**
  * Created by shaash on 10/26/17.
  */
-@Autonomous(name = "autonomous")
-class T10Autonomous : CoreOp(){
+@Autonomous(name = "RED")
+class T10AutonomousRed : CoreOp(){
     var routine : RoutineGroup? = null
 
     val heartbeat = HeartbeatNode()
