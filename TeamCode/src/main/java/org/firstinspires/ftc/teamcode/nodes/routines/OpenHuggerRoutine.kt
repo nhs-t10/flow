@@ -5,7 +5,7 @@ import org.firstinspires.ftc.teamcode.messages.HuggerMsg
 import org.firstinspires.ftc.teamcode.messages.UnitMsg
 
 /**
- * Created by dvw04 on 12/7/17.
+ * Ensures knocker doesn't break the adjacent hugger. Closes it and then cancels it so the huggers don't hug themselves.
  */
 class OpenHuggerRoutine : RoutineNode("Open Hugger") {
     override fun start() {

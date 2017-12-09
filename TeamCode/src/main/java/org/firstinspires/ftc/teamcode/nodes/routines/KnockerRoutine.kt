@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.nodes.routines
 
+import org.firstinspires.ftc.teamcode.RoutineGroup
 import org.firstinspires.ftc.teamcode.RoutineNode
 import org.firstinspires.ftc.teamcode.messages.*
 import org.firstinspires.ftc.teamcode.util.TeamColor
@@ -26,21 +27,34 @@ class KnockerRoutine(val team : TeamColor = TeamColor.RED) : RoutineNode (name =
         }
     }
 
+    fun createMoveRoutine(sign: Int) : RoutineGroup = RoutineGroup(listOf(
+            TimedCallbackRoutine({
+                this.publish("/drive", OmniDrive(sign * 0.5f, 0f, 0f, 1))
+            }, 2000, {
+                this.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
+                retractKnocker()
+            })
+    ))
+
     fun knockBall(m : Message){
-        val (red, blue, green) = m as ColorMsg
-        if (red > (blue+50)){
+        val (red, blue) = m as ColorMsg
+        if (red > (blue+50)){ // If red is in front
             turned = true
             if(team == TeamColor.RED){
-                this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, {retractKnocker()}, 1))
+                createMoveRoutine(1).begin {  } // Go forward, stop.
+//                this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, {retractKnocker()}, 1))
             } else {
-                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, {retractKnocker()}, 1))
+                createMoveRoutine(-1).begin {  } // Go backward, stop.
+//                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, {retractKnocker()}, 1))
             }
-        } else if (blue > (red+50)) {
+        } else if (blue > (red+50)) { // If blue is in front
             turned = true
             if (team == TeamColor.BLUE) {
-                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, { retractKnocker() }, 1))
+                createMoveRoutine(1).begin {  } // Go forward, stop.
+//                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, { retractKnocker() }, 1))
             } else {
-                this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, { retractKnocker() }, 1))
+                createMoveRoutine(-1).begin {  } // Go backward, stop.
+//              this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, { retractKnocker() }, 1))
             }
         } else {
             this.publish("/warn", TextMsg("Saw nuthin"))

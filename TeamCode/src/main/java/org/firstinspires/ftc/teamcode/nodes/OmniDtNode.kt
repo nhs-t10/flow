@@ -32,9 +32,10 @@ class OmniDtNode : Node("Omni Drivetrain"){
                 -1f, 1f)
         val rotationalMultiplier = arrayOf(-1f, 1f,
                 -1f, 1f)
-        var forwardsComponent = forwardMultiplier.map { it*upDown}
-        var eastWestComponent = leftRightMultiplier.map { it*leftRight}
-        var rotationalComponent = rotationalMultiplier.map { it*rotation}
+        // Made forward negative because it wasn't working for some reason.
+        var forwardsComponent = forwardMultiplier.map {it * -upDown}
+        var eastWestComponent = leftRightMultiplier.map { it * leftRight}
+        var rotationalComponent = rotationalMultiplier.map { it * rotation}
         forwardsComponent = forwardsComponent.map { it * 0.5f}
         eastWestComponent = eastWestComponent.map { it * 0.5f}
         rotationalComponent = rotationalComponent.map { it * 0.5f}
