@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.nodes.routines
 
 import org.firstinspires.ftc.teamcode.RoutineNode
+import org.firstinspires.ftc.teamcode.messages.TextMsg
 
 /**
  * Takes in a "start" function which is called immediately upon start.
@@ -9,6 +10,8 @@ import org.firstinspires.ftc.teamcode.RoutineNode
  */
 class TimedCallbackRoutine(val initialCallback: () -> Unit, val time : Long, val finalCallback : (() -> Unit) -> Unit) : RoutineNode("Timed Callback") {
     var initialTime = 0L
+    var done = false
+    var warned = false
     override fun start() {
         initialCallback()
         initialTime = System.currentTimeMillis()
@@ -17,10 +20,16 @@ class TimedCallbackRoutine(val initialCallback: () -> Unit, val time : Long, val
         subscribe("/heartbeat", {checkTime()})
     }
     fun checkTime() {
-        if (System.currentTimeMillis() - initialTime >= time) {
+        if (System.currentTimeMillis() - initialTime >= time && !done) {
+            done = true
             finalCallback({
                 end()
             })
+        }
+        // If we think you forgot to call the callback (stalling for a long time)
+        if (done && !warned && System.currentTimeMillis() - initialTime >= (time + 8000)) {
+            warned = true
+            publish("/warn", TextMsg("[T=${System.currentTimeMillis() - initialTime}] Still waiting for final callback. Did you call cb() in the second callback?"))
         }
     }
 }
