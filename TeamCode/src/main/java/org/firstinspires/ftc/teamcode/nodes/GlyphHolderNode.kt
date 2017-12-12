@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.nodes
 
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.*
+import org.firstinspires.ftc.teamcode.messages.ServoMsg
 
 /**
  * Created by shaash on 10/26/17.
@@ -27,7 +28,6 @@ class GlyphHolderNode : Node("Glyph Holder") {
         OFF
     }
 
-    val cr_stop = 0.0
     val right_inward = 0.1
     val right_outward = -0.1
 
@@ -35,10 +35,6 @@ class GlyphHolderNode : Node("Glyph Holder") {
     val left_outward = 0.1
 
 
-    var huggerStatus = HuggerStatus.OFF
-    var huggerTime : Long = 0
-    val huggerLimit = 3000
-    var huggerCallback = {}
 
     // Holder States
     override fun subscriptions() {
@@ -46,8 +42,6 @@ class GlyphHolderNode : Node("Glyph Holder") {
         this.subscribe("/glyph/lower", {lower(it)})
         this.subscribe("/start", {start()})
         subscribe("/hugger", {updateHugger(it)})
-        subscribe("/hugger/cancel", {cancelHugger()})
-        subscribe("/heartbeat", {pollHugging()})
     }
 
     fun start() {
@@ -66,38 +60,13 @@ class GlyphHolderNode : Node("Glyph Holder") {
 
     fun updateHugger(m : Message){
         val (closeIt, onClosed) = m as HuggerMsg
-        huggerCallback = onClosed
         if (!closeIt) { // NEED TO OPEN IT DOOD
-            huggerTime = System.currentTimeMillis()
-            this.publish("/crServos/hugger_l", MotorMsg(left_outward, 2))
-            this.publish("/crServos/hugger_r", MotorMsg(right_outward, 2))
-            huggerStatus = HuggerStatus.OPEN
+            this.publish("/crServos/hugger_l", ServoMsg(left_outward, 2))
+            this.publish("/crServos/hugger_r", ServoMsg(right_outward, 2))
         }
         else { // NEED TO CLOSE IT DOOD
-            publish("/debug", TextMsg("Closin'"))
-            huggerTime = System.currentTimeMillis()
-            this.publish("/crServos/hugger_l", MotorMsg(left_inward, 2))
-            this.publish("/crServos/hugger_r", MotorMsg(right_inward, 2))
-            huggerStatus = HuggerStatus.CLOSED
+            this.publish("/crServos/hugger_l", ServoMsg(left_inward, 2))
+            this.publish("/crServos/hugger_r", ServoMsg(right_inward, 2))
         }
-    }
-    fun pollHugging() {
-        if (huggerStatus == HuggerStatus.OPEN && System.currentTimeMillis()-huggerTime > huggerLimit) {
-            this.publish("/crServos/hugger_l", MotorMsg(cr_stop, 0))
-            this.publish("/crServos/hugger_r", MotorMsg(cr_stop, 0))
-            huggerCallback()
-            huggerCallback = {}
-            huggerStatus = HuggerStatus.OFF
-        }
-        else if (huggerStatus == HuggerStatus.CLOSED && System.currentTimeMillis()-huggerTime > huggerLimit) { // Keep going tho
-            publish("/debug", TextMsg("Done closin"))
-            huggerCallback()
-            huggerCallback = {}
-            huggerStatus = HuggerStatus.OFF
-        }
-    }
-    fun cancelHugger() {
-        this.publish("/crServos/hugger_l", MotorMsg(cr_stop, 0))
-        this.publish("/crServos/hugger_r", MotorMsg(cr_stop, 0))
     }
 }

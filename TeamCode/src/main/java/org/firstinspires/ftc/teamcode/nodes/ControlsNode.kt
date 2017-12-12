@@ -44,7 +44,8 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
                     TimedCallbackRoutine({
                         publish("/glift/middle", UnitMsg()) // Move glift up...
                     }, 1000, {cb ->
-                        publish("/hugger", HuggerMsg(closeIt = true, onClosed = cb, priority = 1)) //... close the hugger
+                        publish("/hugger", HuggerMsg(closeIt = true, priority = 1)) //... close the hugger
+                        cb()
                     }),
                     TimedCallbackRoutine({
                         updateGrippers(lower=GripperState.MIDDLE) // loosen grip on block
@@ -53,7 +54,8 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
                         publish("/glift/bottom", UnitMsg()) // hugger now has block. move lift down
                     }, 2000, {cb ->
                         updateGrippers(upper = GripperState.CLOSED) // grab block with upper grabber
-                        publish("/hugger", HuggerMsg(closeIt = false, onClosed = cb, priority = 1)) // open huggers
+                        publish("/hugger", HuggerMsg(closeIt = false, priority = 1)) // open huggers
+                        cb()
                     }) // donezo!
             )
             val routineGroup = RoutineGroup(routine)
@@ -109,7 +111,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
          */
         subscribe("/gamepad1/right_stick_button", whenDown {
             publish("/AngleTurning/cancel", UnitMsg())
-            publish("/hugger/cancel", UnitMsg())
+            publish("/hugger", HuggerMsg(closeIt = false, priority = 1))
         })
     }
 }

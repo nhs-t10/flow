@@ -9,10 +9,8 @@ import org.firstinspires.ftc.teamcode.messages.UnitMsg
  */
 class OpenHuggerRoutine : RoutineNode("Open Hugger") {
     override fun start() {
-        publish("/hugger", HuggerMsg(closeIt = true, onClosed = {
-            publish("/hugger/cancel", UnitMsg())
-            end()
-        }, priority = 1))
+        publish("/hugger", HuggerMsg(closeIt = true, priority = 1))
+        end()
     }
 
     override fun subscriptions() {
