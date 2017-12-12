@@ -14,7 +14,6 @@ class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routin
     val upPosition = 0.3
 
     override fun start() {
-        this.publish("/servos/knocker", ServoMsg(downPosition, 1))
     }
 
     override fun subscriptions() {
