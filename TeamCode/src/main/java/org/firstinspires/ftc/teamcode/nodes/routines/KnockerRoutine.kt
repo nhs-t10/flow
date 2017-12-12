@@ -38,7 +38,7 @@ class KnockerRoutine(val team : TeamColor = TeamColor.RED) : RoutineNode (name =
 
     fun knockBall(m : Message){
         val (red, blue) = m as ColorMsg
-        if (red > (blue+50)){ // If red is in front
+        if (red > blue){ // If red is in front
             turned = true
             if(team == TeamColor.RED){
                 createMoveRoutine(-1).begin {  } // Go forward, stop.
@@ -47,7 +47,7 @@ class KnockerRoutine(val team : TeamColor = TeamColor.RED) : RoutineNode (name =
                 createMoveRoutine(1).begin {  } // Go backward, stop.
 //                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, {retractKnocker()}, 1))
             }
-        } else if (blue > (red+50)) { // If blue is in front
+        } else if (blue > red) { // If blue is in front
             turned = true
             if (team == TeamColor.BLUE) {
                 createMoveRoutine(-1).begin {  } // Go forward, stop.
