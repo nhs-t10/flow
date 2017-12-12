@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.util.TeamColor
 /**
  * Created by shaash on 12/3/2017.
  */
-class KnockerRoutine(val team : TeamColor = TeamColor.RED) : RoutineNode (name = "Knocker Routine"){
+class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routine"){
     var turned = false
     val downPosition = 1.0
     val upPosition = 0.3
@@ -20,7 +20,8 @@ class KnockerRoutine(val team : TeamColor = TeamColor.RED) : RoutineNode (name =
     override fun subscriptions() {
         this.subscribe("/colors/colorOne") { doOnce(it) }
     }
-
+// Left: 0.125
+// Right:
     fun doOnce(m : Message){
         if(!turned){
             knockBall(m)
