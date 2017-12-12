@@ -33,7 +33,7 @@ class ColorNode(val hardwareMap: HardwareMap) : Node("Color"){
         this.subscribe("/heartbeat", {update(it as HeartBeatMsg)})
     }
     fun addColorSensors(){
-        colorSensors.put("colorOne", hardwareMap?.colorSensor?.get("color1")!!)
+        colorSensors.put("knocker", hardwareMap?.colorSensor?.get("color1")!!)
     }
 
     fun update(hb: HeartBeatMsg){
@@ -43,7 +43,7 @@ class ColorNode(val hardwareMap: HardwareMap) : Node("Color"){
             val red = colorSensors[key]?.red() ?: -1
             val blue = colorSensors[key]?.blue() ?: -1
             val green = colorSensors[key]?.green() ?: -1
-            this.publish("/colors/$key", ColorMsg(red = red, blue = blue, green = green, priority = 1))
+            this.publish("/color/$key", ColorMsg(red = red, blue = blue, green = green, priority = 1))
         }
     }
 }

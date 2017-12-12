@@ -18,7 +18,7 @@ class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routin
     }
 
     override fun subscriptions() {
-        this.subscribe("/colors/colorOne") { doOnce(it) }
+        this.subscribe("/color/knocker") { doOnce(it) }
     }
 // Left: 0.125
 // Right:
