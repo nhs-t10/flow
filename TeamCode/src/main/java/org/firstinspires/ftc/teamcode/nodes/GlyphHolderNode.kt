@@ -22,17 +22,11 @@ class GlyphHolderNode : Node("Glyph Holder") {
         GripperState.MIDDLE -> 0.5
     }
 
-    enum class HuggerStatus {
-        OPEN,
-        CLOSED,
-        OFF
-    }
-
     val right_inward = 0.1
-    val right_outward = -0.1
+    val right_outward = 0.85
 
-    val left_inward = -0.1
-    val left_outward = 0.1
+    val left_inward = 0.125
+    val left_outward = 1.0
 
 
 

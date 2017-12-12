@@ -22,12 +22,14 @@ class DriveToLineRoutine(val teamColor: TeamColor) : RoutineNode("Drive to Line"
     fun receiveColor(m: Message){
         val (red, blue, green) = m as ColorMsg
 
-        if(teamColor == TeamColor.RED && red - tempRed > 10){
-            this.publish("/drive", OmniDrive(upDown = 0f, leftRight = 0f, rotation = 0f, priority = 1))
-            end()
-        } else if (teamColor == TeamColor.BLUE && blue - tempBlue > 10) {
-            this.publish("/drive", OmniDrive(upDown = .2f, leftRight = 0f, rotation = 0f, priority = 1))
-            end()
+        if (tempBlue + tempGreen + tempRed != 0) {
+            if(teamColor == TeamColor.RED && red - tempRed > 10){
+                this.publish("/drive", OmniDrive(upDown = 0f, leftRight = 0f, rotation = 0f, priority = 1))
+                end()
+            } else if (teamColor == TeamColor.BLUE && blue - tempBlue > 10) {
+                this.publish("/drive", OmniDrive(upDown = .2f, leftRight = 0f, rotation = 0f, priority = 1))
+                end()
+            }
         }
 
         tempRed = red
