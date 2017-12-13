@@ -129,6 +129,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
     fun setServoPosition(servoName: String, position : Double) {
         val s = servos[servoName]
         if (s != null) {
+            if (servoName.equals("hugger_l")) publish("/debug", TextMsg("$servoName set to $position"))
             s?.setPosition(position)
             servoStates.put(servoName, position)
         }

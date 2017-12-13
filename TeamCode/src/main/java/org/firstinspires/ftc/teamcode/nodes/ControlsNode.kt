@@ -52,7 +52,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
                     TimedCallbackRoutine({
                     }, 500, {cb -> cb()}),
                     TimedCallbackRoutine({
-                        publish("/glift/bottom", UnitMsg()) // hugger now has block. move lift down
+                        publish("/glift/higher_bottom", UnitMsg()) // hugger now has block. move lift down
                     }, 1500, {cb ->
                         updateGrippers(upper = GripperState.CLOSED) // grab block with upper grabber
                         cb()

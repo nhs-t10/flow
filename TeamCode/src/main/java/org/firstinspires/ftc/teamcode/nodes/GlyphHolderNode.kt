@@ -23,10 +23,10 @@ class GlyphHolderNode : Node("Glyph Holder") {
     }
 
     val right_outward = 0.1
-    val right_inward = 0.875
+    val right_inward = 0.85
 
-    val left_inward = 0.125
     val left_outward = 1.0
+    val left_inward = 0.1
 
 
 

@@ -16,6 +16,7 @@ class GliftNode : Node("Glyph Lift") {
         this.subscribe("/gamepad1/right_bumper", org.firstinspires.ftc.teamcode.util.whenDown { this.incrementDown() })
         this.subscribe("/glift/middle", {receiveMiddleMessage()})
         this.subscribe("/glift/bottom", {receiveDownMessage()})
+        this.subscribe("/glift/higher_bottom", {receiveHigherDownMessage()})
     }
 
     /**
@@ -27,6 +28,10 @@ class GliftNode : Node("Glyph Lift") {
 
     fun receiveUpMessage() {
         this.publish("/servos/liftServo", ServoMsg(0.87, priority = 1))
+    }
+    fun receiveHigherDownMessage() {
+        this.publish("/servos/liftServo", ServoMsg(0.575, priority = 1))
+//        safetyClose()
     }
     fun receiveDownMessage() {
         this.publish("/servos/liftServo", ServoMsg(0.55, priority = 1))
