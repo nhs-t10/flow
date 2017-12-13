@@ -33,11 +33,24 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
     }
 
     override fun subscriptions() {
+        subscribe("/gamepad2/dpad_up", whenDown {
+            publish("/glift/top", UnitMsg())
+        })
+
+        subscribe("/gamepad1/dpad_down", whenDown {
+            publish("/glift/bottom", UnitMsg())
+        })
+        subscribe("/gamepad1/left_bumper", whenDown {
+            publish("/glift/increment_up", UnitMsg())
+        })
+        subscribe("/gamepad1/right_bumper", whenDown {
+            publish("/glift/increment_down", UnitMsg())
+        })
         /**
          * Press X to do the hugger macro.
          */
         subscribe("/gamepad1/x", whenDown {
-//            publish("/hugger", HuggerMsg(closeIt = true, onClosed = {
+            //            publish("/hugger", HuggerMsg(closeIt = true, onClosed = {
 //                publish("/debug", TextMsg("done"))
 //            }, priority = 1))
             val routine = listOf(
@@ -52,13 +65,14 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
                     TimedCallbackRoutine({
                     }, 500, {cb -> cb()}),
                     TimedCallbackRoutine({
-                        publish("/glift/higher_bottom", UnitMsg()) // hugger now has block. move lift down
+                        publish("/glift/bottom", UnitMsg()) // hugger now has block. move lift down
                     }, 1500, {cb ->
                         updateGrippers(upper = GripperState.CLOSED) // grab block with upper grabber
                         cb()
                     }),
                     TimedCallbackRoutine({}, 1000, {cb ->
                         publish("/hugger", HuggerMsg(closeIt = false, priority = 1)) // open hugger
+                        publish("/glift/higher_bottom", UnitMsg())
                         cb()
                     })// donezo!
             )
@@ -102,7 +116,92 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         subscribe("/gamepad1/left_trigger", whenDown {
             updateGrippers(lower=GripperState.CLOSED, upper = GripperState.CLOSED)
         })
+        /* ------- */
 
+        subscribe("/gamepad2/dpad_up", whenDown {
+            publish("/glift/top", UnitMsg())
+        })
+
+        subscribe("/gamepad2/dpad_down", whenDown {
+            publish("/glift/bottom", UnitMsg())
+        })
+        subscribe("/gamepad2/left_bumper", whenDown {
+            publish("/glift/increment_up", UnitMsg())
+        })
+        subscribe("/gamepad2/right_bumper", whenDown {
+            publish("/glift/increment_down", UnitMsg())
+        })
+        /**
+         * Press X to do the hugger macro.
+         */
+        subscribe("/gamepad2/x", whenDown {
+//            publish("/hugger", HuggerMsg(closeIt = true, onClosed = {
+//                publish("/debug", TextMsg("done"))
+//            }, priority = 1))
+            val routine = listOf(
+                    TimedCallbackRoutine({
+                        publish("/glift/middle", UnitMsg()) // Move glift up...
+                    }, 3000, {cb -> cb()}),
+                    TimedCallbackRoutine({
+                        publish("/hugger", HuggerMsg(closeIt = true, priority = 1)) //... close the hugger
+                    }, 2000, {cb ->
+                        updateGrippers(upper = GripperState.OPEN, lower=GripperState.OPEN) // loosen grip on block
+                        cb()}),
+                    TimedCallbackRoutine({
+                    }, 500, {cb -> cb()}),
+                    TimedCallbackRoutine({
+                        publish("/glift/bottom", UnitMsg()) // hugger now has block. move lift down
+                    }, 1500, {cb ->
+                        updateGrippers(upper = GripperState.CLOSED) // grab block with upper grabber
+                        cb()
+                    }),
+                    TimedCallbackRoutine({}, 1000, {cb ->
+                        publish("/hugger", HuggerMsg(closeIt = false, priority = 1)) // open hugger
+                        publish("/glift/higher_bottom", UnitMsg())
+                        cb()
+                    })// donezo!
+            )
+            val routineGroup = RoutineGroup(routine)
+            publish("/status", TextMsg("Hugger routine STARTED"))
+            routineGroup.begin {
+                publish("/status", TextMsg("Hugger routine FINISHED"))
+            }
+        })
+
+        /**
+         * Press A to toggle grabbing or ejecting a lower block.
+         */
+        subscribe("/gamepad2/a", whenDown {
+            updateGrippers(lower = gripperTransition(gripperStates.lower))
+        })
+
+        /**
+         * Press B to toggle grabbing or ejecting an upper block.
+         */
+        subscribe("/gamepad2/b", whenDown {
+            updateGrippers(upper = gripperTransition(gripperStates.upper))
+        })
+
+        /**
+         * Press and hold RT when delivering blocks into the shelf. Release when done.
+         */
+        subscribe("/gamepad2/right_trigger", {msg ->
+            val (value) = (msg as GamepadJoyOrTrigMsg)
+            // If intent detected
+            if (value > 0.5) updateGrippers(lower=GripperState.MIDDLE, upper=GripperState.MIDDLE)
+            // If user is done and not the initial push-in. Ready to collect.
+            else if(gripperStates.lower == GripperState.MIDDLE && gripperStates.upper == GripperState.MIDDLE) {
+                updateGrippers(lower=GripperState.OPEN, upper=GripperState.OPEN)
+            }
+        })
+
+        /**
+         * Press LT to grab both blocks.
+         */
+        subscribe("/gamepad2/left_trigger", whenDown {
+            updateGrippers(lower=GripperState.CLOSED, upper = GripperState.CLOSED)
+        })
+        /* ---- */
         /**
          * TEST BUTTON 1: Turn 30º with PID
          */

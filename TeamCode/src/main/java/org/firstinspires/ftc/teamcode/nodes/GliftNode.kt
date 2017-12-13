@@ -10,10 +10,8 @@ import org.firstinspires.ftc.teamcode.messages.IncrementState
 
 class GliftNode : Node("Glyph Lift") {
     override fun subscriptions() {
-        this.subscribe("/gamepad1/dpad_up", org.firstinspires.ftc.teamcode.util.whenDown { this.receiveUpMessage() })
-        this.subscribe("/gamepad1/dpad_down", org.firstinspires.ftc.teamcode.util.whenDown { this.receiveDownMessage() })
-        this.subscribe("/gamepad1/left_bumper", org.firstinspires.ftc.teamcode.util.whenDown { this.incrementUp() })
-        this.subscribe("/gamepad1/right_bumper", org.firstinspires.ftc.teamcode.util.whenDown { this.incrementDown() })
+        this.subscribe("/glift/increment_up",  { this.incrementUp() })
+        this.subscribe("/glift/increment_down", { this.incrementDown() })
         this.subscribe("/glift/middle", {receiveMiddleMessage()})
         this.subscribe("/glift/bottom", {receiveDownMessage()})
         this.subscribe("/glift/higher_bottom", {receiveHigherDownMessage()})
