@@ -43,7 +43,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
             val routine = listOf(
                     TimedCallbackRoutine({
                         publish("/glift/middle", UnitMsg()) // Move glift up...
-                    }, 2500, {cb -> cb()}),
+                    }, 3000, {cb -> cb()}),
                     TimedCallbackRoutine({
                         publish("/hugger", HuggerMsg(closeIt = true, priority = 1)) //... close the hugger
                     }, 2000, {cb ->
@@ -84,9 +84,9 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         })
 
         /**
-         * Press and hold LT when delivering blocks into the shelf. Release when done.
+         * Press and hold RT when delivering blocks into the shelf. Release when done.
          */
-        subscribe("/gamepad1/left_trigger", {msg ->
+        subscribe("/gamepad1/right_trigger", {msg ->
             val (value) = (msg as GamepadJoyOrTrigMsg)
             // If intent detected
             if (value > 0.5) updateGrippers(lower=GripperState.MIDDLE, upper=GripperState.MIDDLE)
@@ -97,9 +97,9 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         })
 
         /**
-         * Press RT to grab both blocks.
+         * Press LT to grab both blocks.
          */
-        subscribe("/gamepad1/right_trigger", whenDown {
+        subscribe("/gamepad1/left_trigger", whenDown {
             updateGrippers(lower=GripperState.CLOSED, upper = GripperState.CLOSED)
         })
 

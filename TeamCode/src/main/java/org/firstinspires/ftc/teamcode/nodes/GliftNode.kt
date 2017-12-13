@@ -26,7 +26,7 @@ class GliftNode : Node("Glyph Lift") {
 //    }
 
     fun receiveUpMessage() {
-        this.publish("/servos/liftServo", ServoMsg(0.77, priority = 1))
+        this.publish("/servos/liftServo", ServoMsg(0.87, priority = 1))
     }
     fun receiveDownMessage() {
         this.publish("/servos/liftServo", ServoMsg(0.55, priority = 1))

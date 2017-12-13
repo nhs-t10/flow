@@ -23,7 +23,7 @@ class T10AutonomousRed : CoreOp(){
         routine = RoutineGroup(listOf(
                 //                OpenHuggerRoutine(),
                 TimedCallbackRoutine({
-                    Dispatcher.publish("/servos/knocker", ServoMsg(1.0, 1))
+                    Dispatcher.publish("/servos/knocker", ServoMsg(0.9, 1))
                 }, 750, {cb ->
                     cb()
                 }),

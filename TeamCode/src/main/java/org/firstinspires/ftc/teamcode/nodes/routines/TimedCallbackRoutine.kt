@@ -24,7 +24,6 @@ class TimedCallbackRoutine(val initialCallback: () -> Unit, val time : Long, val
     fun checkTime(m: Message) {
         if (System.currentTimeMillis() - initialTime >= time && !done) {
             done = true
-            publish("/debug", TextMsg("ok"))
             finalCallback({
                 end()
             })
