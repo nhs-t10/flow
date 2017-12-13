@@ -43,20 +43,24 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
             val routine = listOf(
                     TimedCallbackRoutine({
                         publish("/glift/middle", UnitMsg()) // Move glift up...
-                    }, 1000, {cb ->
-                        publish("/hugger", HuggerMsg(closeIt = true, priority = 1)) //... close the hugger
-                        cb()
-                    }),
+                    }, 2500, {cb -> cb()}),
                     TimedCallbackRoutine({
-                        updateGrippers(lower=GripperState.MIDDLE) // loosen grip on block
+                        publish("/hugger", HuggerMsg(closeIt = true, priority = 1)) //... close the hugger
+                    }, 2000, {cb ->
+                        updateGrippers(upper = GripperState.OPEN, lower=GripperState.OPEN) // loosen grip on block
+                        cb()}),
+                    TimedCallbackRoutine({
                     }, 500, {cb -> cb()}),
                     TimedCallbackRoutine({
                         publish("/glift/bottom", UnitMsg()) // hugger now has block. move lift down
-                    }, 3500, {cb ->
+                    }, 1500, {cb ->
                         updateGrippers(upper = GripperState.CLOSED) // grab block with upper grabber
-                        publish("/hugger", HuggerMsg(closeIt = false, priority = 1)) // open huggers
                         cb()
-                    }) // donezo!
+                    }),
+                    TimedCallbackRoutine({}, 1000, {cb ->
+                        publish("/hugger", HuggerMsg(closeIt = false, priority = 1)) // open hugger
+                        cb()
+                    })// donezo!
             )
             val routineGroup = RoutineGroup(routine)
             publish("/status", TextMsg("Hugger routine STARTED"))

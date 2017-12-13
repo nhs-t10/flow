@@ -59,7 +59,6 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         servoStates.put("knocker", 0.3)
         servoStates.put("bottomServo", 0.64)
         servoStates.put("topServo", 0.3)
-        this.thumpServos(HeartBeatMsg(0, 1))
     }
 
     fun addCrServos() {
