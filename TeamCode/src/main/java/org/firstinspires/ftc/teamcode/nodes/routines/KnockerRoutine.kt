@@ -11,17 +11,27 @@ import org.firstinspires.ftc.teamcode.util.TeamColor
 class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routine"){
     var turned = false
     val downPosition = 1.0
-    val upPosition = 0.3
-
+    val upPosition = 0.35
+    var initialReadingR = 80
+    var initialReadingB = 60
+    var isDown = false
     override fun start() {
     }
 
     override fun subscriptions() {
         this.subscribe("/color/knocker") { doOnce(it) }
     }
-// Left: 0.125
-// Right:
+
     fun doOnce(m : Message){
+        /*
+        if(!isDown){
+            val (red, blue) = m as ColorMsg
+            initialReadingR = red
+            initialReadingB = blue
+            isDown = true
+        }
+        */
+
         if(!turned){
             knockBall(m)
         }
@@ -30,7 +40,7 @@ class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routin
     fun createMoveRoutine(sign: Int) : RoutineGroup = RoutineGroup(listOf(
             TimedCallbackRoutine({
                 this.publish("/drive", OmniDrive(sign * 0.5f, 0f, 0f, 1))
-            }, 2000, {
+            }, 400, {
                 this.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
                 retractKnocker()
             })
@@ -38,7 +48,7 @@ class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routin
 
     fun knockBall(m : Message){
         val (red, blue) = m as ColorMsg
-        if (red > blue){ // If red is in front
+        if (Math.abs(initialReadingR - red) > Math.abs(initialReadingB - blue)){ // If red is in front
             turned = true
             if(team == TeamColor.RED){
                 createMoveRoutine(-1).begin {  } // Go forward, stop.
@@ -47,7 +57,7 @@ class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routin
                 createMoveRoutine(1).begin {  } // Go backward, stop.
 //                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, {retractKnocker()}, 1))
             }
-        } else if (blue > red) { // If blue is in front
+        } else if (Math.abs(initialReadingR - red) < Math.abs(initialReadingB - blue)) { // If blue is in front
             turned = true
             if (team == TeamColor.BLUE) {
                 createMoveRoutine(-1).begin {  } // Go forward, stop.

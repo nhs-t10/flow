@@ -22,8 +22,8 @@ class GlyphHolderNode : Node("Glyph Holder") {
         GripperState.MIDDLE -> 0.5
     }
 
-    val right_inward = 0.1
-    val right_outward = 0.85
+    val right_outward = 0.1
+    val right_inward = 0.85
 
     val left_inward = 0.125
     val left_outward = 1.0
@@ -55,12 +55,12 @@ class GlyphHolderNode : Node("Glyph Holder") {
     fun updateHugger(m : Message){
         val (closeIt, onClosed) = m as HuggerMsg
         if (!closeIt) { // NEED TO OPEN IT DOOD
-            this.publish("/crServos/hugger_l", ServoMsg(left_outward, 2))
-            this.publish("/crServos/hugger_r", ServoMsg(right_outward, 2))
+            this.publish("/servos/hugger_l", ServoMsg(left_outward, 2))
+            this.publish("/servos/hugger_r", ServoMsg(right_outward, 2))
         }
         else { // NEED TO CLOSE IT DOOD
-            this.publish("/crServos/hugger_l", ServoMsg(left_inward, 2))
-            this.publish("/crServos/hugger_r", ServoMsg(right_inward, 2))
+            this.publish("/servos/hugger_l", ServoMsg(left_inward, 2))
+            this.publish("/servos/hugger_r", ServoMsg(right_inward, 2))
         }
     }
 }

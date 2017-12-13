@@ -19,6 +19,7 @@ class DriveToLineRoutine(val teamColor: TeamColor) : RoutineNode("Drive to Line"
     override fun subscriptions() {
         subscribe("/color/bottom", {receiveColor(it)})
     }
+
     fun receiveColor(m: Message){
         val (red, blue, green) = m as ColorMsg
 
