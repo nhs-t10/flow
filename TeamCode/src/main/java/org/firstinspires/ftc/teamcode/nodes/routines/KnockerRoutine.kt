@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.util.TeamColor
 class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routine"){
     var turned = false
 //    val downPosition = 0.95
-    val upPosition = 0.38
+    val upPosition = 0.075
     override fun start() {}
 
     override fun subscriptions() {
