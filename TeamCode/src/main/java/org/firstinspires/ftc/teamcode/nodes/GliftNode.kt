@@ -12,9 +12,7 @@ class GliftNode : Node("Glyph Lift") {
     override fun subscriptions() {
         this.subscribe("/glift/increment_up",  { this.incrementUp() })
         this.subscribe("/glift/increment_down", { this.incrementDown() })
-        this.subscribe("/glift/middle", {receiveMiddleMessage()})
-        this.subscribe("/glift/bottom", {receiveDownMessage()})
-        this.subscribe("/glift/higher_bottom", {receiveHigherDownMessage()})
+        this.subscribe("/glift", {receiveMessage(it)})
     }
 
     /**
@@ -24,8 +22,18 @@ class GliftNode : Node("Glyph Lift") {
 //        this.publish("/glyph/lower", GripperMsg(GripperState.CLOSED, 2))
 //    }
 
-    fun receiveUpMessage() {
+    fun receiveMessage(m: Message) {
+        val (state) = m as LiftMsg
+        when (state) {
+            LiftState.TOP -> receiveTopMessage()
+            LiftState.MIDDLE -> receiveMiddleMessage()
+            LiftState.UPPER_BOTTOM -> receiveHigherDownMessage()
+            LiftState.BOTTOM -> receiveDownMessage()
+        }
+    }
+    fun receiveTopMessage() {
         this.publish("/servos/liftServo", ServoMsg(0.87, priority = 1))
+//        safetyClose()
     }
     fun receiveHigherDownMessage() {
         this.publish("/servos/liftServo", ServoMsg(0.575, priority = 1))
