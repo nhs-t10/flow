@@ -48,7 +48,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
     }
 
     override fun subscriptions() {
-        subscribe("/gamepad2/dpad_up", whenDown {
+        subscribe("/gamepad1/dpad_up", whenDown {
             updateLift(liftTransition(liftState, 1))
         })
 
