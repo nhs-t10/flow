@@ -140,6 +140,8 @@ class InspectorNode : Node("Inspector") {
                 "[Increment] -0.1" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, -0.1))},
                 "[Increment] +0.05" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, 0.05))},
                 "[Increment] -0.05" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, -0.05))},
+                "[Increment] +0.025" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, 0.025))},
+                "[Increment] -0.025" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, -0.025))},
                 "[Increment] Zero" to {this.publish(channel, IncrementMsg(IncrementState.ZERO))},
                 "Back" to {this.inspect(channel)}
         )

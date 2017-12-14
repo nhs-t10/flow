@@ -6,6 +6,7 @@ import org.firstinspires.ftc.teamcode.RoutineGroup
 import org.firstinspires.ftc.teamcode.messages.*
 import org.firstinspires.ftc.teamcode.nodes.routines.TimedCallbackRoutine
 import org.firstinspires.ftc.teamcode.util.whenDown
+import javax.tools.ToolProvider
 
 /**
  * Created by max on 11/24/17.
@@ -25,6 +26,20 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         GripperState.MIDDLE -> GripperState.OPEN
     }
 
+    var liftState = LiftState.BOTTOM
+
+    fun liftTransition(prevState: LiftState, indice : Int) = when(prevState) {
+        LiftState.TOP -> if (indice > 0) LiftState.TOP else LiftState.MIDDLE
+        LiftState.MIDDLE -> if (indice > 0) LiftState.TOP else LiftState.BOTTOM
+        LiftState.UPPER_BOTTOM -> if (indice > 0) LiftState.MIDDLE else LiftState.BOTTOM
+        LiftState.BOTTOM -> if (indice > 0) LiftState.MIDDLE else LiftState.BOTTOM
+    }
+
+    fun updateLift(state: LiftState) {
+        liftState = state
+        publish("/glift", LiftMsg(liftState, 1))
+    }
+
     fun updateGrippers(lower : GripperState = gripperStates.lower, upper : GripperState = gripperStates.upper) {
         gripperStates.lower = lower
         gripperStates.upper = upper
@@ -34,11 +49,11 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
 
     override fun subscriptions() {
         subscribe("/gamepad2/dpad_up", whenDown {
-            publish("/glift/top", UnitMsg())
+            updateLift(liftTransition(liftState, 1))
         })
 
         subscribe("/gamepad1/dpad_down", whenDown {
-            publish("/glift/bottom", UnitMsg())
+            updateLift(liftTransition(liftState, -1))
         })
         subscribe("/gamepad1/left_bumper", whenDown {
             publish("/glift/increment_up", UnitMsg())
@@ -50,12 +65,9 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
          * Press X to do the hugger macro.
          */
         subscribe("/gamepad1/x", whenDown {
-            //            publish("/hugger", HuggerMsg(closeIt = true, onClosed = {
-//                publish("/debug", TextMsg("done"))
-//            }, priority = 1))
             val routine = listOf(
                     TimedCallbackRoutine({
-                        publish("/glift/middle", UnitMsg()) // Move glift up...
+                        updateLift(LiftState.MIDDLE) // move glift up..
                     }, 3000, {cb -> cb()}),
                     TimedCallbackRoutine({
                         publish("/hugger", HuggerMsg(closeIt = true, priority = 1)) //... close the hugger
@@ -65,14 +77,14 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
                     TimedCallbackRoutine({
                     }, 500, {cb -> cb()}),
                     TimedCallbackRoutine({
-                        publish("/glift/bottom", UnitMsg()) // hugger now has block. move lift down
+                        updateLift(LiftState.BOTTOM) // hugger now has block. move lift down
                     }, 1500, {cb ->
                         updateGrippers(upper = GripperState.CLOSED) // grab block with upper grabber
                         cb()
                     }),
                     TimedCallbackRoutine({}, 1000, {cb ->
                         publish("/hugger", HuggerMsg(closeIt = false, priority = 1)) // open hugger
-                        publish("/glift/higher_bottom", UnitMsg())
+                        updateLift(LiftState.UPPER_BOTTOM)
                         cb()
                     })// donezo!
             )
@@ -119,11 +131,11 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         /* ------- */
 
         subscribe("/gamepad2/dpad_up", whenDown {
-            publish("/glift/top", UnitMsg())
+            updateLift(liftTransition(liftState, 1))
         })
 
         subscribe("/gamepad2/dpad_down", whenDown {
-            publish("/glift/bottom", UnitMsg())
+            updateLift(liftTransition(liftState, -1))
         })
         subscribe("/gamepad2/left_bumper", whenDown {
             publish("/glift/increment_up", UnitMsg())
@@ -135,12 +147,9 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
          * Press X to do the hugger macro.
          */
         subscribe("/gamepad2/x", whenDown {
-//            publish("/hugger", HuggerMsg(closeIt = true, onClosed = {
-//                publish("/debug", TextMsg("done"))
-//            }, priority = 1))
             val routine = listOf(
                     TimedCallbackRoutine({
-                        publish("/glift/middle", UnitMsg()) // Move glift up...
+                        updateLift(LiftState.MIDDLE) // move glift up..
                     }, 3000, {cb -> cb()}),
                     TimedCallbackRoutine({
                         publish("/hugger", HuggerMsg(closeIt = true, priority = 1)) //... close the hugger
@@ -150,14 +159,14 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
                     TimedCallbackRoutine({
                     }, 500, {cb -> cb()}),
                     TimedCallbackRoutine({
-                        publish("/glift/bottom", UnitMsg()) // hugger now has block. move lift down
+                        updateLift(LiftState.BOTTOM) // hugger now has block. move lift down
                     }, 1500, {cb ->
                         updateGrippers(upper = GripperState.CLOSED) // grab block with upper grabber
                         cb()
                     }),
                     TimedCallbackRoutine({}, 1000, {cb ->
                         publish("/hugger", HuggerMsg(closeIt = false, priority = 1)) // open hugger
-                        publish("/glift/higher_bottom", UnitMsg())
+                        updateLift(LiftState.UPPER_BOTTOM)
                         cb()
                     })// donezo!
             )
@@ -206,7 +215,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
          * TEST BUTTON 1: Turn 30º with PID
          */
         subscribe("/gamepad1/left_stick_button", whenDown {
-            publish("/glift/middle", UnitMsg())
+            updateLift(LiftState.MIDDLE)
         })
 
         /**
