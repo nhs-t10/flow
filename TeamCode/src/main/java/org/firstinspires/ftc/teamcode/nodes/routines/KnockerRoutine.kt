@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.util.TeamColor
 class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routine"){
     var turned = false
 //    val downPosition = 0.95
-    val upPosition = 0.97
+    val upPosition = 0.38
     override fun start() {}
 
     override fun subscriptions() {
@@ -36,8 +36,8 @@ class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routin
 
     fun createMoveRoutine(sign: Int) : RoutineGroup = RoutineGroup(listOf(
             TimedCallbackRoutine({
-                this.publish("/drive", OmniDrive(sign * 0.5f, 0f, 0f, 1))
-            }, 400, {
+                this.publish("/drive", OmniDrive(sign * 0.27f, 0f, 0f, 1))
+            }, 270, {
                 this.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
                 retractKnocker()
             })
