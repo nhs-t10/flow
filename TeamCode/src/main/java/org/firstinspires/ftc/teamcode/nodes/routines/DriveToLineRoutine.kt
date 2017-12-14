@@ -17,7 +17,13 @@ class DriveToLineRoutine(val teamColor: TeamColor) : RoutineNode("Drive to Line"
     }
 
     override fun subscriptions() {
-        subscribe("/color/bottom", {receiveColor(it)})
+        subscribe("/color/bottom", {getOffBlockRoutine(it)})
+    }
+    fun getOffBlockRoutine(m : Message){
+        TimedCallbackRoutine({}, 750, {cb ->
+            receiveColor(m)
+            cb()
+        })
     }
 
     fun receiveColor(m: Message){
