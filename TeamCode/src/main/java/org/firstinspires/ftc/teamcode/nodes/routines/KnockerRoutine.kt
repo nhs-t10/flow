@@ -13,9 +13,6 @@ class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routin
     var turned = false
 //    val downPosition = 0.95
     val upPosition = 0.35
-    var initialReadingR = 80
-    var initialReadingB = 60
-    var isDown = false
     override fun start() {}
 
     override fun subscriptions() {
@@ -48,7 +45,7 @@ class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routin
 
     fun knockBall(m : Message){
         val (red, blue) = m as ColorMsg
-        if (red - 10 > blue){ // If red is in front
+        if (red - 15 > blue){ // If red is in front
             turned = true
             publish("/status", TextMsg("Saw RED"))
             if(team == TeamColor.RED){
@@ -58,7 +55,7 @@ class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routin
                 createMoveRoutine(1).begin {  } // Go backward, stop.
 //                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, {retractKnocker()}, 1))
             }
-        } else if (red-10 <  blue) { // If blue is in front
+        } else if (red-15 <  blue) { // If blue is in front
             turned = true
             publish("/status", TextMsg("Saw BLUE"))
             if (team == TeamColor.BLUE) {
