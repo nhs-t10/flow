@@ -34,6 +34,7 @@ class ColorNode(val hardwareMap: HardwareMap) : Node("Color"){
     }
     fun addColorSensors(){
         colorSensors.put("knocker", hardwareMap?.colorSensor?.get("color1")!!)
+        colorSensors["knocker"]?.enableLed(false)
     }
 
     fun update(hb: HeartBeatMsg){
@@ -43,7 +44,10 @@ class ColorNode(val hardwareMap: HardwareMap) : Node("Color"){
             val red = colorSensors[key]?.red() ?: -1
             val blue = colorSensors[key]?.blue() ?: -1
             val green = colorSensors[key]?.green() ?: -1
-            this.publish("/color/$key", ColorMsg(red = red, blue = blue, green = green, priority = 1))
+            val alpha = colorSensors[key]?.alpha() ?: -1
+            val hue = colorSensors[key]?.argb() ?: -1
+            this.publish("/color/$key", ColorMsg(red = red, blue = blue, green = green, alpha = alpha, hue = hue, priority = 1))
+
         }
     }
 }
