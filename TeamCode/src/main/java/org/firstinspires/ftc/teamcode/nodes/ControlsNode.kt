@@ -214,6 +214,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
          */
         subscribe("/gamepad1/right_stick_button", whenDown {
             publish("/AngleTurning/cancel", UnitMsg())
+            publish("/servos/knocker", ServoMsg(0.35, 1))
             publish("/hugger", HuggerMsg(closeIt = false, priority = 1))
         })
     }

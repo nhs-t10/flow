@@ -24,7 +24,7 @@ class T10AutonomousRed : CoreOp(){
                 //                OpenHuggerRoutine(),
                 TimedCallbackRoutine({
                     Dispatcher.publish("/servos/knocker", ServoMsg(0.8, 1))
-                }, 750, {cb ->
+                }, 1000, {cb ->
                     cb()
                 }),
                 KnockerRoutine(TeamColor.RED)
