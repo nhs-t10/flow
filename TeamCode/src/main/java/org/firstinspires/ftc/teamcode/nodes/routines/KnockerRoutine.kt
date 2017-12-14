@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.util.TeamColor
 /**
  * Created by shaash on 12/3/2017.
  */
+
 class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routine"){
     var turned = false
 //    val downPosition = 0.95
@@ -15,8 +16,7 @@ class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routin
     var initialReadingR = 80
     var initialReadingB = 60
     var isDown = false
-    override fun start() {
-    }
+    override fun start() {}
 
     override fun subscriptions() {
         this.subscribe("/color/knocker") { doOnce(it) }
@@ -48,7 +48,7 @@ class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routin
 
     fun knockBall(m : Message){
         val (red, blue) = m as ColorMsg
-        if (Math.abs(initialReadingR - red) > Math.abs(initialReadingB - blue)){ // If red is in front
+        if (red - 10 > blue){ // If red is in front
             turned = true
             publish("/status", TextMsg("Saw RED"))
             if(team == TeamColor.RED){
@@ -58,7 +58,7 @@ class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routin
                 createMoveRoutine(1).begin {  } // Go backward, stop.
 //                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, {retractKnocker()}, 1))
             }
-        } else if (Math.abs(initialReadingR - red) < Math.abs(initialReadingB - blue)) { // If blue is in front
+        } else if (red-10 <  blue) { // If blue is in front
             turned = true
             publish("/status", TextMsg("Saw BLUE"))
             if (team == TeamColor.BLUE) {
