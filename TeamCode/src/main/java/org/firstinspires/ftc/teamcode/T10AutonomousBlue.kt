@@ -14,24 +14,4 @@ import org.firstinspires.ftc.teamcode.nodes.routines.TimedCallbackRoutine
  * Created by shaash on 10/26/17.
  */
 @Autonomous(name = "BLUE")
-class T10AutonomousBlue : CoreOp(){
-    var routine : RoutineGroup? = null
-
-    val heartbeat = HeartbeatNode()
-
-    override fun registration() {
-        routine = RoutineGroup(listOf(
-//                OpenHuggerRoutine(),
-                TimedCallbackRoutine({
-                    Dispatcher.publish("/servos/knocker", ServoMsg(0.97, 1))
-                }, 1000, {cb ->
-                    cb()
-                }),
-                KnockerRoutine(TeamColor.BLUE)
-        ))
-    }
-
-    override fun begin() {
-        routine?.begin {  }
-    }
-}
+class T10AutonomousBlue : T10Autonomous(TeamColor.BLUE)
