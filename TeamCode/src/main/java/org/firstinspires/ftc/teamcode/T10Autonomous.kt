@@ -23,7 +23,7 @@ abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
                 KnockerRoutine(teamColor),
                 TimedCallbackRoutine({
                     Dispatcher.publish("/drive", OmniDrive(-0.8f, 0.0f, 0.0f, 1))
-                }, 1350, {
+                }, 1000, {
                     Dispatcher.publish("/drive", OmniDrive(0.0f, 0.0f, 0.0f, 1))
                 })
         ))
