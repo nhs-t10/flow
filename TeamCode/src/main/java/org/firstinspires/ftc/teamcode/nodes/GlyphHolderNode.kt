@@ -22,11 +22,11 @@ class GlyphHolderNode : Node("Glyph Holder") {
         GripperState.MIDDLE -> 0.5
     }
 
-    val right_outward = 0.1
-    val right_inward = 1.0
+    val right_outward = 0.0
+    val right_inward = 0.9
 
     val left_outward = 0.95
-    val left_inward = 0.0
+    val left_inward = 0.03
 
 
 

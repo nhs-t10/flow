@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
-import org.firstinspires.ftc.teamcode.messages.OmniDrive
-import org.firstinspires.ftc.teamcode.messages.ServoMsg
-import org.firstinspires.ftc.teamcode.messages.TextMsg
+import org.firstinspires.ftc.teamcode.messages.*
 import org.firstinspires.ftc.teamcode.nodes.routines.KnockerRoutine
 import org.firstinspires.ftc.teamcode.nodes.routines.TimedCallbackRoutine
 import org.firstinspires.ftc.teamcode.util.TeamColor
@@ -17,6 +15,7 @@ abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
         routine = RoutineGroup(listOf(
                 //                OpenHuggerRoutine(),
                 TimedCallbackRoutine({
+                    Dispatcher.publish("/glift", LiftMsg(LiftState.MIDDLE, 1))
                     Dispatcher.publish("/servos/knocker", ServoMsg(0.97, 1))
                 }, 1000, {cb ->
                     cb()
