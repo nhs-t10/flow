@@ -180,7 +180,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         })
         /* ---- */
         /**
-         * TEST BUTTON 1: Turn 30º with PID
+         * Middle it out
          */
         subscribe("/gamepad1/left_stick_button", whenDown {
             updateLift(LiftState.UPPER_BOTTOM)
