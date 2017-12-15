@@ -89,6 +89,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
     }
 
     override fun subscriptions() {
+
         subscribe("/gamepad1/dpad_up", whenDown {
             updateLift(liftTransition(liftState, 1))
         })
@@ -182,7 +183,11 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
          * TEST BUTTON 1: Turn 30º with PID
          */
         subscribe("/gamepad1/left_stick_button", whenDown {
-            updateLift(LiftState.MIDDLE)
+            updateLift(LiftState.UPPER_BOTTOM)
+        })
+
+        subscribe("/gamepad2/left_stick_button", whenDown {
+            updateLift(LiftState.UPPER_BOTTOM)
         })
 
         /**
