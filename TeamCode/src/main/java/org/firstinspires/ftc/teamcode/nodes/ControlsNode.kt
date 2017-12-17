@@ -50,6 +50,11 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
     val macroLambda = whenDown {
         val routine = listOf(
                 TimedCallbackRoutine({
+                    if (gripperStates.lower != GripperState.CLOSED) {
+                        updateGrippers(lower = GripperState.CLOSED)
+                    }
+                }, if (gripperStates.lower != GripperState.CLOSED) 500 else 0, {cb -> cb()}),
+                TimedCallbackRoutine({
                     updateLift(LiftState.MIDDLE) // move glift up..
                 }, 3300, {cb -> cb()}),
                 TimedCallbackRoutine({
@@ -91,8 +96,8 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
     val cancelLambda = whenDown {
         publish("/macros/cancel", UnitMsg())
         publish("/AngleTurning/cancel", UnitMsg())
-        publish("/servos/knocker", ServoMsg(0.35, 1))
-        publish("/hugger", HuggerMsg(closeIt = false, priority = 1))
+        publish("/servos/knocker", ServoMsg(0.08, 0))
+        publish("/hugger", HuggerMsg(closeIt = false, priority = 0))
     }
 
     override fun subscriptions() {
