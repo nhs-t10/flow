@@ -51,7 +51,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         val routine = listOf(
                 TimedCallbackRoutine({
                     updateLift(LiftState.MIDDLE) // move glift up..
-                }, 3000, {cb -> cb()}),
+                }, 3300, {cb -> cb()}),
                 TimedCallbackRoutine({
                     publish("/hugger", HuggerMsg(closeIt = true, priority = 1)) //... close the hugger
                 }, 2000, {cb ->
@@ -86,6 +86,13 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         else if(gripperStates.lower == GripperState.MIDDLE && gripperStates.upper == GripperState.MIDDLE) {
             updateGrippers(lower=GripperState.OPEN, upper=GripperState.OPEN)
         }
+    }
+
+    val cancelLambda = whenDown {
+        publish("/macros/cancel", UnitMsg())
+        publish("/AngleTurning/cancel", UnitMsg())
+        publish("/servos/knocker", ServoMsg(0.35, 1))
+        publish("/hugger", HuggerMsg(closeIt = false, priority = 1))
     }
 
     override fun subscriptions() {
@@ -193,10 +200,6 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         /**
          * TEST BUTTON 2: Cancel PID Turn and hugger.
          */
-        subscribe("/gamepad1/right_stick_button", whenDown {
-            publish("/AngleTurning/cancel", UnitMsg())
-            publish("/servos/knocker", ServoMsg(0.35, 1))
-            publish("/hugger", HuggerMsg(closeIt = false, priority = 1))
-        })
+        subscribe("/gamepad1/right_stick_button", cancelLambda)
     }
 }

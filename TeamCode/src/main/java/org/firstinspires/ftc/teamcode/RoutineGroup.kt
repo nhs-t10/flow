@@ -9,9 +9,16 @@ import org.firstinspires.ftc.teamcode.RoutineNode
 
 class RoutineGroup(val routines: List<RoutineNode>) : Routinable {
     var index = 0
+    var stopped = false
     var callback : (() -> Unit)? = null
+    init {
+        Dispatcher.subscribe("/macros/cancel", {cancel()})
+    }
+    fun cancel() {
+        stopped = true
+    }
     fun cb() {
-        if (index < routines.size) {
+        if (index < routines.size && !stopped) {
             routines[index].begin { cb() }
             index++
         }

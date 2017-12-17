@@ -13,7 +13,6 @@ abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
     var routine : RoutineGroup? = null
     override fun registration() {
         routine = RoutineGroup(listOf(
-                //                OpenHuggerRoutine(),
                 TimedCallbackRoutine({
                     Dispatcher.publish("/glift", LiftMsg(LiftState.MIDDLE, 1))
                     Dispatcher.publish("/servos/knocker", ServoMsg(0.97, 1))

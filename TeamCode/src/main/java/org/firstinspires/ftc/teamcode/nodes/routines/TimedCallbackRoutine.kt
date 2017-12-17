@@ -15,11 +15,14 @@ class TimedCallbackRoutine(val initialCallback: () -> Unit, val time : Long, val
     var done = false
     var warned = false
     override fun start() {
-        initialCallback()
-        initialTime = System.currentTimeMillis()
+        if (!done) {
+            initialCallback()
+            initialTime = System.currentTimeMillis()
+        }
     }
     override fun subscriptions() {
         subscribe("/heartbeat", {checkTime(it)})
+        subscribe("/macros/cancel", {stop()})
     }
     fun checkTime(m: Message) {
         if (System.currentTimeMillis() - initialTime >= time && !done) {
@@ -33,5 +36,9 @@ class TimedCallbackRoutine(val initialCallback: () -> Unit, val time : Long, val
             warned = true
             publish("/warn", TextMsg("[T=${System.currentTimeMillis() - initialTime}] Still waiting for final callback. Did you call cb() in the second callback?"))
         }
+    }
+    fun stop() {
+        done = true
+        end()
     }
 }
