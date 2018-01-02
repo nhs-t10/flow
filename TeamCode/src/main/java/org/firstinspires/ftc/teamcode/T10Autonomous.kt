@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import org.firstinspires.ftc.teamcode.messages.*
+import org.firstinspires.ftc.teamcode.nodes.GamepadNode
+import org.firstinspires.ftc.teamcode.nodes.VuforiaNode
 import org.firstinspires.ftc.teamcode.nodes.routines.KnockerRoutine
 import org.firstinspires.ftc.teamcode.nodes.routines.TimedCallbackRoutine
 import org.firstinspires.ftc.teamcode.util.TeamColor
