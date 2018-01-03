@@ -7,6 +7,7 @@ import org.firstinspires.ftc.robotcore.external.matrices.VectorF
 import org.firstinspires.ftc.robotcore.external.navigation.*
 import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
+import org.firstinspires.ftc.teamcode.messages.TextMsg
 import org.firstinspires.ftc.teamcode.messages.VuforiaMsg
 
 /**
@@ -23,16 +24,16 @@ class VuforiaNode(hardwareMap: HardwareMap) : Node("Vuforia") {
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters)
         val relicTrackables = this.vuforia?.loadTrackablesFromAsset("RelicVuMark")
-        relicTemplate = relicTrackables?.get(0)
-        relicTemplate?.setName("relicVuMarkTemplate") // can help in debugging; otherwise not necessary
-
-
+        relicTemplate = relicTrackables!!.get(0)
+        relicTemplate!!.setName("relicVuMarkTemplate") // can help in debugging; otherwise not necessary
+        relicTrackables.activate()
     }
     override fun subscriptions() {
         this.subscribe("/heartbeat", {refresh()})
     }
     fun refresh() {
         val vuMark = RelicRecoveryVuMark.from(relicTemplate)
+        publish("/debug", TextMsg("$vuMark", 1))
         if (vuMark != RelicRecoveryVuMark.UNKNOWN && relicTemplate != null) {
             val pose : OpenGLMatrix? = (relicTemplate?.getListener() as VuforiaTrackableDefaultListener).getPose()
             if (pose != null) {
