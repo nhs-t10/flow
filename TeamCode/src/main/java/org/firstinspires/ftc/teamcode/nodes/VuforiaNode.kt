@@ -24,16 +24,15 @@ class VuforiaNode(hardwareMap: HardwareMap) : Node("Vuforia") {
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters)
         val relicTrackables = this.vuforia?.loadTrackablesFromAsset("RelicVuMark")
-        relicTemplate = relicTrackables!!.get(0)
-        relicTemplate!!.setName("relicVuMarkTemplate") // can help in debugging; otherwise not necessary
-        relicTrackables.activate()
+        relicTemplate = relicTrackables?.get(0)
+        relicTemplate?.setName("relicVuMarkTemplate") // can help in debugging; otherwise not necessary
+        relicTrackables?.activate()
     }
     override fun subscriptions() {
         this.subscribe("/heartbeat", {refresh()})
     }
     fun refresh() {
         val vuMark = RelicRecoveryVuMark.from(relicTemplate)
-        publish("/debug", TextMsg("$vuMark", 1))
         if (vuMark != RelicRecoveryVuMark.UNKNOWN && relicTemplate != null) {
             val pose : OpenGLMatrix? = (relicTemplate?.getListener() as VuforiaTrackableDefaultListener).getPose()
             if (pose != null) {
