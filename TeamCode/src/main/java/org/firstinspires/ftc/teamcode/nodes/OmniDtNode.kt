@@ -12,10 +12,16 @@ import  org.firstinspires.ftc.teamcode.util.whenDown
  */
 class OmniDtNode : Node("Omni Drivetrain"){
     var isSlow: Boolean = true
-
+    var speedscale = 0.5f
     override fun subscriptions() {
         this.subscribe("/drive", {this.recieveMessage(driveCommands = it)})
+        this.subscribe("/drive/fast", {slow(it)})
         //this.subscribe("/gamepad1/x", whenDown { slowModeToggle() })
+    }
+
+    fun slow(m : Message){
+        val (speed) = m as SpeedMsg
+        isSlow = !speed
     }
     /*
     fun slowModeToggle (){
@@ -23,8 +29,12 @@ class OmniDtNode : Node("Omni Drivetrain"){
         this.publish("/debug", TextMsg("SLOW MODE: ${this.isSlow}"))
     }
     */
-    fun recieveMessage(driveCommands : Message){
-
+    fun recieveMessage(driveCommands : Message, slow : Boolean = isSlow){
+        if(slow){
+           speedscale = 0.5f
+        } else {
+            speedscale = 1.0f
+        }
         val (upDown, leftRight, rotation) = driveCommands as OmniDrive
         val forwardMultiplier = arrayOf(-1f, -1f,
                 -1f, -1f)
@@ -36,9 +46,9 @@ class OmniDtNode : Node("Omni Drivetrain"){
         var forwardsComponent = forwardMultiplier.map {it * -upDown}
         var eastWestComponent = leftRightMultiplier.map { it * leftRight}
         var rotationalComponent = rotationalMultiplier.map { it * rotation}
-        forwardsComponent = forwardsComponent.map { it * 0.5f}
-        eastWestComponent = eastWestComponent.map { it * 0.5f}
-        rotationalComponent = rotationalComponent.map { it * 0.5f}
+        forwardsComponent = forwardsComponent.map { it * speedscale}
+        eastWestComponent = eastWestComponent.map { it * speedscale}
+        rotationalComponent = rotationalComponent.map { it * speedscale * 2f}
 
         val motorvals = drive(forwardsComponent, eastWestComponent, rotationalComponent).map{it.toDouble()}
         val priority = 1

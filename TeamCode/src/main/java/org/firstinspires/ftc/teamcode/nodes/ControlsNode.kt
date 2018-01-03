@@ -194,11 +194,11 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         /**
          * Middle it out
          */
-        subscribe("/gamepad1/left_stick_button", whenDown {
+        subscribe("/gamepad1/right_stick_button", whenDown {
             updateLift(LiftState.UPPER_BOTTOM)
         })
 
-        subscribe("/gamepad2/left_stick_button", whenDown {
+        subscribe("/gamepad2/right_stick_button", whenDown {
             updateLift(LiftState.UPPER_BOTTOM)
         })
 
@@ -206,5 +206,10 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
          * TEST BUTTON 2: Cancel PID Turn and hugger.
          */
         subscribe("/gamepad1/right_stick_button", cancelLambda)
+
+        subscribe("/gamepad1/left_stick_button", {msg ->
+            val m = msg as GamepadButtonMsg
+            this.publish("/drive/fast", SpeedMsg(m.value, 1))
+        })
     }
 }
