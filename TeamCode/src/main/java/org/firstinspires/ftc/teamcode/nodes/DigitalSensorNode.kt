@@ -20,8 +20,7 @@ class DigitalSensorNode(val hardwareMap: HardwareMap) : Node("Touch Sensor") {
     }
     override fun subscriptions() {
         this.subscribe("/heartbeat", {update(it as HeartBeatMsg)})
-    }
-    fun addSensors(){
+    }fun addSensors(){
 //        sensors.put("touchOne", hardwareMap.digitalChannel.get("touch1")!!)
         addSensorStates()
     }
@@ -30,6 +29,7 @@ class DigitalSensorNode(val hardwareMap: HardwareMap) : Node("Touch Sensor") {
             sensorStates.put(key, false)
         }
     }
+
     fun update(hb: HeartBeatMsg){
         for (key in sensors.keys){
             val isPressed = sensors[key]?.getState() ?: false

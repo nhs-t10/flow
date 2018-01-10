@@ -17,7 +17,6 @@ class T10Teleop : CoreOp() {
         register(OmniJoyNode())
         register(VuforiaNode(hardwareMap))
 
-
         Dispatcher.tempSetTelemetry(telemetry)
     }
 }
