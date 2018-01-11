@@ -211,5 +211,8 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
             val m = msg as GamepadButtonMsg
             this.publish("/drive/fast", SpeedMsg(m.value, 1))
         })
+        subscribe("/gamepad2/left_stick_button", {msg ->
+            this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, {}, 1))
+        })
     }
 }
