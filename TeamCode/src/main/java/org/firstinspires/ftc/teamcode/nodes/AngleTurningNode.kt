@@ -12,7 +12,7 @@ import java.lang.Math.abs
 class AngleTurningNode : Node("Angle Turning Test") {
 
     var kP : Double = 2.0
-    var kD : Double = 2.5
+    var kD : Double = 0.0
     var kI : Double = 0.0
     val stopThreshold = 5.0
     var destAngle = 0.0
@@ -85,7 +85,7 @@ class AngleTurningNode : Node("Angle Turning Test") {
         val error = getError(destAngle+180, heading+180)
         this.publish("/debug", TextMsg("Error: $error"))
         // determine if error done
-        if (abs(error) < stopThreshold) return 0.0
+//        if (abs(error) < stopThreshold) return 0.0
 
         var rotation = turn.computePID(error)/180.0 //converts angle to motor vals
         // just in case, but angle to turn should never be > 1.

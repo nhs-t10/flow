@@ -20,13 +20,12 @@ class PID(val kP : Double, val kI : Double, val kD : Double) {
     fun computePID(error : Double) : Double{
         val currenttime = getCurrentTime()
         val elapsedtime = currenttime - prevtime
-        val p = kP * error
+        val p = kP * error * 0.01
         val d = -Math.signum(error) * Math.abs(kD * ((error - preverror)/elapsedtime))
         sumerror += (error*elapsedtime)/1000
         val i = kI * sumerror
         preverror = error
         prevtime = currenttime
-        // TODO:
         if(((1.5 > error && error > 0 && error < preverror) || (-1.5 < error && error < 0 && error > preverror)) && Math.abs(d) < .05){
             return 0.0
         }
