@@ -26,6 +26,7 @@ class PID(val kP : Double, val kI : Double, val kD : Double) {
         val i = kI * sumerror
         preverror = error
         prevtime = currenttime
+        // TODO:
         if(((1.5 > error && error > 0 && error < preverror) || (-1.5 < error && error < 0 && error > preverror)) && Math.abs(d) < .05){
             return 0.0
         }
