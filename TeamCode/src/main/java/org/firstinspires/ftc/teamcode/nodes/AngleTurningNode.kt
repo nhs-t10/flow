@@ -11,8 +11,8 @@ import java.lang.Math.abs
 
 class AngleTurningNode : Node("Angle Turning Test") {
 
-    var kP : Double = 2.0
-    var kD : Double = 0.0
+    var kP : Double = 5.0
+    var kD : Double = 3.0
     var kI : Double = 0.0
     val stopThreshold = 5.0
     var destAngle = 0.0
