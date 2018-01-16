@@ -53,7 +53,8 @@ import java.util.Locale;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
  */
 @Autonomous(name = "Sensor: REVColorDistance", group = "Sensor")
-@Disabled                            // Comment this out to add to the opmode list
+@Disabled
+// Comment this out to add to the opmode list
 public class SensorREVColorDistance extends LinearOpMode {
 
     /**
@@ -116,7 +117,7 @@ public class SensorREVColorDistance extends LinearOpMode {
 
             // send the info back to driver station using telemetry function.
             telemetry.addData("Distance (cm)",
-                    String.format(Locale.US, "%.02f", sensorDistance.getDistance(DistanceUnit.CM)));
+                    String.format(Locale.US, "%.02f", sensorDistance.getDistance(DistanceUnit.MM)));
             telemetry.addData("Alpha", sensorColor.alpha());
             telemetry.addData("Red  ", sensorColor.red());
             telemetry.addData("Green", sensorColor.green());

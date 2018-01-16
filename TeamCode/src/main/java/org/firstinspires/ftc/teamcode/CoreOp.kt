@@ -16,7 +16,7 @@ abstract class CoreOp : OpMode() {
                 OmniDtNode(),
                 ColorNode(hardwareMap),
                 DistanceColorNode(hardwareMap),
-//                ImuNode(hardwareMap),
+                ImuNode(hardwareMap),
                 DigitalSensorNode(hardwareMap),
                 AnalogSensorNode(hardwareMap),
                 GliftNode(),
