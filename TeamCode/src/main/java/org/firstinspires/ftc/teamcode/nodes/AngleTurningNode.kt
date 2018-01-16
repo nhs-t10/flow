@@ -83,7 +83,7 @@ class AngleTurningNode : Node("Angle Turning Test") {
 
     fun getRotation(heading : Double):Double{
         val error = getError(destAngle+180, heading+180)
-        this.publish("/warn", TextMsg("Error: $error"))
+        this.publish("/debug", TextMsg("Error: $error"))
         // determine if error done
 //        if (abs(error) < stopThreshold) return 0.0
 
@@ -91,7 +91,7 @@ class AngleTurningNode : Node("Angle Turning Test") {
         // just in case, but angle to turn should never be > 1.
         // Don't want to break the motors while testing (can take out later):
 
-        this.publish("/warn", TextMsg("Rotation: $rotation"))
+        this.publish("/debug", TextMsg("Rotation: $rotation"))
         return rotation
     }
 

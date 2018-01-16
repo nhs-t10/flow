@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.nodes
+package org.firstinspires.ftc.teamcode.nodes.hardware
 
 import com.qualcomm.robotcore.hardware.*
 import org.firstinspires.ftc.teamcode.Dispatcher

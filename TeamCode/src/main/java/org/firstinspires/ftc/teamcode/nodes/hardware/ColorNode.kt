@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.nodes
+package org.firstinspires.ftc.teamcode.nodes.hardware
 
 import com.qualcomm.hardware.bosch.BNO055IMU
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator

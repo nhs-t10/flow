@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.nodes
+package org.firstinspires.ftc.teamcode.nodes.hardware
 
 import com.qualcomm.robotcore.hardware.DistanceSensor
 import com.qualcomm.robotcore.hardware.HardwareMap
