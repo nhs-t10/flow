@@ -273,8 +273,8 @@ extends java.lang.Object</pre>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/qualcomm/robotcore/eventloop/opmode/OpMode.html#requestOpModeStop--">requestOpModeStop</a></span>()</code>
-<div class="block">Requests that this OpMode be shut down if it the currently active opMode, much as if the stop
- button had been pressed on the driver station; if this is not the currently active OpMode,
+<div class="block">Requests that this OpMode be shut down if it the currently routineActive opMode, much as if the stop
+ button had been pressed on the driver station; if this is not the currently routineActive OpMode,
  then this function has no effect.</div>
 </td>
 </tr>
@@ -534,8 +534,8 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>requestOpModeStop</h4>
 <pre>public final&nbsp;void&nbsp;requestOpModeStop()</pre>
-<div class="block">Requests that this OpMode be shut down if it the currently active opMode, much as if the stop
- button had been pressed on the driver station; if this is not the currently active OpMode,
+<div class="block">Requests that this OpMode be shut down if it the currently routineActive opMode, much as if the stop
+ button had been pressed on the driver station; if this is not the currently routineActive OpMode,
  then this function has no effect. Note as part of this processing, the OpMode's <a href="../../../../../com/qualcomm/robotcore/eventloop/opmode/OpMode.html#stop--"><code>stop()</code></a>
  method will be called, as that is part of the usual shutdown logic. Note that <a href="../../../../../com/qualcomm/robotcore/eventloop/opmode/OpMode.html#requestOpModeStop--"><code>requestOpModeStop()</code></a>
  may be called from <em>any</em> thread.</div>

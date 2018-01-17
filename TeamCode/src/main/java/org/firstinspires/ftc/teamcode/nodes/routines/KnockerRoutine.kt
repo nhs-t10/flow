@@ -43,7 +43,7 @@ class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routin
             })
     ))
 
-    fun knockBall(m : Message){
+    fun knockBall(m : Message) {
         val (red, blue) = m as ColorMsg
         if (red - 15 > blue){ // If red is in front
             turned = true

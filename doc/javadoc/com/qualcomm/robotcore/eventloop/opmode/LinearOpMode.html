@@ -242,7 +242,7 @@ extends <a href="../../../../../com/qualcomm/robotcore/eventloop/opmode/OpMode.h
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/qualcomm/robotcore/eventloop/opmode/LinearOpMode.html#opModeIsActive--">opModeIsActive</a></span>()</code>
-<div class="block">Answer as to whether this opMode is active and the robot should continue onwards.</div>
+<div class="block">Answer as to whether this opMode is routineActive and the robot should continue onwards.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
@@ -484,13 +484,13 @@ public&nbsp;void&nbsp;waitForNextHardwareCycle()
 <li class="blockList">
 <h4>opModeIsActive</h4>
 <pre>public final&nbsp;boolean&nbsp;opModeIsActive()</pre>
-<div class="block">Answer as to whether this opMode is active and the robot should continue onwards. If the
- opMode is not active, the OpMode should terminate at its earliest convenience.
+<div class="block">Answer as to whether this opMode is routineActive and the robot should continue onwards. If the
+ opMode is not routineActive, the OpMode should terminate at its earliest convenience.
 
  <p>Note that internally this method calls <a href="../../../../../com/qualcomm/robotcore/eventloop/opmode/LinearOpMode.html#idle--"><code>idle()</code></a></p></div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>whether the OpMode is currently active. If this returns false, you should
+<dd>whether the OpMode is currently routineActive. If this returns false, you should
          break out of the loop in your <a href="../../../../../com/qualcomm/robotcore/eventloop/opmode/LinearOpMode.html#runOpMode--"><code>runOpMode()</code></a> method and return to its caller.</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../../com/qualcomm/robotcore/eventloop/opmode/LinearOpMode.html#runOpMode--"><code>runOpMode()</code></a>, 

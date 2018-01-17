@@ -21,10 +21,10 @@ class TimedCallbackRoutine(val initialCallback: () -> Unit, val time : Long, val
         }
     }
     override fun subscriptions() {
-        subscribe("/heartbeat", {checkTime(it)})
+        subscribe("/heartbeat", {checkTime()})
         subscribe("/macros/cancel", {stop()})
     }
-    fun checkTime(m: Message) {
+    fun checkTime() {
         if (System.currentTimeMillis() - initialTime >= time && !done) {
             done = true
             finalCallback({

@@ -1,20 +1,19 @@
 package org.firstinspires.ftc.teamcode
 
 import org.firstinspires.ftc.teamcode.messages.Message
-import org.firstinspires.ftc.teamcode.messages.TextMsg
 
 /**
  * Created by dvw06 on 11/16/17.
  */
 abstract class RoutineNode(name : String ) : Node(name), Routinable {
 
-    var callback : (() -> Unit)? = null
+    var routineCallback : (() -> Unit)? = null
 
-    var active = false
+    var routineActive = false
 
     fun callIfActive(cb: (Message) -> Unit) : (Message) -> Unit {
         return fun(m: Message) {
-            if (active) {
+            if (routineActive) {
                 cb(m)
             }
         }
@@ -25,18 +24,18 @@ abstract class RoutineNode(name : String ) : Node(name), Routinable {
     }
 
     override fun begin(callback: () -> Unit) {
-        this.callback = callback
+        this.routineCallback = callback
         this.subscriptions()
         this.start()
 
 
-        active = true
+        routineActive = true
     }
 
     abstract fun start()
 
     fun end() {
-        if (callback != null) this.callback?.invoke()
-        active = false
+        if (routineCallback != null) this.routineCallback?.invoke()
+        routineActive = false
     }
 }
