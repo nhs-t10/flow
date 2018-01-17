@@ -2,11 +2,10 @@ package org.firstinspires.ftc.teamcode
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark
 import org.firstinspires.ftc.teamcode.messages.*
-import org.firstinspires.ftc.teamcode.nodes.GamepadNode
-import org.firstinspires.ftc.teamcode.nodes.VuforiaNode
 import org.firstinspires.ftc.teamcode.nodes.routines.GetVumarkRoutine
 import org.firstinspires.ftc.teamcode.nodes.routines.KnockerRoutine
 import org.firstinspires.ftc.teamcode.nodes.routines.TimedCallbackRoutine
+import org.firstinspires.ftc.teamcode.nodes.routines.TimeoutRoutine
 import org.firstinspires.ftc.teamcode.util.TeamColor
 
 /**
@@ -22,12 +21,10 @@ abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
                 GetVumarkRoutine({vuMark ->
                     visionSide = vuMark
                 }),
-                TimedCallbackRoutine({
+                TimeoutRoutine({
                     Dispatcher.publish("/glift", LiftMsg(LiftState.MIDDLE, 1))
                     Dispatcher.publish("/servos/knocker", ServoMsg(0.97, 1))
-                }, 1000, {cb ->
-                    cb()
-                }),
+                }, 1000),
                 KnockerRoutine(teamColor),
                 TimedCallbackRoutine({
                     Dispatcher.publish("/drive", OmniDrive(-0.6f, 0.0f, 0.0f, 1))
