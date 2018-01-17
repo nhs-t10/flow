@@ -2,10 +2,7 @@ package org.firstinspires.ftc.teamcode
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark
 import org.firstinspires.ftc.teamcode.messages.*
-import org.firstinspires.ftc.teamcode.nodes.routines.GetVumarkRoutine
-import org.firstinspires.ftc.teamcode.nodes.routines.KnockerRoutine
-import org.firstinspires.ftc.teamcode.nodes.routines.TimedCallbackRoutine
-import org.firstinspires.ftc.teamcode.nodes.routines.TimeoutRoutine
+import org.firstinspires.ftc.teamcode.nodes.routines.*
 import org.firstinspires.ftc.teamcode.util.TeamColor
 
 /**
@@ -14,12 +11,16 @@ import org.firstinspires.ftc.teamcode.util.TeamColor
 abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
     var routine : RoutineGroup? = null
 
-    var visionSide : RelicRecoveryVuMark = RelicRecoveryVuMark.UNKNOWN
+    // This allows us to inject the robot state into routines
+    // Routines accept an arg with type () -> RobotState
+    // and call that function (getRobotState) to get the latest RobotState
+    val robotState = RobotState()
+    val getRobotState = {robotState}
 
     override fun registration() {
         routine = RoutineGroup(listOf(
                 GetVumarkRoutine({vuMark ->
-                    visionSide = vuMark
+                    robotState.vuMark = vuMark
                 }),
                 TimeoutRoutine({
                     Dispatcher.publish("/glift", LiftMsg(LiftState.MIDDLE, 1))
@@ -31,7 +32,8 @@ abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
                 }, 1300, {cb ->
                     Dispatcher.publish("/drive", OmniDrive(0.0f, 0.0f, 0.0f, 1))
                     cb()
-                })
+                }),
+                CountFlanges(getRobotState)
         ))
     }
 
