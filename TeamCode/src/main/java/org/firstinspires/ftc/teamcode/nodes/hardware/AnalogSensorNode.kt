@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.messages.AnalogMsg
  * Created by shaash on 11/14/17.
  */
 
-class AnalogSensorNode(val hardwareMap: HardwareMap) : Node("Touch Sensor") {
+class AnalogSensorNode(val hardwareMap: HardwareMap) : Node("Analog Sensors") {
     val sensors = HashMap<String, AnalogInput>()
 
     init {

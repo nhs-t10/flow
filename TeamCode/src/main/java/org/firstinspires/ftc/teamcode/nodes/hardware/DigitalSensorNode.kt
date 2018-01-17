@@ -11,7 +11,7 @@ import java.util.*
  * Created by shaash on 11/14/17.
  */
 
-class DigitalSensorNode(val hardwareMap: HardwareMap) : Node("Touch Sensor") {
+class DigitalSensorNode(val hardwareMap: HardwareMap) : Node("Digital Sensors") {
     val sensors = HashMap<String, DigitalChannel>()
     val sensorStates = HashMap<String, Boolean>()
 
