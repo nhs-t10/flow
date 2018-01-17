@@ -1,11 +1,8 @@
-package org.firstinspires.ftc.teamcode.nodes
+package org.firstinspires.ftc.teamcode.nodes.mechanisms
 
-import com.qualcomm.robotcore.hardware.HardwareMap
-import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.*
 import java.lang.Math.abs
-import  org.firstinspires.ftc.teamcode.util.whenDown
 
 /**
  * Created by shaash on 10/17/17.

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.nodes
+package org.firstinspires.ftc.teamcode.nodes.mechanisms
 
 /**
  * Created by shaash on 10/15/17.

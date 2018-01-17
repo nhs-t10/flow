@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import org.firstinspires.ftc.teamcode.nodes.*
+import org.firstinspires.ftc.teamcode.nodes.control.ControlsNode
+import org.firstinspires.ftc.teamcode.nodes.control.OmniJoyNode
+import org.firstinspires.ftc.teamcode.nodes.human.GamepadNode
+import org.firstinspires.ftc.teamcode.nodes.human.InspectorNode
+import org.firstinspires.ftc.teamcode.nodes.human.SelectorViewNode
 
 /**
  * Created by davis on 10/10/17.

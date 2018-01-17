@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.nodes
+package org.firstinspires.ftc.teamcode.nodes.control
 
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.lib.PID

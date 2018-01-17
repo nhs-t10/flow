@@ -2,7 +2,13 @@ package org.firstinspires.ftc.teamcode
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import org.firstinspires.ftc.teamcode.nodes.*
+import org.firstinspires.ftc.teamcode.nodes.control.AngleTurningNode
 import org.firstinspires.ftc.teamcode.nodes.hardware.*
+import org.firstinspires.ftc.teamcode.nodes.human.DebugNode
+import org.firstinspires.ftc.teamcode.nodes.human.TelemetryNode
+import org.firstinspires.ftc.teamcode.nodes.mechanisms.GliftNode
+import org.firstinspires.ftc.teamcode.nodes.mechanisms.GlyphHolderNode
+import org.firstinspires.ftc.teamcode.nodes.mechanisms.OmniDtNode
 
 /**
  * Created by max on 12/8/17.

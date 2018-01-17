@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.nodes
+package org.firstinspires.ftc.teamcode.nodes.control
 
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.Node
@@ -6,7 +6,6 @@ import org.firstinspires.ftc.teamcode.RoutineGroup
 import org.firstinspires.ftc.teamcode.messages.*
 import org.firstinspires.ftc.teamcode.nodes.routines.TimedCallbackRoutine
 import org.firstinspires.ftc.teamcode.util.whenDown
-import javax.tools.ToolProvider
 
 /**
  * Created by max on 11/24/17.
@@ -53,7 +52,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
                     if (gripperStates.lower != GripperState.CLOSED) {
                         updateGrippers(lower = GripperState.CLOSED)
                     }
-                }, if (gripperStates.lower != GripperState.CLOSED) 500 else 0, {cb -> cb()}),
+                }, if (gripperStates.lower != GripperState.CLOSED) 500 else 0, { cb -> cb()}),
                 TimedCallbackRoutine({
                     updateLift(LiftState.MIDDLE) // move glift up..
                 }, 3300, {cb -> cb()}),
