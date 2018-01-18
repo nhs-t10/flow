@@ -185,7 +185,9 @@ class InspectorNode : Node("Inspector") {
                     "/telemetry/lines",
                     "/telemetry/clear",
                     "/warn",
-                    "/error"
+                    "/error",
+                    "/start",
+                    "/stop"
             )
             if(!whiteList.contains(key)) Dispatcher.lock(key, -1)
         }

@@ -54,6 +54,7 @@ abstract class CoreOp : OpMode() {
         heartbeatNode.beat((runtime*10).toLong())
     }
     final override fun stop() {
+        systemNode.publishStop()
         Dispatcher.reset()
     }
 }

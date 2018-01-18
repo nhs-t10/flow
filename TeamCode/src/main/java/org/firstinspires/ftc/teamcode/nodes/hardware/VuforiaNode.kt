@@ -7,6 +7,7 @@ import org.firstinspires.ftc.robotcore.external.matrices.VectorF
 import org.firstinspires.ftc.robotcore.external.navigation.*
 import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
+import org.firstinspires.ftc.teamcode.lib.ClosableVuforiaLocalizer
 import org.firstinspires.ftc.teamcode.messages.TextMsg
 import org.firstinspires.ftc.teamcode.messages.VuforiaMsg
 
@@ -15,14 +16,14 @@ import org.firstinspires.ftc.teamcode.messages.VuforiaMsg
  */
 
 class VuforiaNode(hardwareMap: HardwareMap) : Node("Vuforia") {
-    var vuforia : VuforiaLocalizer? = null
+    var vuforia : ClosableVuforiaLocalizer? = null
     var relicTemplate : VuforiaTrackable? = null
     init {
         val cameraMonitorViewId = hardwareMap.appContext.resources.getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.packageName)
         val parameters = VuforiaLocalizer.Parameters(cameraMonitorViewId)
         parameters.vuforiaLicenseKey = "AS3FQkX/////AAAAGdhA07mf1U07qYC/gobmgK0IAEaYb2HVJDGHxXKOG6I3B5ii9zFBF90rBzAND2oa7JCBWHMk2nra5AoXsXOfChk/N8QS1GZk5MNwbQ/wVwisS/fz04KmSpSXmgDp0PIkdf3dihm/Ax1hNxK3CcSntpaIU6eEHY4INE1AUoOA39YwPcOsYx6TGG6OML2+to5IfoLsIzWJ4URXkSTrF2WoQ8KIBBrqaAAJ6rAoqE8PVl9Ejp/vXMAlyDqoYbRZo6F/5w4v15wUTWjSfuD3QyKOuYRA9nnY8JRDirlQGje8xiCLzsUzrW2QC8eseXiGmEToWpd56UPp9OnnIGWldIkKSdfTHToy+3PdaVLQ45UJ1fLr"
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT
-        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters)
+        this.vuforia = ClosableVuforiaLocalizer(parameters)
         val relicTrackables = this.vuforia?.loadTrackablesFromAsset("RelicVuMark")
         relicTemplate = relicTrackables?.get(0)
         relicTemplate?.setName("relicVuMarkTemplate") // can help in debugging; otherwise not necessary
@@ -30,6 +31,8 @@ class VuforiaNode(hardwareMap: HardwareMap) : Node("Vuforia") {
     }
     override fun subscriptions() {
         this.subscribe("/heartbeat", {refresh()})
+        subscribe("/stop", {stop()})
+        subscribe("/vuforia/stop", {stop()})
     }
     fun refresh() {
         val vuMark = RelicRecoveryVuMark.from(relicTemplate)
@@ -46,5 +49,9 @@ class VuforiaNode(hardwareMap: HardwareMap) : Node("Vuforia") {
             }
             else this.publish("/vuforia", VuforiaMsg(mark = vuMark, x = null, y = null, z = null, priority = 1))
         }
+    }
+
+    fun stop() {
+        vuforia?.close()
     }
 }
