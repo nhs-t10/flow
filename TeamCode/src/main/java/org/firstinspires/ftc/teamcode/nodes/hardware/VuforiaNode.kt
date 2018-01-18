@@ -32,7 +32,7 @@ class VuforiaNode(hardwareMap: HardwareMap) : Node("Vuforia") {
     override fun subscriptions() {
         this.subscribe("/heartbeat", {refresh()})
         subscribe("/stop", {stop()})
-        subscribe("/vuforia/stop", {stop()})
+        subscribe("/cv/transition", {stop()}) // switch to doges
     }
     fun refresh() {
         val vuMark = RelicRecoveryVuMark.from(relicTemplate)
