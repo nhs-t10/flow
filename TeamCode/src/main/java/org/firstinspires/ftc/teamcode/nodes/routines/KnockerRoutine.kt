@@ -49,21 +49,21 @@ class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routin
             turned = true
             publish("/status", TextMsg("Saw RED"))
             if(team == TeamColor.RED){
-                createMoveRoutine(-1).begin {  } // Go forward, stop.
-//                this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, {retractKnocker()}, 1))
+//                createMoveRoutine(-1).begin {  } // Go forward, stop.
+                this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, {retractKnocker()}, 1))
             } else {
-                createMoveRoutine(1).begin {  } // Go backward, stop.
-//                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, {retractKnocker()}, 1))
+//                createMoveRoutine(1).begin {  } // Go backward, stop.
+                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, {retractKnocker()}, 1))
             }
         } else if (red-15 <  blue) { // If blue is in front
             turned = true
             publish("/status", TextMsg("Saw BLUE"))
             if (team == TeamColor.BLUE) {
-                createMoveRoutine(-1).begin {  } // Go forward, stop.
-//                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, { retractKnocker() }, 1))
+//                createMoveRoutine(-1).begin {  } // Go forward, stop.
+                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, { retractKnocker() }, 1))
             } else {
-                createMoveRoutine(1).begin {  } // Go backward, stop.
-//              this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, { retractKnocker() }, 1))
+//                createMoveRoutine(1).begin {  } // Go backward, stop.
+              this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, { retractKnocker() }, 1))
             }
         } else {
             this.publish("/warn", TextMsg("Saw nuthin"))
