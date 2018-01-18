@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark
 import org.firstinspires.ftc.teamcode.messages.*
+import org.firstinspires.ftc.teamcode.nodes.control.AngleTurningNode
 import org.firstinspires.ftc.teamcode.nodes.routines.*
 import org.firstinspires.ftc.teamcode.util.TeamColor
 
@@ -33,7 +34,8 @@ abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
                     Dispatcher.publish("/drive", OmniDrive(0.0f, 0.0f, 0.0f, 1))
                     cb()
                 }),
-                CountFlanges(getRobotState)
+                CountFlanges(getRobotState),
+                SpinRoutine(90.0)
         ))
     }
 
