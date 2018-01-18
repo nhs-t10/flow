@@ -24,7 +24,6 @@ class AngleTurningNode : Node("Angle Turning Test") {
         this.subscribe("/imu", { this.update((it as ImuMsg).heading)})
         this.subscribe("/AngleTurning/turnTo", {this.setTurnTo(it as AngleTurnMsg)})
         this.subscribe("/AngleTurning/cancel", {this.stop()})
-
         this.subscribe("/AngleTurning/kP", {this.setkP(it)})
         this.subscribe("/AngleTurning/kI", {this.setkI(it)})
         this.subscribe("/AngleTurning/kD", {this.setkD(it)})
