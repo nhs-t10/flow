@@ -36,10 +36,12 @@ class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routin
 
     fun createMoveRoutine(sign: Int) : RoutineGroup = RoutineGroup(listOf(
             TimedCallbackRoutine({
-                this.publish("/drive", OmniDrive(sign * 0.3f, 0f, 0f, 1))
-            }, 500, {
+                this.publish("/drive", OmniDrive(sign * 0.4f, 0f, 0f, 1))
+            }, 800, {cb ->
+                publish("/status", TextMsg("Drove fwd"))
                 this.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
-                retractKnocker()
+                retractKnockerAndEnd()
+                cb()
             })
     ))
 
@@ -70,7 +72,7 @@ class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routin
         }
     }
 
-    fun retractKnocker(){
+    fun retractKnockerAndEnd(){
         this.publish("/servos/knocker", ServoMsg(upPosition, 1))
         end()
     }

@@ -34,7 +34,7 @@ class TimedCallbackRoutine(val initialCallback: () -> Unit, val time : Long, val
         // If we think you forgot to call the callback (stalling for a long time)
         if (done && !warned && System.currentTimeMillis() - initialTime >= (time + 8000)) {
             warned = true
-            publish("/warn", TextMsg("[T=${System.currentTimeMillis() - initialTime}] Still waiting for final callback. Did you call cb() in the second callback?"))
+            publish("/warn", TextMsg("[T=${System.currentTimeMillis() - initialTime}] Still waiting for final callback in use of TimedCallbackRoutine. Did you call cb() in the second callback?"))
         }
     }
     fun stop() {

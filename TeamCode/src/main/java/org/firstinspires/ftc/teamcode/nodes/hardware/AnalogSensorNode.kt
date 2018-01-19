@@ -22,7 +22,7 @@ class AnalogSensorNode(val hardwareMap: HardwareMap) : Node("Analog Sensors") {
     }
     fun addSensors(){
         //sensors.put("infrared", hardwareMap.analogInput.get("ir1")!!)
-        sensors.put("/ultra1", hardwareMap.analogInput.get("ultra1"))
+        sensors.put("ultra1", hardwareMap.analogInput.get("ultra1"))
     }
 
     fun update(hb: HeartBeatMsg){
