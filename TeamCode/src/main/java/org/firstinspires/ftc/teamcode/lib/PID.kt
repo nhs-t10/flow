@@ -23,7 +23,7 @@ class PID(val kP : Double, val kI : Double, val kD : Double) {
         val p = kP * error
         val d = -Math.signum(error) * Math.abs(kD * ((error - preverror)/elapsedtime))
         sumerror += (error*elapsedtime)/1000
-        val i = kI * sumerror
+        val i = (kI/100) * sumerror
         preverror = error
         prevtime = currenttime
         if(((1.5 > error && error > 0 && error < preverror) || (-1.5 < error && error < 0 && error > preverror)) && Math.abs(d) < .05){
