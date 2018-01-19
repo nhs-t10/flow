@@ -32,14 +32,7 @@ abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
                     Dispatcher.publish("/servos/knocker", ServoMsg(0.97, 1))
                 }, 1000),
                 KnockerRoutine(teamColor),
-                TimedCallbackRoutine({
-                    Dispatcher.publish("/drive", OmniDrive(-0.2f, 0.0f, 0.0f, 1))
-                }, 1300, {cb ->
-                    Dispatcher.publish("/drive", OmniDrive(0.0f, 0.0f, 0.0f, 1))
-                    cb()
-                }),
-                StopAtCryptoboxRoutine(TeamColor.RED),
-                SpinRoutine(90.0)
+                DriveToCryptoboxRoutine()
 
         ))
     }

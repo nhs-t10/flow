@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.messages.TextMsg
 class TelemetryNode(val telemetry : Telemetry) : Node("Telemetry") {
     var staticCounter = 0
     init {
-        telemetry.log().setCapacity(30)
+        telemetry.log().setCapacity(10)
         addLine(TextMsg("Warning: Servos/lifts will move on start."))
     }
 
