@@ -5,3 +5,4 @@ package org.firstinspires.ftc.teamcode.messages
  */
 data class OmniDrive(val upDown : Float, val leftRight : Float, val rotation : Float, override val priority: Int) : Message //motorVals go lf, rf, lb, rb
 data class SpeedMsg(val speed : Boolean, override val priority: Int) : Message
+data class StraightDriveMsg(val angle : Double, val speed: Double, override val priority: Int) : Message

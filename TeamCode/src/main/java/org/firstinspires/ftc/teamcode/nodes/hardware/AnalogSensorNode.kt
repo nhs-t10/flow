@@ -21,7 +21,8 @@ class AnalogSensorNode(val hardwareMap: HardwareMap) : Node("Analog Sensors") {
         this.subscribe("/heartbeat", {update(it as HeartBeatMsg)})
     }
     fun addSensors(){
-        sensors.put("infrared", hardwareMap.analogInput.get("ir1")!!)
+        //sensors.put("infrared", hardwareMap.analogInput.get("ir1")!!)
+        sensors.put("/ultra1", hardwareMap.analogInput.get("ultra1"))
     }
 
     fun update(hb: HeartBeatMsg){
