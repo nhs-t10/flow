@@ -35,11 +35,11 @@ class TestingNode : Node("Testing Node") {
     }
 
     fun renderMode() {
-        publish("/telemetry/staticLine", TextMsg("Tailing $mode. < and > to change."))
+        publish("/telemetry/staticLine", TextMsg("Tailing ${cyclableChannels[mode]}. < and > to change."))
     }
 
     override fun subscriptions() {
-        subscribe("/gamepad1/a", {
+        subscribe("/gamepad1/a", whenDown {
             publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, {}, 1))
         })
 
@@ -50,12 +50,12 @@ class TestingNode : Node("Testing Node") {
 
         subscribe("/gamepad1/right_stick_button", cancelLambda)
 
-        subscribe("/gamepad1/dpad_left", {
+        subscribe("/gamepad1/dpad_left", whenDown {
             if (mode <= 0) mode = cyclableChannels.size-1
             else mode--
             renderMode()
         })
-        subscribe("/gamepad1/dpad_right", {
+        subscribe("/gamepad1/dpad_right", whenDown {
             if (mode >= cyclableChannels.size-1) mode = 0
             else mode++
             renderMode()
