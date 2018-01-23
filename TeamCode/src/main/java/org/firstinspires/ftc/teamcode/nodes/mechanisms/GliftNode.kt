@@ -32,7 +32,7 @@ class GliftNode : Node("Glyph Lift") {
         }
     }
     fun receiveTopMessage() {
-        this.publish("/servos/liftServo", ServoMsg(0.87, priority = 1))
+        this.publish("/servos/liftServo", ServoMsg(0.775, priority = 1))
 //        safetyClose()
     }
     fun receiveHigherDownMessage() {
@@ -40,11 +40,11 @@ class GliftNode : Node("Glyph Lift") {
 //        safetyClose()
     }
     fun receiveDownMessage() {
-        this.publish("/servos/liftServo", ServoMsg(0.55, priority = 1))
+        this.publish("/servos/liftServo", ServoMsg(0.5, priority = 1))
 //        safetyClose()
     }
     fun receiveMiddleMessage() {
-        this.publish("/servos/liftServo", ServoMsg(0.71, priority = 1))
+        this.publish("/servos/liftServo", ServoMsg(0.7, priority = 1))
 //        safetyClose()
     }
     fun incrementUp() {

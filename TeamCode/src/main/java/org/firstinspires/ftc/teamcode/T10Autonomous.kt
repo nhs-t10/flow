@@ -36,7 +36,6 @@ abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
                 }, 1000),
                 KnockerRoutine(teamColor),
                 DriveToCryptoboxRoutine()
-
         ))
     }
 
