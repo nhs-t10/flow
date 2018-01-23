@@ -21,7 +21,7 @@ abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
 
     override fun registration() {
         register(VuforiaNode(hardwareMap))
-
+//SHAAAAASHHHHH WHERE IS AUTONOMOUS, WHERE IS THE GRABBER CODE??????
 
         routine = RoutineGroup(listOf(
                 GetVumarkRoutine({vuMark ->
