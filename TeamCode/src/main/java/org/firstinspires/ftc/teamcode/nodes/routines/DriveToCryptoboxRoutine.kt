@@ -15,7 +15,7 @@ class DriveToCryptoboxRoutine : RoutineNode("Drive to cryptobox") {
 
     fun onDistance(m: Message) {
         val (value) = m as AnalogMsg
-        if (value >= 0.15) {
+        if (value <= 0.1) {
             publish("/drive", OmniDrive(0f, 0f, 0f, 1))
             end()
         }
