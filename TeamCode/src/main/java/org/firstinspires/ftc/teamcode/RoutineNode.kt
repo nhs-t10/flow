@@ -33,9 +33,9 @@ abstract class RoutineNode(val name : String) : Node(name), Routinable {
 
     override fun begin(callback: () -> Unit) {
         this.routineCallback = callback
+        this.publish("/status", TextMsg("$name began!"))
         this.subscriptions()
         this.start()
-        this.publish("/status", TextMsg("$name began!"))
         routineStartTime = System.currentTimeMillis()
 
 
@@ -46,8 +46,8 @@ abstract class RoutineNode(val name : String) : Node(name), Routinable {
 
     fun end() {
         if (routineCallback != null){
-            this.routineCallback?.invoke()
             this.publish("/status", TextMsg("$name finished!"))
+            this.routineCallback?.invoke()
         }
         routineActive = false
     }
