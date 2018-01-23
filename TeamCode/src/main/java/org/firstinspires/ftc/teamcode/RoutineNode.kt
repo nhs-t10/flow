@@ -18,10 +18,10 @@ abstract class RoutineNode(val name : String) : Node(name), Routinable {
 
     fun callIfActive(cb: (Message) -> Unit) : (Message) -> Unit {
         return fun(m: Message) {
-            if (System.currentTimeMillis() - routineStartTime >= routineWarningTime) {
-                publish("/warn", TextMsg("[${System.currentTimeMillis()-routineStartTime}] Routine $name has been running for at least 10 seconds..."))
-            }
             if (routineActive) {
+                if (System.currentTimeMillis() - routineStartTime >= routineWarningTime) {
+                    publish("/warn", TextMsg("[${System.currentTimeMillis()-routineStartTime}] Routine $name has been running for at least 10 seconds..."))
+                }
                 cb(m)
             }
         }
