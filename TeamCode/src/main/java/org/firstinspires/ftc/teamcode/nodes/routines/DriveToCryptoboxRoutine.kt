@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.messages.OmniDrive
 /**
  * Created by max on 1/19/18.
  */
+
 class DriveToCryptoboxRoutine : RoutineNode("Drive to cryptobox") {
     override fun subscriptions() {
         subscribe("/analog/ultra1", {onDistance(it)})

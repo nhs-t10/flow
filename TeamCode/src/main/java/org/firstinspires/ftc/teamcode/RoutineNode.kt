@@ -35,6 +35,7 @@ abstract class RoutineNode(val name : String) : Node(name), Routinable {
         this.routineCallback = callback
         this.subscriptions()
         this.start()
+        this.publish("/status", TextMsg("$name began!"))
         routineStartTime = System.currentTimeMillis()
 
 
@@ -44,7 +45,10 @@ abstract class RoutineNode(val name : String) : Node(name), Routinable {
     abstract fun start()
 
     fun end() {
-        if (routineCallback != null) this.routineCallback?.invoke()
+        if (routineCallback != null){
+            this.routineCallback?.invoke()
+            this.publish("/status", TextMsg("$name finished!"))
+        }
         routineActive = false
     }
 }
