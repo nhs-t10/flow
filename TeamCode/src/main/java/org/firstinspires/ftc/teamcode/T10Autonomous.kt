@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark
 import org.firstinspires.ftc.teamcode.messages.*
 import org.firstinspires.ftc.teamcode.nodes.control.AngleTurningNode
-import org.firstinspires.ftc.teamcode.nodes.hardware.VuforiaNode
+import org.firstinspires.ftc.teamcode.nodes.hardware.*
 import org.firstinspires.ftc.teamcode.nodes.routines.*
 import org.firstinspires.ftc.teamcode.util.TeamColor
 
@@ -21,7 +21,10 @@ abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
 
     override fun registration() {
         register(VuforiaNode(hardwareMap))
-//SHAAAAASHHHHH WHERE IS AUTONOMOUS, WHERE IS THE GRABBER CODE??????
+        register(ColorNode(hardwareMap))
+        register(DistanceColorNode(hardwareMap))
+        register(DigitalSensorNode(hardwareMap))
+        register(AnalogSensorNode(hardwareMap))
 
         routine = RoutineGroup(listOf(
                 GetVumarkRoutine({vuMark ->

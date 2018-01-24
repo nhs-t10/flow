@@ -21,11 +21,7 @@ abstract class CoreOp : OpMode() {
         nodes = mutableListOf( // common nodes
                 systemNode,
                 OmniDtNode(),
-                ColorNode(hardwareMap),
-                DistanceColorNode(hardwareMap),
                 ImuNode(hardwareMap),
-                DigitalSensorNode(hardwareMap),
-                AnalogSensorNode(hardwareMap),
                 GliftNode(),
                 GlyphHolderNode(),
                 EffectorNode(hardwareMap),
