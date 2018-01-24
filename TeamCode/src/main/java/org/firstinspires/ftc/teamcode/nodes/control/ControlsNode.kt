@@ -16,7 +16,12 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         var lower = GripperState.OPEN
         var upper = GripperState.OPEN
     }
-
+    var rainbowGripperState = GripperState.CLOSED
+    fun rainbowGripperTransition(prevState: GripperState) = when(prevState){
+        GripperState.OPEN -> GripperState.CLOSED
+        GripperState.CLOSED -> GripperState.OPEN
+        GripperState.MIDDLE -> GripperState.OPEN
+    }
 
     // Finite State Machine for Grippers
     fun gripperTransition(prevState: GripperState) = when(prevState) {
@@ -44,6 +49,11 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         gripperStates.upper = upper
         publish("/glyph/lower", GripperMsg(lower, 1))
         publish("/glyph/upper", GripperMsg(upper, 1))
+    }
+
+    fun updateRainbowGrippers(liftStatus : GripperState){
+        rainbowGripperState = liftStatus
+        publish("/rainbow/gripper", GripperMsg(liftStatus, 1))
     }
 
     val macroLambda = whenDown {
@@ -159,23 +169,27 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         subscribe("/gamepad2/right_bumper", whenDown {
             publish("/glift/increment_down", UnitMsg())
         })
+
+
         /**
-         * Press X to do the hugger macro.
+         * Press X to do the rainbow grab
          */
-        subscribe("/gamepad2/x", macroLambda)
+        subscribe("/gamepad2/x", whenDown {
+
+        })
 
         /**
          * Press A to toggle grabbing or ejecting a lower block.
          */
         subscribe("/gamepad2/a", whenDown {
-            updateGrippers(lower = gripperTransition(gripperStates.lower))
+
         })
 
         /**
          * Press B to toggle grabbing or ejecting an upper block.
          */
         subscribe("/gamepad2/b", whenDown {
-            updateGrippers(upper = gripperTransition(gripperStates.upper))
+            updateRainbowGrippers(rainbowGripperTransition(rainbowGripperState))
         })
 
         /**
