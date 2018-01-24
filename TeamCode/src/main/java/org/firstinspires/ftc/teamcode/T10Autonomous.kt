@@ -4,6 +4,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark
 import org.firstinspires.ftc.teamcode.messages.*
 import org.firstinspires.ftc.teamcode.nodes.control.AngleTurningNode
 import org.firstinspires.ftc.teamcode.nodes.hardware.*
+import org.firstinspires.ftc.teamcode.nodes.human.UIColorNode
 import org.firstinspires.ftc.teamcode.nodes.routines.*
 import org.firstinspires.ftc.teamcode.util.TeamColor
 
@@ -17,14 +18,22 @@ abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
     // Routines accept an arg with type () -> RobotState
     // and call that function (getRobotState) to get the latest RobotState
     val robotState = RobotState()
+    val colorNode = UIColorNode(hardwareMap)
     val getRobotState = {robotState}
 
     override fun registration() {
+        // Do the safety dance
+        if (teamColor == TeamColor.RED) colorNode.changeColor("red")
+        else if (teamColor == TeamColor.BLUE) colorNode.changeColor("blue")
+
         register(VuforiaNode(hardwareMap))
-        register(ColorNode(hardwareMap))
+        register(colorNode)
         register(DistanceColorNode(hardwareMap))
         register(DigitalSensorNode(hardwareMap))
         register(AnalogSensorNode(hardwareMap))
+        register(UIColorNode(hardwareMap))
+
+
 
         routine = RoutineGroup(listOf(
                 GetVumarkRoutine({vuMark ->
