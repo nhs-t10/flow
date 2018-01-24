@@ -6,6 +6,7 @@ import org.firstinspires.ftc.teamcode.RoutineGroup
 import org.firstinspires.ftc.teamcode.messages.*
 import org.firstinspires.ftc.teamcode.nodes.routines.TimedCallbackRoutine
 import org.firstinspires.ftc.teamcode.util.whenDown
+import org.w3c.dom.Text
 
 /**
  * Created by max on 11/24/17.
@@ -29,13 +30,14 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
 
     fun liftTransition(prevState: LiftState, indice : Int) = when(prevState) {
         LiftState.TOP -> if (indice > 0) LiftState.TOP else LiftState.MIDDLE
-        LiftState.MIDDLE -> if (indice > 0) LiftState.TOP else LiftState.BOTTOM
+        LiftState.MIDDLE -> if (indice > 0) LiftState.TOP else LiftState.UPPER_BOTTOM
         LiftState.UPPER_BOTTOM -> if (indice > 0) LiftState.MIDDLE else LiftState.BOTTOM
-        LiftState.BOTTOM -> if (indice > 0) LiftState.MIDDLE else LiftState.BOTTOM
+        LiftState.BOTTOM -> if (indice > 0) LiftState.UPPER_BOTTOM else LiftState.BOTTOM
     }
 
     fun updateLift(state: LiftState) {
         liftState = state
+        publish("/status", TextMsg("$liftState"))
         publish("/glift", LiftMsg(liftState, 1))
     }
 
@@ -103,6 +105,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
 
         subscribe("/gamepad1/dpad_up", whenDown {
             updateLift(liftTransition(liftState, 1))
+
         })
 
         subscribe("/gamepad1/dpad_down", whenDown {
