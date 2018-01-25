@@ -42,7 +42,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
 
     fun updateLift(state: LiftState) {
         liftState = state
-        publish("/status", TextMsg("$liftState"))
+        publish("/status", TextMsg("Lift moved to $liftState"))
         publish("/glift", LiftMsg(liftState, 1))
     }
 
@@ -58,15 +58,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         publish("/rainbow/gripper", GripperMsg(liftStatus, 1))
     }
 
-    val squeezeReleaseLambda = {msg:Message ->
-        val (value) = (msg as GamepadJoyOrTrigMsg)
-        // If intent detected
-        if (value > 0.5) updateGrippers(lower=GripperState.MIDDLE, upper=GripperState.MIDDLE)
-        // If user is done and not the initial push-in. Ready to collect.
-        else if(gripperStates.lower == GripperState.MIDDLE && gripperStates.upper == GripperState.MIDDLE) {
-            updateGrippers(lower=GripperState.OPEN, upper=GripperState.OPEN)
-        }
-    }
+    val squeezeReleaseLambda = whenDown { updateGrippers(lower=GripperState.OPEN, upper=GripperState.OPEN) }
 
     val cancelLambda = whenDown {
         publish("/macros/cancel", UnitMsg())
