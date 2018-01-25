@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.OmniDrive
 import org.firstinspires.ftc.teamcode.messages.GamepadJoyOrTrigMsg
+import org.firstinspires.ftc.teamcode.messages.TextMsg
 
 class OmniJoyNode : Node("Omni Joystick") {
     var tempRotation: Float = 0f
@@ -29,11 +30,12 @@ class OmniJoyNode : Node("Omni Joystick") {
 
     // Possesses drive channel if joysticks being used
     fun deadLock(gamepadNumber : Int) {
+        // lock driver 1 if in use, and unconditionally lock drive channel
         if (tempUpDown != 0f || tempLeftRight != 0f || tempRotation != 0f) {
             if(gamepadNumber == 1) gamepad1Locked = true
             Dispatcher.lock("/drive", 1)
         }
-        else {
+        else { // unlock driver 1 if in use, and unconditionally unlock drive channel
             if (gamepadNumber == 1) gamepad1Locked = false
             Dispatcher.unlock("/drive")
         }
@@ -56,6 +58,9 @@ class OmniJoyNode : Node("Omni Joystick") {
             }
 
             this.publish("/drive", OmniDrive(this.tempUpDown, this.tempLeftRight, this.tempRotation, priority = 1))
+        }
+        else {
+            publish("/warn", TextMsg("Driver 2 attempting to override Driver 1's joystick movement."))
         }
     }
 
