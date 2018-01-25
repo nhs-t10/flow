@@ -28,24 +28,27 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         this.subscribe("/heartbeat", {this.thumpServos(it)})
     }
     fun addMotors(){
-        motors.put("lf", hardwareMap.dcMotor.get("m3")!!)
+        motors.put("lf", hardwareMap.dcMotor.get("m3"))
         motors["lf"]?.direction = DcMotorSimple.Direction.REVERSE
-        motors.put("lr", hardwareMap.dcMotor.get("m1")!!)
+        motors.put("lr", hardwareMap.dcMotor.get("m1"))
         motors["lr"]?.direction = DcMotorSimple.Direction.REVERSE
-        motors.put("rf", hardwareMap.dcMotor.get("m4")!!)
-        motors.put("rr", hardwareMap.dcMotor.get("m2")!!)
+        motors.put("rf", hardwareMap.dcMotor.get("m4"))
+        motors.put("rr", hardwareMap.dcMotor.get("m2"))
+        motors.put("rainbow", hardwareMap.dcMotor.get("m5"))
         //motors.put("g1", hardwareMap.dcMotor.get("m5")!!)
         for(key in motors.keys){
             this.subscribe("/motors/$key", {callMotor(key, it)})
         }
     }
     fun addServos() {
-        servos.put("bottomServo", hardwareMap.servo.get("s0")!!)
-        servos.put("topServo", hardwareMap.servo.get("s1")!!)
-        servos.put("liftServo", hardwareMap.servo.get("s2")!!)
-        servos.put("knocker", hardwareMap.servo.get("s3")!!)
-        servos.put("hugger_l", hardwareMap.servo.get("s4")!!)
-        servos.put("hugger_r", hardwareMap.servo.get("s5")!!)
+        servos.put("bottomServo", hardwareMap.servo.get("s0"))
+        servos.put("topServo", hardwareMap.servo.get("s1"))
+        servos.put("liftServo", hardwareMap.servo.get("s2"))
+        servos.put("knocker", hardwareMap.servo.get("s3"))
+        servos.put("hugger_l", hardwareMap.servo.get("s4"))
+        servos.put("hugger_r", hardwareMap.servo.get("s5"))
+        servos.put("tilter", hardwareMap.servo.get("s6"))
+        servos.put("raingripper", hardwareMap.servo.get("s7"))
         // servos.put("holderServoL", hardwareMap.servo.get("s2")!!)
         // servos.put("holderServoR", hardwareMap.servo.get("s3")!!)
 
@@ -61,6 +64,8 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         servoStates.put("topServo", 0.3)
         servoStates.put("hugger_l", 0.95)
         servoStates.put("hugger_r", 0.0)
+        servoStates.put("raingripper", 0.735)
+        servoStates.put("tilter", 0.0)
     }
 
     fun addCrServos() {

@@ -75,6 +75,8 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         publish("/hugger", HuggerMsg(closeIt = false, priority = 0))
     }
 
+
+
     override fun subscriptions() {
 
         subscribe("/gamepad1/dpad_up", whenDown {
@@ -127,10 +129,10 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
             updateLift(liftTransition(liftState, -1))
         })
         subscribe("/gamepad2/left_bumper", whenDown {
-            publish("/glift/increment_up", UnitMsg())
+            publish("/rainbow/tilter/increment_up", UnitMsg())
         })
         subscribe("/gamepad2/right_bumper", whenDown {
-            publish("/glift/increment_down", UnitMsg())
+            publish("/rainbow/tilter/increment_down", UnitMsg())
         })
 
 
@@ -151,6 +153,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         /**
          * Press B to toggle grabbing or ejecting an upper block.
          */
+
         subscribe("/gamepad2/b", whenDown {
             updateRainbowGrippers(rainbowGripperTransition(rainbowGripperState))
         })
@@ -158,14 +161,14 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         /**
          * Press and hold RT when delivering blocks into the shelf. Release when done.
          */
-        subscribe("/gamepad2/right_trigger", squeezeReleaseLambda)
+
+        subscribe("/gamepad2/right_trigger", {publish("/rainbow/extender/extend", it)})
 
         /**
          * Press LT to grab both blocks.
          */
-        subscribe("/gamepad2/left_trigger", whenDown {
-            updateGrippers(lower=GripperState.CLOSED, upper = GripperState.CLOSED)
-        })
+
+        subscribe("/gamepad2/left_trigger", {publish("/rainbow/extender/retract", it)})
         /* ---- */
         /**
          * Middle it out
