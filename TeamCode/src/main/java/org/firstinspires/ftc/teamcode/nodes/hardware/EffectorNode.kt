@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.nodes.hardware
 
 import com.qualcomm.robotcore.hardware.*
+import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.*
@@ -109,6 +110,9 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
             this.publish("/warn", TextMsg("$motorName does not exist. Check effectors list."))
         }
     }
+
+    fun clipValue(value: Double) = Range.clip(value, -1.0, 1.0)
+
     fun callServo(servoName : String, msg: Message){
         if (msg is ServoMsg) {
             val (position) = msg
@@ -121,15 +125,17 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
                 IncrementState.ZERO -> 0.0
                 IncrementState.HOLD -> servoStates[servoName] ?: 0.0
             }
-            setServoPosition(servoName, pos)
-            this.publish("/debug", TextMsg("Incremented $servoName to $pos"))
+            val clippedPos = clipValue(pos)
+            setServoPosition(servoName, clippedPos)
+            this.publish("/debug", TextMsg("Incremented $servoName to $clippedPos"))
         }
     }
     fun setServoPosition(servoName: String, position : Double) {
         val s = servos[servoName]
         if (s != null) {
-            s?.setPosition(position)
-            servoStates.put(servoName, position)
+            val clippedPos = clipValue(position)
+            s.setPosition(clippedPos)
+            servoStates.put(servoName, clippedPos)
         }
         else {
             this.publish("/warn", TextMsg("$servoName does not exist. Check effectors list."))
