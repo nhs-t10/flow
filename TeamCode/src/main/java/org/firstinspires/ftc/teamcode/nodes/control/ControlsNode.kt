@@ -58,42 +58,6 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         publish("/rainbow/gripper", GripperMsg(liftStatus, 1))
     }
 
-    val macroLambda = whenDown {
-        val routine = listOf(
-                TimedCallbackRoutine({
-                    if (gripperStates.lower != GripperState.CLOSED) {
-                        updateGrippers(lower = GripperState.CLOSED)
-                    }
-                }, if (gripperStates.lower != GripperState.CLOSED) 500 else 0, { cb -> cb()}),
-                TimedCallbackRoutine({
-                    updateLift(LiftState.MIDDLE) // move glift up..
-                }, 3300, {cb -> cb()}),
-                TimedCallbackRoutine({
-                    publish("/hugger", HuggerMsg(closeIt = true, priority = 1)) //... close the hugger
-                }, 2000, {cb ->
-                    updateGrippers(upper = GripperState.OPEN, lower=GripperState.OPEN) // loosen grip on block
-                    cb()}),
-                TimedCallbackRoutine({
-                }, 500, {cb -> cb()}),
-                TimedCallbackRoutine({
-                    updateLift(LiftState.BOTTOM) // hugger now has block. move lift down
-                }, 1500, {cb ->
-                    updateGrippers(upper = GripperState.CLOSED) // grab block with upper grabber
-                    cb()
-                }),
-                TimedCallbackRoutine({}, 1000, {cb ->
-                    publish("/hugger", HuggerMsg(closeIt = false, priority = 1)) // open hugger
-                    updateLift(LiftState.UPPER_BOTTOM)
-                    cb()
-                })// donezo!
-        )
-        val routineGroup = RoutineGroup(routine)
-        publish("/status", TextMsg("Hugger routine STARTED"))
-        routineGroup.begin {
-            publish("/status", TextMsg("Hugger routine FINISHED"))
-        }
-    }
-
     val squeezeReleaseLambda = {msg:Message ->
         val (value) = (msg as GamepadJoyOrTrigMsg)
         // If intent detected
@@ -127,10 +91,6 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         subscribe("/gamepad1/right_bumper", whenDown {
             publish("/glift/increment_down", UnitMsg())
         })
-        /**
-         * Press X to do the hugger macro.
-         */
-        subscribe("/gamepad1/x", macroLambda)
 
         /**
          * Press A to toggle grabbing or ejecting a lower block.
