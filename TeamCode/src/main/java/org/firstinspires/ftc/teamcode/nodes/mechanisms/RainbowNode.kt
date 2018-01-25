@@ -28,22 +28,20 @@ class RainbowNode : Node("Rainbow Lift") {
 
     fun recieveExtendMessage(m: Message){
         val (value) = m as GamepadJoyOrTrigMsg
-
-        publish("/motors/rainbow", MotorMsg(power = value.toDouble(), priority = 1))
+        publish("/motors/rainbow", MotorMsg(power = value.toDouble()*-1, priority = 1))
     }
 
     fun recieveRetractMessage(m:Message){
         val (value) = m as GamepadJoyOrTrigMsg
-
-        publish("/motors/rainbow", MotorMsg(power = (value.toDouble()*-1), priority = 1))
+        publish("/motors/rainbow", MotorMsg(power = (value.toDouble()), priority = 1))
     }
 
     fun recieveTiltUpMessage(){
-        publish("/servos/tilter", IncrementMsg(state = IncrementState.INCREMENT, increment = .1, priority = 1))
+        publish("/servos/tilter", IncrementMsg(state = IncrementState.INCREMENT, increment = 0.025, priority = 1))
     }
 
     fun recieveTiltDownMessage(){
-        publish("/servos/tilter", IncrementMsg(state = IncrementState.INCREMENT, increment = -.1, priority = 1))
+        publish("/servos/tilter", IncrementMsg(state = IncrementState.INCREMENT, increment = -0.025, priority = 1))
     }
 
     fun receiveOpenMessage() {

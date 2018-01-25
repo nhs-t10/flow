@@ -23,9 +23,9 @@ class OmniJoyNode : Node("Omni Joystick") {
         this.subscribe("/gamepad1/left_stick_x", {this.recieveMessage(gamepadNumber = 1, leftRight = (it as GamepadJoyOrTrigMsg).value)})
 
 
-        this.subscribe("/gamepad2/left_stick_y", {this.recieveMessage(gamepadNumber = 2, upDown = (it as GamepadJoyOrTrigMsg).value)})
-        this.subscribe("/gamepad2/right_stick_x", {this.recieveMessage(gamepadNumber = 2, rotation = (it as GamepadJoyOrTrigMsg).value)})
-        this.subscribe("/gamepad2/left_stick_x", {this.recieveMessage(gamepadNumber = 2, leftRight = (it as GamepadJoyOrTrigMsg).value)})
+        this.subscribe("/gamepad2/left_stick_y", {this.recieveMessage(gamepadNumber = 2, upDown = (it as GamepadJoyOrTrigMsg).value/2)})
+        this.subscribe("/gamepad2/right_stick_x", {this.recieveMessage(gamepadNumber = 2, rotation = (it as GamepadJoyOrTrigMsg).value/2)})
+        this.subscribe("/gamepad2/left_stick_x", {this.recieveMessage(gamepadNumber = 2, leftRight = (it as GamepadJoyOrTrigMsg).value/2)})
     }
 
     // Possesses drive channel if joysticks being used
@@ -56,7 +56,6 @@ class OmniJoyNode : Node("Omni Joystick") {
                 this.tempLeftRight = leftRight
                 deadLock(gamepadNumber)
             }
-
             this.publish("/drive", OmniDrive(this.tempUpDown, this.tempLeftRight, this.tempRotation, priority = 1))
         }
         else {

@@ -45,12 +45,8 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         servos.put("topServo", hardwareMap.servo.get("s1"))
         servos.put("liftServo", hardwareMap.servo.get("s2"))
         servos.put("knocker", hardwareMap.servo.get("s3"))
-        servos.put("hugger_l", hardwareMap.servo.get("s4"))
-        servos.put("hugger_r", hardwareMap.servo.get("s5"))
-        servos.put("tilter", hardwareMap.servo.get("s6"))
-        servos.put("raingripper", hardwareMap.servo.get("s7"))
-        // servos.put("holderServoL", hardwareMap.servo.get("s2")!!)
-        // servos.put("holderServoR", hardwareMap.servo.get("s3")!!)
+        servos.put("tilter", hardwareMap.servo.get("s4"))
+        servos.put("raingripper", hardwareMap.servo.get("s5"))
 
         for (key in servos.keys) {
             this.subscribe("/servos/$key", { callServo(key, it) })

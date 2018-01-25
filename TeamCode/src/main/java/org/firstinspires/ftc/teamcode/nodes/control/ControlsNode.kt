@@ -135,23 +135,8 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
             publish("/rainbow/tilter/increment_down", UnitMsg())
         })
 
-
         /**
-         * Press X to do the rainbow grab
-         */
-        subscribe("/gamepad2/x", whenDown {
-
-        })
-
-        /**
-         * Press A to toggle grabbing or ejecting a lower block.
-         */
-        subscribe("/gamepad2/a", whenDown {
-
-        })
-
-        /**
-         * Press B to toggle grabbing or ejecting an upper block.
+         * Press B to rainbow grab
          */
 
         subscribe("/gamepad2/b", whenDown {
