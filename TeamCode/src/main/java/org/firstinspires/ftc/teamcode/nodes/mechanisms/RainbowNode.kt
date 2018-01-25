@@ -17,13 +17,6 @@ class RainbowNode : Node("Rainbow Lift") {
         this.subscribe("/rainbow/tilter/increment_down", {recieveTiltDownMessage()})
     }
 
-    /**
-     * Safety measure so lower gripper doesn't get caught on rails
-     */
-//    fun safetyClose() {
-//        this.publish("/glyph/lower", GripperMsg(GripperState.CLOSED, 2))
-//    }
-
     fun receiveGripMessage(m: Message) {
         val (liftstatus) = m as GripperMsg
         when (liftstatus) {
@@ -54,12 +47,12 @@ class RainbowNode : Node("Rainbow Lift") {
     }
 
     fun receiveOpenMessage() {
-        this.publish("/servos/raingripper", ServoMsg(0.735, priority = 1))
+        this.publish("/servos/raingripper", ServoMsg(0.2, priority = 1))
 //        safetyClose()
     }
 
     fun receiveClosedMessage() {
-        this.publish("/servos/raingripper", ServoMsg(0.685, priority = 1))
+        this.publish("/servos/raingripper", ServoMsg(0.88, priority = 1))
 //        safetyClose()
     }
 }
