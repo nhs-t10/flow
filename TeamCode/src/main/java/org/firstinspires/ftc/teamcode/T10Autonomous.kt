@@ -33,8 +33,6 @@ abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
         register(AnalogSensorNode(hardwareMap))
         register(UIColorNode(hardwareMap))
 
-
-
         routine = RoutineGroup(listOf(
                 GetVumarkRoutine({vuMark ->
                     robotState.vuMark = vuMark
@@ -42,7 +40,7 @@ abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
                 TimeoutRoutine({
                     Dispatcher.publish("/glift", LiftMsg(LiftState.MIDDLE, 1))
                     Dispatcher.publish("/servos/knocker", ServoMsg(0.97, 1))
-                }, 1000),
+                }, 2000),
                 KnockerRoutine(teamColor),
                 DriveToCryptoboxRoutine()
         ))

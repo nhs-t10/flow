@@ -20,15 +20,6 @@ class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routin
     }
 
     fun doOnce(m : Message){
-        /*
-        if(!isDown){
-            val (red, blue) = m as ColorMsg
-            initialReadingR = red
-            initialReadingB = blue
-            isDown = true
-        }
-        */
-
         if(!turned){
             knockBall(m)
         }
