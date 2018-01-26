@@ -49,6 +49,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
     fun updateGrippers(lower : GripperState = gripperStates.lower, upper : GripperState = gripperStates.upper) {
         gripperStates.lower = lower
         gripperStates.upper = upper
+        publish("/status", TextMsg("Lower gripper: $lower, Upper gripper: $upper"))
         publish("/glyph/lower", GripperMsg(lower, 1))
         publish("/glyph/upper", GripperMsg(upper, 1))
     }
