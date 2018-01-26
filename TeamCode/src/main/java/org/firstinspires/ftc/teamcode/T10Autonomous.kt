@@ -49,7 +49,9 @@ abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
     }
 
     override fun initialize() {
-        telemetry.addLine("YOU SELECTED $teamColor $teamColor $teamColor")
+        telemetry.addLine("$teamColor $teamColor $teamColor")
+        telemetry.addLine("YOU SELECTED $teamColor")
+        telemetry.addLine("$teamColor $teamColor $teamColor")
     }
 
     override fun begin() {
