@@ -35,7 +35,7 @@ class ColorNode(val hardwareMap: HardwareMap) : Node("Color"){
     }
     fun addColorSensors(){
         colorSensors.put("knocker", hardwareMap?.colorSensor?.get("color1")!!)
-        colorSensors.put("ground", hardwareMap?.colorSensor?.get("sensor_color_distance")!!)
+//        colorSensors.put("ground", hardwareMap?.colorSensor?.get("sensor_color_distance")!!)
 //        colorSensors["knocker"]?.enableLed(false)
     }
 

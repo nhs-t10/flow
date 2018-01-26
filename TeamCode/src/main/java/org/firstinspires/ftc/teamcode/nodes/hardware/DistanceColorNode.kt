@@ -21,7 +21,7 @@ class DistanceColorNode(val hardwareMap: HardwareMap) : Node("Distance Color") {
         this.subscribe("/heartbeat", {update(it as HeartBeatMsg)})
     }
     fun addDistanceSensors(){
-        sensors.put("ground", hardwareMap.get(("sensor_color_distance")) as DistanceSensor)
+//        sensors.put("ground", hardwareMap.get(("sensor_color_distance")) as DistanceSensor)
     }
 
     fun update(hb: HeartBeatMsg){
