@@ -12,7 +12,7 @@ class GlyphHolderNode : Node("Glyph Holder") {
     // Top Holder Servo Position Constants
 
     fun getBottomPosition (state : GripperState) = when (state) {
-        GripperState.OPEN -> 0.55
+        GripperState.OPEN -> 0.5
         GripperState.CLOSED -> 1.0
         GripperState.MIDDLE -> 0.8
     }
