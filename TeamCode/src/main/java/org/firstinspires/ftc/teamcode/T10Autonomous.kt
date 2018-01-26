@@ -46,6 +46,12 @@ abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
         ))
     }
 
+    override fun initialize() {
+        Dispatcher.publish("/status", TextMsg("$teamColor $teamColor $teamColor"))
+        Dispatcher.publish("/status", TextMsg("You selected $teamColor."))
+        Dispatcher.publish("/status", TextMsg("$teamColor $teamColor $teamColor"))
+    }
+
     override fun begin() {
         routine?.begin {
             Dispatcher.publish("/status", TextMsg("Autonomous Complete."))

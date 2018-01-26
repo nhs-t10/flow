@@ -31,7 +31,9 @@ abstract class CoreOp : OpMode() {
                 AngleTurningNode()
         )
         registration()
+        initialize()
     }
+    open fun initialize() {}
     abstract fun registration()
     open fun begin() {}
 
