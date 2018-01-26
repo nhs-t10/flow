@@ -22,24 +22,26 @@ abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
 
     override fun registration() {
         // Do the safety dance
-        val colorNode = UIColorNode(hardwareMap)
-        if (teamColor == TeamColor.RED) colorNode.changeColor("red")
-        else if (teamColor == TeamColor.BLUE) colorNode.changeColor("blue")
+        val uiColorNode = UIColorNode(hardwareMap)
+        if (teamColor == TeamColor.RED) uiColorNode.changeColor("red")
+        else if (teamColor == TeamColor.BLUE) uiColorNode.changeColor("blue")
+        register(uiColorNode)
 
         register(VuforiaNode(hardwareMap))
-        register(colorNode)
-        register(DistanceColorNode(hardwareMap))
         register(DigitalSensorNode(hardwareMap))
         register(AnalogSensorNode(hardwareMap))
-        register(UIColorNode(hardwareMap))
+        register(ColorNode(hardwareMap))
+
+//        register(DistanceColorNode(hardwareMap))
 
         routine = RoutineGroup(listOf(
                 GetVumarkRoutine({vuMark ->
                     robotState.vuMark = vuMark
                 }),
                 TimeoutRoutine({
+                    Dispatcher.publish("/glyph/upper", GripperMsg(GripperState.CLOSED, 1))
                     Dispatcher.publish("/glift", LiftMsg(LiftState.MIDDLE, 1))
-                    Dispatcher.publish("/servos/knocker", ServoMsg(0.97, 1))
+                    Dispatcher.publish("/servos/knocker", ServoMsg(0.875, 1))
                 }, 2000),
                 KnockerRoutine(teamColor),
                 DriveToCryptoboxRoutine()
@@ -47,9 +49,7 @@ abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
     }
 
     override fun initialize() {
-        Dispatcher.publish("/status", TextMsg("$teamColor $teamColor $teamColor"))
-        Dispatcher.publish("/status", TextMsg("You selected $teamColor."))
-        Dispatcher.publish("/status", TextMsg("$teamColor $teamColor $teamColor"))
+        telemetry.addLine("YOU SELECTED $teamColor $teamColor $teamColor")
     }
 
     override fun begin() {
