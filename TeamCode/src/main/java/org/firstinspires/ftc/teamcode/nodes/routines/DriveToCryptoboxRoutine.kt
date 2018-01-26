@@ -18,11 +18,12 @@ class DriveToCryptoboxRoutine : RoutineNode("Drive to cryptobox") {
 
     fun bufferDistance(m: Message) {
         val (value) = m as AnalogMsg
+        val (fst, snd) = buffer
         // Making sure a drastic change is legit
-        if (Math.abs(value - (buffer.first + buffer.second)/2) <= 0.03) {
+        if (Math.abs(value - (fst + snd)/2) <= 0.03) {
             onDistance(value)
         }
-        buffer = Pair(buffer.second, value)
+        buffer = Pair(snd, value)
     }
 
     fun onDistance(value : Double) {

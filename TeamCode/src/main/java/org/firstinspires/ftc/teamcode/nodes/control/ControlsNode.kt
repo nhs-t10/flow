@@ -17,6 +17,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         var lower = GripperState.OPEN
         var upper = GripperState.OPEN
     }
+
     var rainbowGripperState = GripperState.CLOSED
     fun rainbowGripperTransition(prevState: GripperState) = when(prevState){
         GripperState.OPEN -> GripperState.CLOSED
@@ -33,6 +34,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
 
     var liftState = LiftState.BOTTOM
 
+    // Finite State Machine for Lift
     fun liftTransition(prevState: LiftState, indice : Int) = when(prevState) {
         LiftState.TOP -> if (indice > 0) LiftState.TOP else LiftState.MIDDLE
         LiftState.MIDDLE -> if (indice > 0) LiftState.TOP else LiftState.UPPER_BOTTOM
