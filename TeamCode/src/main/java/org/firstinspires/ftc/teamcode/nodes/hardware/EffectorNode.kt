@@ -60,7 +60,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         servoStates.put("bottomServo", 0.8)
         servoStates.put("topServo", 0.3)
         servoStates.put("raingripper", 0.88)
-        servoStates.put("tilter", 0.0)
+        servoStates.put("tilter", 0.2)
     }
 
     fun addCrServos() {
