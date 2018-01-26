@@ -40,7 +40,7 @@ class GliftNode : Node("Glyph Lift") {
 //        safetyClose()
     }
     fun receiveHigherDownMessage() {
-        this.publish("/servos/liftServo", ServoMsg(0.54, priority = 1))
+        this.publish("/servos/liftServo", ServoMsg(0.56, priority = 1))
 //        safetyClose()
     }
     fun receiveDownMessage() {
