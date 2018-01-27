@@ -173,7 +173,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
          * Middle it out
          */
         subscribe("/gamepad1/right_stick_button", whenDown {
-            updateLift(LiftState.UPPER_BOTTOM)
+            publish("/servos/jamb", IncrementMsg(IncrementState.INCREMENT, 0.05))
         })
 
         subscribe("/gamepad2/right_stick_button", whenDown {
@@ -187,7 +187,8 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
 
         subscribe("/gamepad1/left_stick_button", {msg ->
             val m = msg as GamepadButtonMsg
-            this.publish("/drive/fast", SpeedMsg(m.value, 1))
+//            this.publish("/drive/fast", SpeedMsg(m.value, 1))
+            publish("/servos/jamb", IncrementMsg(IncrementState.INCREMENT, -0.05))
 //            this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, {}, 1))
         })
     }

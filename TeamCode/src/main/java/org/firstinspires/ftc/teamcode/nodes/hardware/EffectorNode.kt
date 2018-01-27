@@ -48,6 +48,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         servos.put("knocker", hardwareMap.servo.get("s3"))
         servos.put("tilter", hardwareMap.servo.get("s4"))
         servos.put("raingripper", hardwareMap.servo.get("s5"))
+        servos.put("jamb", hardwareMap.servo.get("s6"))
 
         for (key in servos.keys) {
             this.subscribe("/servos/$key", { callServo(key, it) })

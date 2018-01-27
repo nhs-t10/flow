@@ -29,7 +29,7 @@ class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : Routine
     fun createMoveRoutine(sign: Int) : RoutineGroup = RoutineGroup(listOf(
         TimedCallbackRoutine({
             this.publish("/drive", OmniDrive(sign * 0.5f, 0f, 0f, 1))
-        }, 1000, {cb ->
+        }, 800, {cb ->
             publish("/status", TextMsg("Drove fwd"))
             this.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
             retractKnockerAndEnd()

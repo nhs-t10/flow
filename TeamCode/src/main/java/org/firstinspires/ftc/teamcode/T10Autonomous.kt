@@ -38,7 +38,7 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
         routine = RoutineGroup(listOf(
                 TimeoutRoutine({
                     Dispatcher.publish("/glyph/upper", GripperMsg(GripperState.CLOSED, 1))
-                }, 500),
+                }, 1000),
                 GetVumarkRoutine({vuMark ->
                     robotState.vuMark = vuMark
                 }),

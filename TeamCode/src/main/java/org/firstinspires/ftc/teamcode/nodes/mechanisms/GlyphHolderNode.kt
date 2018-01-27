@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.nodes.mechanisms
 
+import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.*
 import org.firstinspires.ftc.teamcode.messages.ServoMsg
@@ -22,20 +23,11 @@ class GlyphHolderNode : Node("Glyph Holder") {
         GripperState.MIDDLE -> 0.5
     }
 
-    val right_outward = 0.0
-    val right_inward = 0.9
-
-    val left_outward = 0.95
-    val left_inward = 0.03
-
-
-
     // Holder States
     override fun subscriptions() {
         this.subscribe("/glyph/upper", {upper(it)})
         this.subscribe("/glyph/lower", {lower(it)})
         this.subscribe("/start", {start()})
-        subscribe("/hugger", {updateHugger(it)})
     }
 
     fun start() {
@@ -50,17 +42,5 @@ class GlyphHolderNode : Node("Glyph Holder") {
     fun upper(m: Message){
         val (state) = m as GripperMsg
         this.publish("/servos/topServo", ServoMsg(getTopPosition(state), priority = 1))
-    }
-
-    fun updateHugger(m : Message){
-        val (closeIt, onClosed) = m as HuggerMsg
-        if (!closeIt) { // NEED TO OPEN IT DOOD
-            this.publish("/servos/hugger_l", ServoMsg(left_outward, 2))
-            this.publish("/servos/hugger_r", ServoMsg(right_outward, 2))
-        }
-        else { // NEED TO CLOSE IT DOOD
-            this.publish("/servos/hugger_l", ServoMsg(left_inward, 2))
-            this.publish("/servos/hugger_r", ServoMsg(right_inward, 2))
-        }
     }
 }

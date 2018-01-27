@@ -44,8 +44,8 @@ abstract class CoreOp : OpMode() {
         nodes?.forEach{
             it.subscriptions()
         }
-        begin()
         systemNode.publishStart()
+        begin()
     }
 
     final override fun loop() {
