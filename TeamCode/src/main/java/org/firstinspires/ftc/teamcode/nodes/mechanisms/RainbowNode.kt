@@ -13,8 +13,10 @@ class RainbowNode : Node("Rainbow Lift") {
         this.subscribe("/rainbow/gripper", { receiveGripMessage(it)})
         this.subscribe("/rainbow/extender/extend", {recieveExtendMessage(it)})
         this.subscribe("/rainbow/extender/retract", {recieveRetractMessage(it)})
-        this.subscribe("/rainbow/tilter/increment_up", {recieveTiltUpMessage()})
-        this.subscribe("/rainbow/tilter/increment_down", {recieveTiltDownMessage()})
+        this.subscribe("/rainbow/tilter/increment_up", {recieveTiltUpMessage(0.025)})
+        this.subscribe("/rainbow/tilter/increment_down", {recieveTiltDownMessage(-0.025)})
+        this.subscribe("/rainbow/tilter/increment_up/fast", {recieveTiltUpMessage(0.05)})
+        this.subscribe("/rainbow/tilter/increment_down/fast", {recieveTiltDownMessage(-0.05)})
     }
 
     fun receiveGripMessage(m: Message) {
@@ -36,12 +38,12 @@ class RainbowNode : Node("Rainbow Lift") {
         publish("/motors/rainbow", MotorMsg(power = (value.toDouble()), priority = 1))
     }
 
-    fun recieveTiltUpMessage(){
-        publish("/servos/tilter", IncrementMsg(state = IncrementState.INCREMENT, increment = 0.025, priority = 1))
+    fun recieveTiltUpMessage(interval: Double){
+        publish("/servos/tilter", IncrementMsg(state = IncrementState.INCREMENT, increment = interval, priority = 1))
     }
 
-    fun recieveTiltDownMessage(){
-        publish("/servos/tilter", IncrementMsg(state = IncrementState.INCREMENT, increment = -0.025, priority = 1))
+    fun recieveTiltDownMessage(interval: Double){
+        publish("/servos/tilter", IncrementMsg(state = IncrementState.INCREMENT, increment = interval, priority = 1))
     }
 
     fun receiveOpenMessage() {

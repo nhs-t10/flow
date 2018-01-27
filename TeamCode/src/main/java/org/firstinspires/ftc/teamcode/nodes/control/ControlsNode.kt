@@ -123,6 +123,13 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         subscribe("/gamepad2/dpad_down", whenDown {
             updateLift(liftTransition(liftState, -1))
         })
+        subscribe("/gamepad2/dpad_left", whenDown {
+            publish("/rainbow/tilter/increment_up/fast", UnitMsg())
+        })
+        subscribe("/gamepad2/dpad_right", whenDown {
+            publish("/rainbow/tilter/increment_down/fast", UnitMsg())
+        })
+
         subscribe("/gamepad2/left_bumper", whenDown {
             publish("/rainbow/tilter/increment_up", UnitMsg())
         })
