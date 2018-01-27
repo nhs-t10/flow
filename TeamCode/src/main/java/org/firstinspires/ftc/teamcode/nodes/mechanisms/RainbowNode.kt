@@ -41,7 +41,7 @@ class RainbowNode : Node("Rainbow Lift") {
     fun recieveTiltUpMessage(interval: Double){
         publish("/servos/tilter", IncrementMsg(state = IncrementState.INCREMENT, increment = interval, priority = 1))
     }
-
+//.77
     fun recieveTiltDownMessage(interval: Double){
         publish("/servos/tilter", IncrementMsg(state = IncrementState.INCREMENT, increment = interval, priority = 1))
     }

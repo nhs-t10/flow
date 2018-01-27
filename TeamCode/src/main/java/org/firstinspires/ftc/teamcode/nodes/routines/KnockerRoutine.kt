@@ -4,14 +4,15 @@ import org.firstinspires.ftc.teamcode.RoutineGroup
 import org.firstinspires.ftc.teamcode.RoutineNode
 import org.firstinspires.ftc.teamcode.messages.*
 import org.firstinspires.ftc.teamcode.util.TeamColor
+import org.firstinspires.ftc.teamcode.util.TeamPosition
 
 /**
  * Created by shaash on 12/3/2017.
  */
 
-class KnockerRoutine(val team : TeamColor) : RoutineNode (name = "Knocker Routine"){
+class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : RoutineNode (name = "Knocker Routine"){
     var turned = false
-//    val downPosition = 0.95
+
     val upPosition = 0.075
     override fun start() {}
 

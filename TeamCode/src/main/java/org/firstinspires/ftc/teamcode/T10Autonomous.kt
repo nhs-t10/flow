@@ -7,11 +7,12 @@ import org.firstinspires.ftc.teamcode.nodes.hardware.*
 import org.firstinspires.ftc.teamcode.nodes.human.UIColorNode
 import org.firstinspires.ftc.teamcode.nodes.routines.*
 import org.firstinspires.ftc.teamcode.util.TeamColor
+import org.firstinspires.ftc.teamcode.util.TeamPosition
 
 /**
  * Created by dvw08 on 12/15/17.
  */
-abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
+abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPosition) : CoreOp() {
     var routine : RoutineGroup? = null
 
     // This allows us to inject the robot state into routines
@@ -43,15 +44,22 @@ abstract class T10Autonomous(val teamColor : TeamColor) : CoreOp() {
                     Dispatcher.publish("/glift", LiftMsg(LiftState.MIDDLE, 1))
                     Dispatcher.publish("/servos/knocker", ServoMsg(0.875, 1))
                 }, 2000),
-                KnockerRoutine(teamColor),
-                DriveToCryptoboxRoutine()
+                KnockerRoutine(teamColor, teamPosition),
+                TimeoutRoutine({}, 1000), // wait for knocker retraction
+                TimedCallbackRoutine({
+//                    Dispatcher.publish("/drive", OmniDrive(0.3f, 0f, 0f, 1))
+                }, 1200, {cb ->
+                    Dispatcher.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
+                    cb()
+                })
+//                DriveToCryptoboxRoutine()
         ))
     }
 
     override fun initialize() {
-        telemetry.addLine("$teamColor $teamColor $teamColor")
-        telemetry.addLine("YOU SELECTED $teamColor")
-        telemetry.addLine("$teamColor $teamColor $teamColor")
+        telemetry.addLine("$teamColor $teamPosition $teamColor $teamPosition $teamColor $teamPosition")
+        telemetry.addLine("YOU SELECTED $teamColor POSITION $teamPosition")
+        telemetry.addLine("$teamColor $teamPosition $teamColor $teamPosition $teamColor $teamPosition")
     }
 
     override fun begin() {
