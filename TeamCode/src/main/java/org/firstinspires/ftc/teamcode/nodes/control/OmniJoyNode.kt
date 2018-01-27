@@ -24,7 +24,7 @@ class OmniJoyNode : Node("Omni Joystick") {
 
 
         this.subscribe("/gamepad2/left_stick_y", {this.recieveMessage(gamepadNumber = 2, upDown = (it as GamepadJoyOrTrigMsg).value/2)})
-        this.subscribe("/gamepad2/right_stick_x", {this.recieveMessage(gamepadNumber = 2, rotation = (it as GamepadJoyOrTrigMsg).value/4)})
+        this.subscribe("/gamepad2/right_stick_x", {this.recieveMessage(gamepadNumber = 2, rotation = (it as GamepadJoyOrTrigMsg).value/2)})
         this.subscribe("/gamepad2/left_stick_x", {this.recieveMessage(gamepadNumber = 2, leftRight = (it as GamepadJoyOrTrigMsg).value/2)})
     }
 

@@ -13,6 +13,7 @@ class RainbowNode : Node("Rainbow Lift") {
         this.subscribe("/rainbow/gripper", { receiveGripMessage(it)})
         this.subscribe("/rainbow/extender/extend", {recieveExtendMessage(it)})
         this.subscribe("/rainbow/extender/retract", {recieveRetractMessage(it)})
+
         this.subscribe("/rainbow/tilter/eject", {goToPos(0.3)})
         this.subscribe("/rainbow/tilter/over_wall", {goToPos(0.5)})
         this.subscribe("/rainbow/tilter/increment_up", {recieveTiltUpMessage(0.025)})
