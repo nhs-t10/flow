@@ -48,13 +48,16 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
                 }, 2000),
                 KnockerRoutine(teamColor, teamPosition),
                 TimeoutRoutine({}, 1000), // wait for knocker retraction
+                StopAtCryptoboxRoutine(teamColor),
+                SpinRoutine(90.0),
                 TimedCallbackRoutine({
-//                    Dispatcher.publish("/drive", OmniDrive(0.3f, 0f, 0f, 1))
-                }, 1200, {cb ->
+                    Dispatcher.publish("/drive", OmniDrive(0.3f, 0f, 0f, 1))
+                }, 400, {cb ->
                     Dispatcher.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
                     cb()
                 })
 //                DriveToCryptoboxRoutine()
+
         ))
     }
 
