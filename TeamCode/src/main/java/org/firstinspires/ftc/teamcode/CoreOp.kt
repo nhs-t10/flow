@@ -22,11 +22,7 @@ abstract class CoreOp : OpMode() {
         nodes = mutableListOf( // common nodes
                 systemNode,
                 OmniDtNode(),
-//                ColorNode(hardwareMap),
-//                DistanceColorNode(hardwareMap),
                 ImuNode(hardwareMap),
-                DigitalSensorNode(hardwareMap),
-//                AnalogSensorNode(hardwareMap),
                 GliftNode(),
                 GlyphHolderNode(),
                 EffectorNode(hardwareMap),
@@ -36,7 +32,9 @@ abstract class CoreOp : OpMode() {
                 AngleTurningNode()
         )
         registration()
+        initialize()
     }
+    open fun initialize() {}
     abstract fun registration()
     open fun begin() {}
 
@@ -47,8 +45,8 @@ abstract class CoreOp : OpMode() {
         nodes?.forEach{
             it.subscriptions()
         }
-        begin()
         systemNode.publishStart()
+        begin()
         Dispatcher.publish("/cv/transition", UnitMsg())
     }
 

@@ -6,6 +6,7 @@ import org.firstinspires.ftc.teamcode.RoutineGroup
 import org.firstinspires.ftc.teamcode.messages.*
 import org.firstinspires.ftc.teamcode.nodes.routines.TimedCallbackRoutine
 import org.firstinspires.ftc.teamcode.util.whenDown
+import org.w3c.dom.Text
 
 /**
  * Created by max on 11/24/17.
@@ -17,6 +18,12 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         var upper = GripperState.OPEN
     }
 
+    var rainbowGripperState = GripperState.CLOSED
+    fun rainbowGripperTransition(prevState: GripperState) = when(prevState){
+        GripperState.OPEN -> GripperState.CLOSED
+        GripperState.CLOSED -> GripperState.OPEN
+        GripperState.MIDDLE -> GripperState.OPEN
+    }
 
     // Finite State Machine for Grippers
     fun gripperTransition(prevState: GripperState) = when(prevState) {
@@ -27,70 +34,34 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
 
     var liftState = LiftState.BOTTOM
 
+    // Finite State Machine for Lift
     fun liftTransition(prevState: LiftState, indice : Int) = when(prevState) {
         LiftState.TOP -> if (indice > 0) LiftState.TOP else LiftState.MIDDLE
-        LiftState.MIDDLE -> if (indice > 0) LiftState.TOP else LiftState.BOTTOM
+        LiftState.MIDDLE -> if (indice > 0) LiftState.TOP else LiftState.UPPER_BOTTOM
         LiftState.UPPER_BOTTOM -> if (indice > 0) LiftState.MIDDLE else LiftState.BOTTOM
-        LiftState.BOTTOM -> if (indice > 0) LiftState.MIDDLE else LiftState.BOTTOM
+        LiftState.BOTTOM -> if (indice > 0) LiftState.UPPER_BOTTOM else LiftState.BOTTOM
     }
 
     fun updateLift(state: LiftState) {
         liftState = state
+        publish("/status", TextMsg("Lift moved to $liftState"))
         publish("/glift", LiftMsg(liftState, 1))
     }
 
     fun updateGrippers(lower : GripperState = gripperStates.lower, upper : GripperState = gripperStates.upper) {
         gripperStates.lower = lower
         gripperStates.upper = upper
+        publish("/status", TextMsg("Lower gripper: $lower, Upper gripper: $upper"))
         publish("/glyph/lower", GripperMsg(lower, 1))
         publish("/glyph/upper", GripperMsg(upper, 1))
     }
 
-    val macroLambda = whenDown {
-        val routine = listOf(
-                TimedCallbackRoutine({
-                    if (gripperStates.lower != GripperState.CLOSED) {
-                        updateGrippers(lower = GripperState.CLOSED)
-                    }
-                }, if (gripperStates.lower != GripperState.CLOSED) 500 else 0, { cb -> cb()}),
-                TimedCallbackRoutine({
-                    updateLift(LiftState.MIDDLE) // move glift up..
-                }, 3300, {cb -> cb()}),
-                TimedCallbackRoutine({
-                    publish("/hugger", HuggerMsg(closeIt = true, priority = 1)) //... close the hugger
-                }, 2000, {cb ->
-                    updateGrippers(upper = GripperState.OPEN, lower=GripperState.OPEN) // loosen grip on block
-                    cb()}),
-                TimedCallbackRoutine({
-                }, 500, {cb -> cb()}),
-                TimedCallbackRoutine({
-                    updateLift(LiftState.BOTTOM) // hugger now has block. move lift down
-                }, 1500, {cb ->
-                    updateGrippers(upper = GripperState.CLOSED) // grab block with upper grabber
-                    cb()
-                }),
-                TimedCallbackRoutine({}, 1000, {cb ->
-                    publish("/hugger", HuggerMsg(closeIt = false, priority = 1)) // open hugger
-                    updateLift(LiftState.UPPER_BOTTOM)
-                    cb()
-                })// donezo!
-        )
-        val routineGroup = RoutineGroup(routine)
-        publish("/status", TextMsg("Hugger routine STARTED"))
-        routineGroup.begin {
-            publish("/status", TextMsg("Hugger routine FINISHED"))
-        }
+    fun updateRainbowGrippers(liftStatus : GripperState){
+        rainbowGripperState = liftStatus
+        publish("/rainbow/gripper", GripperMsg(liftStatus, 1))
     }
 
-    val squeezeReleaseLambda = {msg:Message ->
-        val (value) = (msg as GamepadJoyOrTrigMsg)
-        // If intent detected
-        if (value > 0.5) updateGrippers(lower=GripperState.MIDDLE, upper=GripperState.MIDDLE)
-        // If user is done and not the initial push-in. Ready to collect.
-        else if(gripperStates.lower == GripperState.MIDDLE && gripperStates.upper == GripperState.MIDDLE) {
-            updateGrippers(lower=GripperState.OPEN, upper=GripperState.OPEN)
-        }
-    }
+    val squeezeReleaseLambda = whenDown { updateGrippers(lower=GripperState.OPEN, upper=GripperState.OPEN) }
 
     val cancelLambda = whenDown {
         publish("/macros/cancel", UnitMsg())
@@ -99,10 +70,13 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         publish("/hugger", HuggerMsg(closeIt = false, priority = 0))
     }
 
+
+
     override fun subscriptions() {
 
         subscribe("/gamepad1/dpad_up", whenDown {
             updateLift(liftTransition(liftState, 1))
+
         })
 
         subscribe("/gamepad1/dpad_down", whenDown {
@@ -114,10 +88,6 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         subscribe("/gamepad1/right_bumper", whenDown {
             publish("/glift/increment_down", UnitMsg())
         })
-        /**
-         * Press X to do the hugger macro.
-         */
-        subscribe("/gamepad1/x", macroLambda)
 
         /**
          * Press A to toggle grabbing or ejecting a lower block.
@@ -153,48 +123,57 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         subscribe("/gamepad2/dpad_down", whenDown {
             updateLift(liftTransition(liftState, -1))
         })
+        subscribe("/gamepad2/dpad_left", whenDown {
+            publish("/rainbow/tilter/increment_up/fast", UnitMsg())
+        })
+        subscribe("/gamepad2/dpad_right", whenDown {
+            publish("/rainbow/tilter/increment_down/fast", UnitMsg())
+        })
+        subscribe("/gamepad2/left_stick_button", whenDown {
+            publish("/rainbow/tilter/increment_up/fast", UnitMsg())
+        })
+        subscribe("/gamepad2/right_stick_button", whenDown {
+            publish("/rainbow/tilter/increment_down/fast", UnitMsg())
+        })
+        subscribe("/gamepad2/a", whenDown {
+            publish("/rainbow/tilter/eject", UnitMsg())
+        })
+        subscribe("/gamepad2/y", whenDown {
+            publish("/rainbow/tilter/over_wall", UnitMsg())
+        })
+
         subscribe("/gamepad2/left_bumper", whenDown {
-            publish("/glift/increment_up", UnitMsg())
+            publish("/rainbow/tilter/increment_up", UnitMsg())
         })
         subscribe("/gamepad2/right_bumper", whenDown {
-            publish("/glift/increment_down", UnitMsg())
-        })
-        /**
-         * Press X to do the hugger macro.
-         */
-        subscribe("/gamepad2/x", macroLambda)
-
-        /**
-         * Press A to toggle grabbing or ejecting a lower block.
-         */
-        subscribe("/gamepad2/a", whenDown {
-            updateGrippers(lower = gripperTransition(gripperStates.lower))
+            publish("/rainbow/tilter/increment_down", UnitMsg())
         })
 
         /**
-         * Press B to toggle grabbing or ejecting an upper block.
+         * Press B to rainbow grab
          */
+
         subscribe("/gamepad2/b", whenDown {
-            updateGrippers(upper = gripperTransition(gripperStates.upper))
+            updateRainbowGrippers(rainbowGripperTransition(rainbowGripperState))
         })
 
         /**
          * Press and hold RT when delivering blocks into the shelf. Release when done.
          */
-        subscribe("/gamepad2/right_trigger", squeezeReleaseLambda)
+
+        subscribe("/gamepad2/right_trigger", {publish("/rainbow/extender/extend", it)})
 
         /**
          * Press LT to grab both blocks.
          */
-        subscribe("/gamepad2/left_trigger", whenDown {
-            updateGrippers(lower=GripperState.CLOSED, upper = GripperState.CLOSED)
-        })
+
+        subscribe("/gamepad2/left_trigger", {publish("/rainbow/extender/retract", it)})
         /* ---- */
         /**
          * Middle it out
          */
         subscribe("/gamepad1/right_stick_button", whenDown {
-            updateLift(LiftState.UPPER_BOTTOM)
+            publish("/servos/jamb", IncrementMsg(IncrementState.INCREMENT, 0.05))
         })
 
         subscribe("/gamepad2/right_stick_button", whenDown {
@@ -208,11 +187,9 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
 
         subscribe("/gamepad1/left_stick_button", {msg ->
             val m = msg as GamepadButtonMsg
-            this.publish("/drive/fast", SpeedMsg(m.value, 1))
+//            this.publish("/drive/fast", SpeedMsg(m.value, 1))
+            publish("/servos/jamb", IncrementMsg(IncrementState.INCREMENT, -0.05))
 //            this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, {}, 1))
-        })
-        subscribe("/gamepad2/left_stick_button", {msg ->
-            this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, {}, 1))
         })
     }
 }

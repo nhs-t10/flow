@@ -45,7 +45,7 @@ class OmniDtNode : Node("Omni Drivetrain"){
         var rotationalComponent = rotationalMultiplier.map { it * rotation}
         forwardsComponent = forwardsComponent.map { it * speedscale}
         eastWestComponent = eastWestComponent.map { it * speedscale}
-        rotationalComponent = rotationalComponent.map { it * speedscale * 2f}
+        rotationalComponent = rotationalComponent.map { it * speedscale }
 
         val motorvals = drive(forwardsComponent, eastWestComponent, rotationalComponent).map{it.toDouble()}
         val priority = 1

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.nodes.hardware
 
 import com.qualcomm.robotcore.hardware.*
+import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.*
@@ -28,26 +29,26 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         this.subscribe("/heartbeat", {this.thumpServos(it)})
     }
     fun addMotors(){
-        motors.put("lf", hardwareMap.dcMotor.get("m3")!!)
+        motors.put("lf", hardwareMap.dcMotor.get("m3"))
         motors["lf"]?.direction = DcMotorSimple.Direction.REVERSE
-        motors.put("lr", hardwareMap.dcMotor.get("m1")!!)
+        motors.put("lr", hardwareMap.dcMotor.get("m1"))
         motors["lr"]?.direction = DcMotorSimple.Direction.REVERSE
-        motors.put("rf", hardwareMap.dcMotor.get("m4")!!)
-        motors.put("rr", hardwareMap.dcMotor.get("m2")!!)
+        motors.put("rf", hardwareMap.dcMotor.get("m4"))
+        motors.put("rr", hardwareMap.dcMotor.get("m2"))
+        motors.put("rainbow", hardwareMap.dcMotor.get("m5"))
         //motors.put("g1", hardwareMap.dcMotor.get("m5")!!)
         for(key in motors.keys){
             this.subscribe("/motors/$key", {callMotor(key, it)})
         }
     }
     fun addServos() {
-        servos.put("bottomServo", hardwareMap.servo.get("s0")!!)
-        servos.put("topServo", hardwareMap.servo.get("s1")!!)
-        servos.put("liftServo", hardwareMap.servo.get("s2")!!)
-        servos.put("knocker", hardwareMap.servo.get("s3")!!)
-        servos.put("hugger_l", hardwareMap.servo.get("s4")!!)
-        servos.put("hugger_r", hardwareMap.servo.get("s5")!!)
-        // servos.put("holderServoL", hardwareMap.servo.get("s2")!!)
-        // servos.put("holderServoR", hardwareMap.servo.get("s3")!!)
+        servos.put("bottomServo", hardwareMap.servo.get("s0"))
+        servos.put("topServo", hardwareMap.servo.get("s1"))
+        servos.put("liftServo", hardwareMap.servo.get("s2"))
+        servos.put("knocker", hardwareMap.servo.get("s3"))
+        servos.put("tilter", hardwareMap.servo.get("s4"))
+        servos.put("raingripper", hardwareMap.servo.get("s5"))
+        servos.put("jamb", hardwareMap.servo.get("s6"))
 
         for (key in servos.keys) {
             this.subscribe("/servos/$key", { callServo(key, it) })
@@ -59,8 +60,8 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         servoStates.put("knocker", 0.075)
         servoStates.put("bottomServo", 0.8)
         servoStates.put("topServo", 0.3)
-        servoStates.put("hugger_l", 0.95)
-        servoStates.put("hugger_r", 0.0)
+        servoStates.put("raingripper", 0.88)
+        servoStates.put("tilter", 0.2)
     }
 
     fun addCrServos() {
@@ -108,6 +109,9 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
             this.publish("/warn", TextMsg("$motorName does not exist. Check effectors list."))
         }
     }
+
+    fun clipValue(value: Double) = Range.clip(value, -1.0, 1.0)
+
     fun callServo(servoName : String, msg: Message){
         if (msg is ServoMsg) {
             val (position) = msg
@@ -120,15 +124,17 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
                 IncrementState.ZERO -> 0.0
                 IncrementState.HOLD -> servoStates[servoName] ?: 0.0
             }
-            setServoPosition(servoName, pos)
-            this.publish("/debug", TextMsg("Incremented $servoName to $pos"))
+            val clippedPos = clipValue(pos)
+            setServoPosition(servoName, clippedPos)
+            this.publish("/debug", TextMsg("Incremented $servoName to $clippedPos"))
         }
     }
     fun setServoPosition(servoName: String, position : Double) {
         val s = servos[servoName]
         if (s != null) {
-            s?.setPosition(position)
-            servoStates.put(servoName, position)
+            val clippedPos = clipValue(position)
+            s.setPosition(clippedPos)
+            servoStates.put(servoName, clippedPos)
         }
         else {
             this.publish("/warn", TextMsg("$servoName does not exist. Check effectors list."))

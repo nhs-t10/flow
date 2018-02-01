@@ -32,19 +32,19 @@ class GliftNode : Node("Glyph Lift") {
         }
     }
     fun receiveTopMessage() {
-        this.publish("/servos/liftServo", ServoMsg(0.87, priority = 1))
-//        safetyClose()
-    }
-    fun receiveHigherDownMessage() {
-        this.publish("/servos/liftServo", ServoMsg(0.575, priority = 1))
-//        safetyClose()
-    }
-    fun receiveDownMessage() {
-        this.publish("/servos/liftServo", ServoMsg(0.55, priority = 1))
+        this.publish("/servos/liftServo", ServoMsg(0.8, priority = 1))
 //        safetyClose()
     }
     fun receiveMiddleMessage() {
-        this.publish("/servos/liftServo", ServoMsg(0.71, priority = 1))
+        this.publish("/servos/liftServo", ServoMsg(0.645, priority = 1))
+//        safetyClose()
+    }
+    fun receiveHigherDownMessage() {
+        this.publish("/servos/liftServo", ServoMsg(0.56, priority = 1))
+//        safetyClose()
+    }
+    fun receiveDownMessage() {
+        this.publish("/servos/liftServo", ServoMsg(0.425, priority = 1))
 //        safetyClose()
     }
     fun incrementUp() {
@@ -52,6 +52,6 @@ class GliftNode : Node("Glyph Lift") {
     }
     fun incrementDown() {
         this.publish("/servos/liftServo", IncrementMsg(IncrementState.INCREMENT, 0.025))
-//        safetyClose()
+//        safetyClose( )
     }
 }

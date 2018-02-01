@@ -32,13 +32,12 @@ object Dispatcher {
                 var x = 0
                 for (callback in locked) {
                     try {
-                        if (channel.equals("/heartbeat")) {
-                        }
                         callback(message)
                     }
                     catch(e:Exception) {
-                        // TODO: hahahaha this will cause recursion of death at some point
-                        this.publish("/error", TextMsg("$message sent to $channel caused $e", 0))
+                        if (channel != "/error" && channel != "/telemetry/line") { // infinite recursion proof
+                            this.publish("/error", TextMsg("$message sent to $channel caused $e", 0))
+                        }
                     }
                     x++
                 }
@@ -46,8 +45,10 @@ object Dispatcher {
             // otherwise, ignore message
         }
         else { // this ensures a one-time warning. slightly hacky, but shouldn't cause breaking bugs
-            this.publish("/warn", TextMsg("Nobody heard a message sent to $channel."))
-            setChannel(channel)
+            if (channel != "/warn") { // infinite recursion proof
+                this.publish("/warn", TextMsg("Nobody heard a message sent to $channel."))
+                setChannel(channel)
+            }
         }
     }
 

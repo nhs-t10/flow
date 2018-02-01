@@ -6,9 +6,9 @@ import org.firstinspires.ftc.teamcode.messages.AngleTurnMsg
 /**
  * Created by shaash on 11/21/17.
  */
-class SpinRoutine : RoutineNode(name = "Spin Routine"){
+class SpinRoutine(val dest : Double) : RoutineNode(name = "Spin Routine"){
     override fun start() {
-        this.publish("/AngleTurning/turnTo", AngleTurnMsg(angle = 30.0, callback = {stop()}, priority = 1))
+        this.publish("/AngleTurning/turnTo", AngleTurnMsg(angle = dest, callback = {stop()}, priority = 1))
     }
     fun stop(){
         end()
