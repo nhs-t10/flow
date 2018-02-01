@@ -23,7 +23,8 @@ class TestingNode : Node("Testing Node") {
             "/analog/ultra1",
             "/color/ground",
             "/imu",
-            "/vuforia"
+            "/vuforia",
+            "/dogecv"
     )
 
     var mode = 0
@@ -40,7 +41,7 @@ class TestingNode : Node("Testing Node") {
 
     override fun subscriptions() {
         subscribe("/gamepad1/a", whenDown {
-            publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, {}, 1))
+            publish("/AngleTurning/turnTo", AngleTurnMsg(90.0, {}, 1))
         })
 
         for (channel in cyclableChannels) {

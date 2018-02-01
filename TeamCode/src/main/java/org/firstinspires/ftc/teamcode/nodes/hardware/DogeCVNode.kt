@@ -27,7 +27,7 @@ class DogeCVNode(hardwareMap: HardwareMap) : Node("DogeCV") {
     }
     fun updateCV() {
         if(active) {
-            publish("/debug", TextMsg("""
+            publish("/dogecv", TextMsg("""
                 ${cryptoboxDetector?.isCryptoBoxDetected()}
                 ${cryptoboxDetector?.isColumnDetected()}
                 ${cryptoboxDetector?.getCryptoBoxLeftPosition()}

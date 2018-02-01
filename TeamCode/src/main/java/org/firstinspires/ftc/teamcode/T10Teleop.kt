@@ -21,7 +21,6 @@ class T10Teleop : CoreOp() {
         register(InspectorNode())
         register(ControlsNode(telemetry))
         register(OmniJoyNode())
-        register(DogeCVNode(hardwareMap))
         Dispatcher.tempSetTelemetry(telemetry)
         register(RainbowNode())
     }

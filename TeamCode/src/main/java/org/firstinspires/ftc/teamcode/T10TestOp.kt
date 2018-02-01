@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.nodes.control.ControlsNode
 import org.firstinspires.ftc.teamcode.nodes.control.OmniJoyNode
+import org.firstinspires.ftc.teamcode.nodes.hardware.DogeCVNode
 import org.firstinspires.ftc.teamcode.nodes.hardware.VuforiaNode
 import org.firstinspires.ftc.teamcode.nodes.human.GamepadNode
 import org.firstinspires.ftc.teamcode.nodes.human.InspectorNode
@@ -17,6 +18,7 @@ class T10TestOp : CoreOp() {
     override fun registration() {
         register(GamepadNode(gamepad1, gamepad2))
         register(VuforiaNode(hardwareMap))
+        register(DogeCVNode(hardwareMap))
         register(SelectorViewNode())
         register(InspectorNode())
         register(TestingNode())
