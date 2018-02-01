@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
+import org.firstinspires.ftc.teamcode.messages.UnitMsg
 import org.firstinspires.ftc.teamcode.nodes.*
 import org.firstinspires.ftc.teamcode.nodes.control.AngleTurningNode
 import org.firstinspires.ftc.teamcode.nodes.hardware.*
@@ -21,11 +22,11 @@ abstract class CoreOp : OpMode() {
         nodes = mutableListOf( // common nodes
                 systemNode,
                 OmniDtNode(),
-                ColorNode(hardwareMap),
-                DistanceColorNode(hardwareMap),
+//                ColorNode(hardwareMap),
+//                DistanceColorNode(hardwareMap),
                 ImuNode(hardwareMap),
                 DigitalSensorNode(hardwareMap),
-                AnalogSensorNode(hardwareMap),
+//                AnalogSensorNode(hardwareMap),
                 GliftNode(),
                 GlyphHolderNode(),
                 EffectorNode(hardwareMap),
@@ -48,6 +49,7 @@ abstract class CoreOp : OpMode() {
         }
         begin()
         systemNode.publishStart()
+        Dispatcher.publish("/cv/transition", UnitMsg())
     }
 
     final override fun loop() {

@@ -23,6 +23,5 @@ class T10Teleop : CoreOp() {
 //        register(VuforiaNode(hardwareMap))
         register(DogeCVNode(hardwareMap))
         Dispatcher.tempSetTelemetry(telemetry)
-        Dispatcher.publish("/cv/transition", UnitMsg())
     }
 }
