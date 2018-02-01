@@ -24,6 +24,10 @@ android {
     compileSdkVersion 23
     buildToolsVersion '25.0.3'
 
+    dexOptions {
+        jumboMode true
+    }
+
     signingConfigs {
         debug {
             keyAlias 'androiddebugkey'
