@@ -11,8 +11,8 @@ import java.lang.Math.abs
 
 class AngleTurningNode : Node("Angle Turning Test") {
 
-    var kP : Double = 5.0
-    var kD : Double = 3.0
+    var kP : Double = 17.5
+    var kD : Double = 17.0
     var kI : Double = 0.0
     val stopThreshold = 5.0
     var destAngle = 0.0
@@ -65,7 +65,7 @@ class AngleTurningNode : Node("Angle Turning Test") {
     fun update(heading : Double) {
         if(turning){
             val rotation = (getRotation(heading)).toFloat()
-            if(Math.abs(rotation)<= 0.1f){
+            if(Math.abs(rotation)== 0.0f){
                 this.stop()
             }
             this.publish("/drive", OmniDrive(rotation = -1f * rotation, leftRight = 0f, upDown = 0f, priority = 1))

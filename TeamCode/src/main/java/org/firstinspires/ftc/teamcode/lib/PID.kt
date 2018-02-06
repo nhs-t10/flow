@@ -11,7 +11,7 @@ class PID(val kP : Double, val kI : Double, val kD : Double) {
 
     private var preverror = 0.0
     private var starttime = 0.0
-    private var sumerror = 0.0
+    private var sumerror = 0.0//shaash
     private var prevtime = 0.0
     fun init(){
         prevtime = getElapsedTime()
@@ -23,10 +23,10 @@ class PID(val kP : Double, val kI : Double, val kD : Double) {
         val p = kP * error
         val d = -Math.signum(error) * Math.abs(kD * ((error - preverror)/elapsedtime))
         sumerror += (error*elapsedtime)/1000
-        val i = (kI/100) * sumerror
+        val i = (kI/1000) * sumerror
         preverror = error
         prevtime = currenttime
-        if(((1.5 > error && error > 0 && error < preverror) || (-1.5 < error && error < 0 && error > preverror)) && Math.abs(d) < .05){
+        if(((3 > error && error > 0 && error < preverror) || (-3 < error && error < 0 && error > preverror))){
             return 0.0
         }
         return p+i+d

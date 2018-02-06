@@ -52,8 +52,11 @@ class InspectorNode : Node("Inspector") {
     // For stuff where you know it's going.
     fun commandPalette() {
         val AngleTurn30 = AngleTurnMsg(angle=30.0, callback = {}, priority = 1)
+        val AngleTurnNeg90 = AngleTurnMsg(angle=-90.0, callback = {}, priority = 1)
+
         val menu = hashMapOf(
                 "/AngleTurning/turnTo $AngleTurn30" to {this.publish("/AngleTurning/turnTo", AngleTurn30)},
+                "/AngleTurning/turnTo $AngleTurnNeg90" to {this.publish("/AngleTurning/turnTo", AngleTurnNeg90)},
                 "Back" to {main()}
         )
         this.publish("/selector/begin", CallbackMapMsg(menu, priority = 1))
@@ -142,6 +145,8 @@ class InspectorNode : Node("Inspector") {
                 "[Increment] -0.05" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, -0.05))},
                 "[Increment] +0.025" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, 0.025))},
                 "[Increment] -0.025" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, -0.025))},
+                "[Increment] +0.001" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, 0.001))},
+                "[Increment] -0.001" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, -0.001))},
                 "[Increment] Zero" to {this.publish(channel, IncrementMsg(IncrementState.ZERO))},
                 "Back" to {this.inspect(channel)}
         )
