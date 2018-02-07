@@ -68,7 +68,7 @@ class AngleTurningNode : Node("Angle Turning Test") {
             if(Math.abs(rotation)== 0.0f){
                 this.stop()
             }
-            this.publish("/drive", OmniDrive(rotation = -1f * rotation, leftRight = 0f, upDown = 0f, priority = 1))
+            this.publish("/drive", OmniDrive(rotation = -1f * rotation, leftRight = 0f, upDown = 0f, priority = 2))
         }
 
         /*
@@ -82,15 +82,12 @@ class AngleTurningNode : Node("Angle Turning Test") {
 
     fun getRotation(heading : Double):Double{
         val error = getError(destAngle+180, heading+180)
-        this.publish("/debug", TextMsg("Error: $error"))
         // determine if error done
 //        if (abs(error) < stopThreshold) return 0.0
 
         val rotation = turn.computePID(error)/180.0 //converts angle to motor vals
         // just in case, but angle to turn should never be > 1.
         // Don't want to break the motors while testing (can take out later):
-
-        this.publish("/debug", TextMsg("Rotation: $rotation"))
         return rotation
     }
 
