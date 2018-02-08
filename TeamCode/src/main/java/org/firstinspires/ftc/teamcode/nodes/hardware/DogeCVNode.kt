@@ -44,5 +44,6 @@ class DogeCVNode(hardwareMap: HardwareMap) : Node("DogeCV") {
     fun stop() {
         cryptoboxDetector?.disable()
         active = false
+        // MR. SANDMAN PASS ME A DRINK MR. SANDMAN MAKE HIM A CUTIE
     }
 }
