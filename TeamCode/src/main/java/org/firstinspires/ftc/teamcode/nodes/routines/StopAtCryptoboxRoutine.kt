@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.messages.TextMsg
 
 class StopAtCryptoboxRoutine(val teamColor: TeamColor) : RoutineNode("Drive to Cryptobox") {
     val distanceThreshold = 0.05
-    override fun start() {
+    override fun begin() {
         this.publish("/drive", OmniDrive(upDown = 0.3f, rotation = 0f, leftRight = 0f, priority = 1))
     }
 

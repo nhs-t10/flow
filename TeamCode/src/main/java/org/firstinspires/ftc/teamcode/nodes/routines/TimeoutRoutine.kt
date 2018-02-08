@@ -12,7 +12,7 @@ import org.w3c.dom.Text
 class TimeoutRoutine(val initialCallback: () -> Unit, val time : Long) : RoutineNode("Timeout") {
     var initialTime = 0L
     var done = false // extra security
-    override fun start() {
+    override fun begin() {
         if (!done) {
             initialCallback()
             initialTime = System.currentTimeMillis()
@@ -20,7 +20,7 @@ class TimeoutRoutine(val initialCallback: () -> Unit, val time : Long) : Routine
     }
     override fun subscriptions() {
         subscribe("/heartbeat", {checkTime(it)})
-        subscribe("/macros/cancel", {stop()})
+        subscribe("/macros/cancel", {stopIt()})
     }
     fun checkTime(m: Message) {
         if (System.currentTimeMillis() - initialTime >= time && !done) {
@@ -28,7 +28,7 @@ class TimeoutRoutine(val initialCallback: () -> Unit, val time : Long) : Routine
             end()
         }
     }
-    fun stop() {
+    fun stopIt() {
         done = true
         end()
     }

@@ -65,7 +65,7 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
     }
 
     override fun begin() {
-        routine?.begin {
+        routine?.beginRoutine {
             Dispatcher.publish("/status", TextMsg("Autonomous Complete."))
         }
     }

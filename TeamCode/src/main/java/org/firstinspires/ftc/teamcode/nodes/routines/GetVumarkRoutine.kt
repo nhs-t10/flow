@@ -14,7 +14,7 @@ class GetVumarkRoutine(val finalCallback : (RelicRecoveryVuMark) -> Unit) : Rout
     val defaultMark : RelicRecoveryVuMark = RelicRecoveryVuMark.UNKNOWN
     var initialTime = 0L
 
-    override fun start() {
+    override fun begin() {
         initialTime = System.currentTimeMillis()
     }
 

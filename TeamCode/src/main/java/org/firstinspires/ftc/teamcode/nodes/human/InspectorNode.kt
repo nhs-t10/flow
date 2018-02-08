@@ -24,11 +24,11 @@ class InspectorNode : Node("Inspector") {
     var tailName = ""
 
     override fun subscriptions() {
-        this.subscribe("/gamepad1/y", whenDown { start() })
+        this.subscribe("/gamepad1/y", whenDown { initialize() })
         this.subscribe("/gamepad1/y", {tailBack(it as GamepadButtonMsg)} )
     }
 
-    fun start() {
+    fun initialize() {
         if (this.state == STATES.OFF) {
             main()
         }

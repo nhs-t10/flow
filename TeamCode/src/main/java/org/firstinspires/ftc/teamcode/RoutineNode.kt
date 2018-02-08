@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.messages.TextMsg
 /**
  * Created by dvw06 on 11/16/17.
  */
-abstract class RoutineNode(val name : String) : Node(name), Routinable {
+abstract class RoutineNode(val routineName : String) : Node(routineName), Routinable {
 
     var routineCallback : (() -> Unit)? = null
 
@@ -31,7 +31,7 @@ abstract class RoutineNode(val name : String) : Node(name), Routinable {
         Dispatcher.subscribe(channel, callIfActive { cb(it) })
     }
 
-    override fun begin(callback: () -> Unit) {
+    override fun beginRoutine(callback: () -> Unit) {
         this.routineCallback = callback
         this.publish("/status", TextMsg("$name began!"))
         this.subscriptions()
@@ -42,7 +42,7 @@ abstract class RoutineNode(val name : String) : Node(name), Routinable {
         routineActive = true
     }
 
-    abstract fun start()
+    abstract fun begin()
 
     fun end() {
         if (routineCallback != null){

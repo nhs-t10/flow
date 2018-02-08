@@ -30,7 +30,7 @@ class GlyphHolderNode : Node("Glyph Holder") {
         this.subscribe("/start", {start()})
     }
 
-    fun start() {
+    fun begin() {
         this.publish("/servos/bottomServo", ServoMsg(getBottomPosition(GripperState.OPEN), 1))
         this.publish("/servos/topServo", ServoMsg(getTopPosition(GripperState.CLOSED), 1))
     }
