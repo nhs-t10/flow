@@ -28,7 +28,7 @@ class GetVumarkRoutine(val finalCallback : (RelicRecoveryVuMark) -> Unit) : Rout
         }
     }
 
-    fun receiveHeartbeat() {
+    override fun onHeartbeat() {
         if (System.currentTimeMillis() - initialTime >= COLLECTION_TIME) {
             // Didn't see nothin. L
             publish("/warn", TextMsg("Didn't see any vumarks this time."))
@@ -39,6 +39,5 @@ class GetVumarkRoutine(val finalCallback : (RelicRecoveryVuMark) -> Unit) : Rout
 
     override fun subscriptions() {
         subscribe("/vuforia", {receiveVision(it)})
-        subscribe("/heartbeat", {receiveHeartbeat()})
     }
 }

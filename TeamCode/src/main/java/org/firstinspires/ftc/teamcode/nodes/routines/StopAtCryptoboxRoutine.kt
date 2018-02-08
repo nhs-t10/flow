@@ -30,4 +30,8 @@ class StopAtCryptoboxRoutine(val teamColor: TeamColor) : RoutineNode("Drive to C
             end()
         }
     }
+
+    override fun onHeartbeat() {
+
+    }
 }

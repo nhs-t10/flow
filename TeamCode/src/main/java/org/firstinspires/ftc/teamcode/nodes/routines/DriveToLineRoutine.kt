@@ -16,6 +16,10 @@ class DriveToLineRoutine(val teamColor: TeamColor) : RoutineNode("Drive to Line"
         this.publish("/drive", OmniDrive(upDown = .2f, leftRight = 0f, rotation = 0f, priority = 1))
     }
 
+    override fun onHeartbeat() {
+
+    }
+
     override fun subscriptions() {
         subscribe("/color/bottom", {getOffBlockRoutine(it)})
     }

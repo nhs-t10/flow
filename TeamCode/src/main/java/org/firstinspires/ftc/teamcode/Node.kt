@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.messages.Message
  */
 
 abstract class Node(val nodeName : String) : Thread() {
+
     open fun subscribe(channel: String, callback: (Message) -> Unit) {
         Dispatcher.subscribe(channel, callback)
     }
@@ -15,8 +16,6 @@ abstract class Node(val nodeName : String) : Thread() {
     }
     abstract fun subscriptions()
 
-    init {
-        this.start()
-    }
+    open fun end() {}
 
 }

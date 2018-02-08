@@ -16,6 +16,9 @@ class DriveToCryptoboxRoutine : RoutineNode("Drive to cryptobox") {
         subscribe("/analog/ultra1", {bufferDistance(it)})
     }
 
+    override fun onHeartbeat() {
+    }
+
     fun bufferDistance(m: Message) {
         val (value) = m as AnalogMsg
         val (fst, snd) = buffer

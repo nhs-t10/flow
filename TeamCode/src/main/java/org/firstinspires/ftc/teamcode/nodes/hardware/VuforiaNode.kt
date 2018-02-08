@@ -9,12 +9,13 @@ import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.TextMsg
 import org.firstinspires.ftc.teamcode.messages.VuforiaMsg
+import org.firstinspires.ftc.teamcode.nodes.HeartbeatNode
 
 /**
  * Created by max on 11/2/17.
  */
 
-class VuforiaNode(hardwareMap: HardwareMap) : Node("Vuforia") {
+class VuforiaNode(hardwareMap: HardwareMap) : HeartbeatNode("Vuforia") {
     var vuforia : VuforiaLocalizer? = null
     var relicTemplate : VuforiaTrackable? = null
     init {
@@ -29,7 +30,10 @@ class VuforiaNode(hardwareMap: HardwareMap) : Node("Vuforia") {
         relicTrackables?.activate()
     }
     override fun subscriptions() {
-        this.subscribe("/heartbeat", {refresh()})
+    }
+
+    override fun onHeartbeat() {
+        refresh()
     }
     fun refresh() {
         val vuMark = RelicRecoveryVuMark.from(relicTemplate)

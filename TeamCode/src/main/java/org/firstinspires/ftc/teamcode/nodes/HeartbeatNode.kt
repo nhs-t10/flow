@@ -4,9 +4,21 @@ import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.HeartBeatMsg
 
-class HeartbeatNode : Node("Heartbeat") {
-    override fun subscriptions() {}
-    fun beat(time : Long){
-        this.publish("/heartbeat", HeartBeatMsg(time=time,priority=1))
+abstract class HeartbeatNode(val heartbeatNodeName : String, val heartbeatInterval : Long = 50) : Node("[Heartbeat] $heartbeatNodeName") {
+    var heartbeatActive = false
+
+    override fun run() {
+        heartbeatActive = true
+        var initialTime = System.nanoTime()
+        while (System.nanoTime() - initialTime >= heartbeatInterval) {
+            initialTime = System.nanoTime()
+            onHeartbeat()
+        }
     }
+
+    override fun end() {
+        heartbeatActive = false
+    }
+
+    abstract fun onHeartbeat()
 }

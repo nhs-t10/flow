@@ -20,18 +20,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation
 import org.firstinspires.ftc.robotcore.external.navigation.Position
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity
 import org.firstinspires.ftc.teamcode.messages.ImuMsg
+import org.firstinspires.ftc.teamcode.nodes.HeartbeatNode
 
 /**
  * Created by shaash on 10/26/17.
  */
 
-class ColorNode(val hardwareMap: HardwareMap) : Node("Color"){
+class ColorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Color"){
     val colorSensors = HashMap<String, ColorSensor>()
     init {
         addColorSensors()
     }
     override fun subscriptions() {
-        this.subscribe("/heartbeat", {update(it as HeartBeatMsg)})
     }
     fun addColorSensors(){
         colorSensors.put("knocker", hardwareMap?.colorSensor?.get("color1")!!)
@@ -39,8 +39,7 @@ class ColorNode(val hardwareMap: HardwareMap) : Node("Color"){
 //        colorSensors["knocker"]?.enableLed(false)
     }
 
-    fun update(hb: HeartBeatMsg){
-        val (time) = hb
+    override fun onHeartbeat() {
         //color:
         for (key in colorSensors.keys){
             val red = colorSensors[key]?.red() ?: -1

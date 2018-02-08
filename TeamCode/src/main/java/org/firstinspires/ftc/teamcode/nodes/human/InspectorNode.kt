@@ -39,7 +39,7 @@ class InspectorNode : Node("Inspector") {
                     "Inspect Channels" to { inspectAll("/") },
                     "Disable All Channels" to { disableAll() },
                     "Global Command Palette" to {commandPalette()},
-                    "Exit" to { end() }
+                    "Exit" to { stopInspector() }
             )
             this.publish("/selector/begin", CallbackMapMsg(menu, priority = 1))
     }
@@ -198,7 +198,7 @@ class InspectorNode : Node("Inspector") {
     }
 
     // Bye bye!!!
-    fun end() {
+    fun stopInspector() {
         state = STATES.OFF
         this.publish("/selector/end", UnitMsg())
     }

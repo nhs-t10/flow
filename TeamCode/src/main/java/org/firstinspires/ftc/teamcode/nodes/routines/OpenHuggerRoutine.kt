@@ -13,6 +13,10 @@ class OpenHuggerRoutine : RoutineNode("Open Hugger") {
         end()
     }
 
+    override fun onHeartbeat() {
+
+    }
+
     override fun subscriptions() {
 
     }
