@@ -17,6 +17,8 @@ abstract class RoutineNode(val routineName : String) : HeartbeatNode(routineName
 
     val routineWarningTime = 10000
 
+    override fun onHeartbeat() {}
+
     fun callIfActive(cb: (Message) -> Unit) : (Message) -> Unit {
         return fun(m: Message) {
             if (routineActive) {

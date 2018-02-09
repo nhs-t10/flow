@@ -11,8 +11,5 @@ class SpinRoutine(val dest : Double) : RoutineNode("Spin Routine"){
         this.publish("/AngleTurning/turnTo", AngleTurnMsg(angle = dest, callback = {end()}, priority = 1))
     }
 
-    override fun onHeartbeat() {
-
-    }
     override fun subscriptions(){}
 }
