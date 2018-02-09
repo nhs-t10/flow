@@ -28,8 +28,8 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
         else if (teamColor == TeamColor.BLUE) uiColorNode.changeColor("blue")
         register(uiColorNode)
 
-        register(VuforiaNode(hardwareMap))
-        register(DigitalSensorNode(hardwareMap))
+        //register(VuforiaNode(hardwareMap))
+//        register(DigitalSensorNode(hardwareMap))
         register(AnalogSensorNode(hardwareMap))
         register(ColorNode(hardwareMap))
 
@@ -39,7 +39,8 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
                 }, 1000),
                 GetVumarkRoutine({vuMark ->
                     robotState.vuMark = vuMark
-                }),
+                })
+                ,
                 TimeoutRoutine({
                     Dispatcher.publish("/glift", LiftMsg(LiftState.UPPER_BOTTOM, 1))
                     Dispatcher.publish("/servos/knocker", ServoMsg(0.875, 1))
