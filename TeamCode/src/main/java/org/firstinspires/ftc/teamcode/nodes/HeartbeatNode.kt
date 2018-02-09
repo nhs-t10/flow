@@ -16,7 +16,7 @@ abstract class HeartbeatNode(val heartbeatNodeName : String, val heartbeatInterv
         }
     }
 
-    override fun end() {
+    override fun endNode() {
         heartbeatActive = false
     }
 

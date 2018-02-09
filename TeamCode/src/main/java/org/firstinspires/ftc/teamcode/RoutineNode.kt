@@ -34,7 +34,7 @@ abstract class RoutineNode(val routineName : String) : HeartbeatNode(routineName
 
     override fun beginRoutine(callback: () -> Unit) {
         this.routineCallback = callback
-        this.publish("/status", TextMsg("$name began!"))
+        this.publish("/status", TextMsg("$routineName began!"))
         this.subscriptions()
         this.begin()
         this.start()
@@ -46,9 +46,9 @@ abstract class RoutineNode(val routineName : String) : HeartbeatNode(routineName
 
     abstract fun begin()
 
-    fun stopRoutine() {
+    fun end() {
         if (routineCallback != null){
-            this.publish("/status", TextMsg("$name finished!"))
+            this.publish("/status", TextMsg("$routineName finished!"))
             this.routineCallback?.invoke()
         }
         routineActive = false

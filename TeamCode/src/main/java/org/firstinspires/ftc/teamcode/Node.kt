@@ -16,6 +16,6 @@ abstract class Node(val nodeName : String) : Thread() {
     }
     abstract fun subscriptions()
 
-    open fun end() {}
+    open fun endNode() {}
 
 }

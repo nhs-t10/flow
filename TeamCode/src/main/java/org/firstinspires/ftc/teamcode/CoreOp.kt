@@ -50,7 +50,7 @@ abstract class CoreOp : OpMode() {
     final override fun loop() {
     }
     final override fun stop() {
-        nodes?.forEach { it.end() }
+        nodes?.forEach { it.endNode() }
         Dispatcher.reset()
     }
 }
