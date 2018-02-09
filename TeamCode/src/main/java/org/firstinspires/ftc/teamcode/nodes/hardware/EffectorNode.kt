@@ -41,6 +41,10 @@ class EffectorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Effectors"){
         motors.put("rr", hardwareMap.dcMotor.get("m2"))
         motors.put("rainbow", hardwareMap.dcMotor.get("m5"))
         //motors.put("g1", hardwareMap.dcMotor.get("m5")!!)
+
+
+        // DO NOT ADD MOTORS BELOW THIS LINE
+
         for(key in motors.keys){
             this.subscribe("/motors/$key", {callMotor(key, it)})
         }
@@ -53,6 +57,8 @@ class EffectorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Effectors"){
         servos.put("tilter", hardwareMap.servo.get("s4"))
         servos.put("raingripper", hardwareMap.servo.get("s5"))
         servos.put("jamb", hardwareMap.servo.get("s6"))
+
+        // DO NOT ADD SERVOS BELOW THIS LINE
 
         for (key in servos.keys) {
             this.subscribe("/servos/$key", { callServo(key, it) })
