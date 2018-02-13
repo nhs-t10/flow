@@ -53,4 +53,6 @@ abstract class RoutineNode(val routineName : String) : HeartbeatNode(routineName
         }
         routineActive = false
     }
+
+    override fun onHeartbeat() {}
 }
