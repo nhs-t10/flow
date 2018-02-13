@@ -29,7 +29,7 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
         register(uiColorNode)
 
         //register(VuforiaNode(hardwareMap))
-//        register(DigitalSensorNode(hardwareMap))
+        register(DigitalSensorNode(hardwareMap))
         register(AnalogSensorNode(hardwareMap))
         register(ColorNode(hardwareMap))
 

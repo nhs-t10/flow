@@ -42,11 +42,7 @@ class GamepadNode(val gamepad1: Gamepad, val gamepad2: Gamepad) : HeartbeatNode(
     }
     override fun subscriptions() {
     }
-
-    override fun onHeartbeat() {
-        update()
-    }
-    fun update(){
+    override fun onHeartbeat(){
         //gamepad 1 data publishing
         if(gamepad1 == null){
             return

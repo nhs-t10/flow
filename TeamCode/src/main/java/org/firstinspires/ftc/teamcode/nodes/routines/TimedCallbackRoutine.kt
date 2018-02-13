@@ -25,10 +25,6 @@ class TimedCallbackRoutine(val initialCallback: () -> Unit, val time : Long, val
     }
 
     override fun onHeartbeat() {
-        checkTime()
-    }
-
-    fun checkTime() {
         if (System.currentTimeMillis() - initialTime >= time && !done) {
             done = true
             finalCallback({

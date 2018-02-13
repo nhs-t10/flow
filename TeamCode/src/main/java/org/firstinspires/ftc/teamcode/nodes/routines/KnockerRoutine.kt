@@ -15,10 +15,6 @@ class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : Routine
 
     val upPosition = 0.075
     override fun begin() {}
-
-    override fun onHeartbeat() {
-
-    }
     override fun subscriptions() {
         this.subscribe("/color/knocker") { doOnce(it) }
     }

@@ -20,15 +20,12 @@ class AnalogSensorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Analog Sen
     }
     override fun subscriptions() {}
 
-    override fun onHeartbeat() {
-        update()
-    }
     fun addSensors(){
         //sensors.put("infrared", hardwareMap.analogInput.get("ir1")!!)
         sensors.put("ultra1", hardwareMap.analogInput.get("ultra1"))
     }
 
-    fun update(){
+    override fun onHeartbeat (){
         for (key in sensors.keys){
             val value = sensors[key]?.getVoltage() ?: 0.0
             this.publish("/analog/$key", AnalogMsg(value, 1))

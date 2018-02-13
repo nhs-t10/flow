@@ -33,9 +33,6 @@ class VuforiaNode(hardwareMap: HardwareMap) : HeartbeatNode("Vuforia") {
     }
 
     override fun onHeartbeat() {
-        refresh()
-    }
-    fun refresh() {
         val vuMark = RelicRecoveryVuMark.from(relicTemplate)
         if (vuMark != RelicRecoveryVuMark.UNKNOWN && relicTemplate != null) {
             val pose : OpenGLMatrix? = (relicTemplate?.getListener() as VuforiaTrackableDefaultListener).getPose()

@@ -23,9 +23,6 @@ class TimeoutRoutine(val initialCallback: () -> Unit, val time : Long) : Routine
     }
 
     override fun onHeartbeat() {
-        checkTime()
-    }
-    fun checkTime() {
         if (System.currentTimeMillis() - initialTime >= time && !done) {
             done = true
             end()
