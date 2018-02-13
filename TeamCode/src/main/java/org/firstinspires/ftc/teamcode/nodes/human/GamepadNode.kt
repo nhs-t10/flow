@@ -5,6 +5,7 @@ import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.HeartBeatMsg
 import org.firstinspires.ftc.teamcode.messages.GamepadButtonMsg
 import org.firstinspires.ftc.teamcode.messages.GamepadJoyOrTrigMsg
+import org.firstinspires.ftc.teamcode.nodes.HeartbeatNode
 import java.util.*
 
 import kotlin.reflect.full.*
@@ -14,7 +15,7 @@ import kotlin.reflect.jvm.isAccessible
  * Created by dvw06 on 10/12/17.
  */
 
-class GamepadNode(val gamepad1: Gamepad, val gamepad2: Gamepad) : Node("Gamepad") {
+class GamepadNode(val gamepad1: Gamepad, val gamepad2: Gamepad) : HeartbeatNode("Gamepad") {
     var gamepad1Buttons = HashMap<String, Boolean>()
     var gamepad1JoyOrTrigs = HashMap<String, Float>()
     var gamepad2Buttons = HashMap<String, Boolean>()
@@ -40,10 +41,9 @@ class GamepadNode(val gamepad1: Gamepad, val gamepad2: Gamepad) : Node("Gamepad"
         }
     }
     override fun subscriptions() {
-        this.subscribe("/heartbeat", {update(it as HeartBeatMsg)})
     }
-    fun update(hb: HeartBeatMsg){
-        val (time) = hb
+
+    override fun onHeartbeat(){
         //gamepad 1 data publishing
         if(gamepad1 == null){
             return

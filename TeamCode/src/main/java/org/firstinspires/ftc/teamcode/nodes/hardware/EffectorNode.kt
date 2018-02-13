@@ -5,13 +5,14 @@ import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.*
+import org.firstinspires.ftc.teamcode.nodes.HeartbeatNode
 import java.util.*
 
 /**
  * Created by shaash on 10/17/17.
  */
 
-class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
+class EffectorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Effectors"){
     val motors = HashMap<String, DcMotor>()
     val servos = HashMap<String, Servo>()
     val crServos = HashMap<String, CRServo>()
@@ -25,8 +26,11 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         addCrServos()
     }
     override fun subscriptions() {
-        this.subscribe("/heartbeat", {this.thumpCrServos(it)})
-        this.subscribe("/heartbeat", {this.thumpServos(it)})
+    }
+
+    override fun onHeartbeat() {
+        this.thumpCrServos()
+        this.thumpServos()
     }
     fun addMotors(){
         motors.put("lf", hardwareMap.dcMotor.get("m3"))
@@ -37,6 +41,10 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         motors.put("rr", hardwareMap.dcMotor.get("m2"))
         motors.put("rainbow", hardwareMap.dcMotor.get("m5"))
         //motors.put("g1", hardwareMap.dcMotor.get("m5")!!)
+
+
+        // DO NOT ADD MOTORS BELOW THIS LINE
+
         for(key in motors.keys){
             this.subscribe("/motors/$key", {callMotor(key, it)})
         }
@@ -49,6 +57,8 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         servos.put("tilter", hardwareMap.servo.get("s4"))
         servos.put("raingripper", hardwareMap.servo.get("s5"))
         servos.put("jamb", hardwareMap.servo.get("s6"))
+
+        // DO NOT ADD SERVOS BELOW THIS LINE
 
         for (key in servos.keys) {
             this.subscribe("/servos/$key", { callServo(key, it) })
@@ -83,18 +93,14 @@ class EffectorNode(val hardwareMap: HardwareMap) : Node("Effectors"){
         }
     }
 
-    fun thumpCrServos(m: Message) {
-        val (time) = m as HeartBeatMsg
-//        val timeDivided = time / 100
+    fun thumpCrServos() {
         for (key in crServos.keys) {
             crServos[key]?.setPower(crServoStates[key]!!)
         }
     }
 
 
-    fun thumpServos(m: Message) {
-        val (time) = m as HeartBeatMsg
-//        val timeDivided = time / 100
+    fun thumpServos() {
         for (key in servos.keys) {
             setServoPosition(key, servoStates[key] ?: 0.0)
         }

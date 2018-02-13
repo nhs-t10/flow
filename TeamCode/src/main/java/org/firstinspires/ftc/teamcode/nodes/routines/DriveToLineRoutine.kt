@@ -12,10 +12,9 @@ class DriveToLineRoutine(val teamColor: TeamColor) : RoutineNode("Drive to Line"
     var tempRed = 0
     var tempBlue = 0
     var tempGreen = 0
-    override fun start() {
+    override fun begin() {
         this.publish("/drive", OmniDrive(upDown = .2f, leftRight = 0f, rotation = 0f, priority = 1))
     }
-
     override fun subscriptions() {
         subscribe("/color/bottom", {getOffBlockRoutine(it)})
     }

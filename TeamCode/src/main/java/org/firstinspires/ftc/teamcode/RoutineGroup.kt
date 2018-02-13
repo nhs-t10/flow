@@ -19,14 +19,14 @@ class RoutineGroup(val routines: List<RoutineNode>) : Routinable {
     }
     fun cb() {
         if (index < routines.size && !stopped) {
-            routines[index].begin { cb() }
+            routines[index].beginRoutine { cb() }
             index++
         }
         else {
             if (callback != null) this.callback?.invoke()
         }
     }
-    override fun begin(callback : () -> Unit) {
+    override fun beginRoutine(callback : () -> Unit) {
         index = 0
         this.callback = callback
 

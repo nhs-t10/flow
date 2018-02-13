@@ -21,8 +21,8 @@ class DogeCVNode(hardwareMap: HardwareMap) : Node("DogeCV") {
     }
 
     override fun subscriptions() {
-        subscribe("/cv/transition", {start()})
-        subscribe("/stop", {stop()})
+        subscribe("/cv/transition", {transition()})
+        subscribe("/stop", {done()})
         subscribe("/heartbeat", {updateCV()})
     }
     fun updateCV() {
@@ -36,12 +36,12 @@ class DogeCVNode(hardwareMap: HardwareMap) : Node("DogeCV") {
             """.trimIndent()))
         }
     }
-    fun start() {
+    fun transition() {
         publish("/status", TextMsg("Switched camera ownership from Vuforia -> DogeCV."))
         cryptoboxDetector?.enable()
         active = true
     }
-    fun stop() {
+    fun done() {
         cryptoboxDetector?.disable()
         active = false
         // MR. SANDMAN PASS ME A DRINK MR. SANDMAN MAKE HIM A CUTIE

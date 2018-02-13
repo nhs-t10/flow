@@ -11,10 +11,10 @@ import org.firstinspires.ftc.teamcode.util.TeamColor
  */
 
 class StopAtCryptoboxRoutine(val vumark: RelicRecoveryVuMark) : RoutineNode("Drive to Cryptobox"){
-    val distancethresh = 0.5
+    val distancethresh = 0.05
     var isCloseEnough = false
     var counter = 0
-    override fun start() {
+    override fun begin() {
         this.publish("/drive", OmniDrive(upDown = 0.3f, rotation = 0f, leftRight = 0f, priority = 1))
     }
 

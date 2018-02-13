@@ -10,12 +10,13 @@ import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.lib.ClosableVuforiaLocalizer
 import org.firstinspires.ftc.teamcode.messages.TextMsg
 import org.firstinspires.ftc.teamcode.messages.VuforiaMsg
+import org.firstinspires.ftc.teamcode.nodes.HeartbeatNode
 
 /**
  * Created by max on 11/2/17.
  */
 
-class VuforiaNode(hardwareMap: HardwareMap) : Node("Vuforia") {
+class VuforiaNode(hardwareMap: HardwareMap) : HeartbeatNode("Vuforia") {
     var vuforia : ClosableVuforiaLocalizer? = null
     var relicTemplate : VuforiaTrackable? = null
     init {
@@ -30,11 +31,11 @@ class VuforiaNode(hardwareMap: HardwareMap) : Node("Vuforia") {
         relicTrackables?.activate()
     }
     override fun subscriptions() {
-        this.subscribe("/heartbeat", {refresh()})
-        subscribe("/stop", {stop()})
-        subscribe("/cv/transition", {stop()}) // switch to doges
+        subscribe("/stop", {end()})
+        subscribe("/cv/transition", {end()}) // switch to doges
     }
-    fun refresh() {
+
+    override fun onHeartbeat() {
         val vuMark = RelicRecoveryVuMark.from(relicTemplate)
         if (vuMark != RelicRecoveryVuMark.UNKNOWN && relicTemplate != null) {
             val pose : OpenGLMatrix? = (relicTemplate?.getListener() as VuforiaTrackableDefaultListener).getPose()
@@ -51,7 +52,7 @@ class VuforiaNode(hardwareMap: HardwareMap) : Node("Vuforia") {
         }
     }
 
-    fun stop() {
+    fun end() {
         vuforia?.close()
     }
 }

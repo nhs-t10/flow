@@ -16,7 +16,6 @@ import org.firstinspires.ftc.teamcode.nodes.mechanisms.OmniDtNode
  */
 abstract class CoreOp : OpMode() {
     var nodes = mutableListOf<Node>()
-    val heartbeatNode = HeartbeatNode()
     val systemNode = SystemNode()
     final override fun init() {
         nodes = mutableListOf( // common nodes
@@ -28,7 +27,6 @@ abstract class CoreOp : OpMode() {
                 EffectorNode(hardwareMap),
                 DebugNode(),
                 TelemetryNode(telemetry),
-                heartbeatNode,
                 AngleTurningNode()
         )
         registration()
@@ -44,6 +42,7 @@ abstract class CoreOp : OpMode() {
     final override fun start() {
         nodes?.forEach{
             it.subscriptions()
+            it.start()
         }
         systemNode.publishStart()
         begin()
@@ -51,10 +50,10 @@ abstract class CoreOp : OpMode() {
     }
 
     final override fun loop() {
-        heartbeatNode.beat((runtime*10).toLong())
     }
     final override fun stop() {
         systemNode.publishStop()
+        nodes?.forEach { it.endNode() }
         Dispatcher.reset()
     }
 }
