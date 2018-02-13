@@ -10,13 +10,14 @@ import org.firstinspires.ftc.teamcode.util.TeamColor
  * Created by dvw06 on 1/16/18.
  */
 
-class StopAtCryptoboxRoutine(val vumark: RelicRecoveryVuMark) : RoutineNode("Drive to Cryptobox") {
+class StopAtCryptoboxRoutine(val vumark: RelicRecoveryVuMark) : RoutineNode("Drive to Cryptobox"){
     val distancethresh = 0.5
     var isCloseEnough = false
+    var counter = 0
     override fun start() {
         this.publish("/drive", OmniDrive(upDown = 0.3f, rotation = 0f, leftRight = 0f, priority = 1))
-
     }
+
     override fun subscriptions() {
         subscribe("/analog/ultra1", {setTrue(it)})
         subscribe("/digital/touch1", {
@@ -25,6 +26,7 @@ class StopAtCryptoboxRoutine(val vumark: RelicRecoveryVuMark) : RoutineNode("Dri
             else if(vumark==RelicRecoveryVuMark.RIGHT){stopIfThere(it, 1)}
         })
     }
+
     fun setTrue(m : Message){
         if(!isCloseEnough){
             val (value) = m as AnalogMsg
@@ -40,8 +42,6 @@ class StopAtCryptoboxRoutine(val vumark: RelicRecoveryVuMark) : RoutineNode("Dri
     fun stopIfThere(m: Message, flanges: Int){
         if(isCloseEnough){
             val (value) = m as DigitalMsg
-            var counter = 0
-
             if((counter<flanges) && value) {
                 counter++
                 publish("/status", TextMsg("flanges detected: $counter"))
