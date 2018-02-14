@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.messages.UnitMsg
 import org.firstinspires.ftc.teamcode.nodes.control.ControlsNode
+import org.firstinspires.ftc.teamcode.nodes.control.DriveStraightNode
 import org.firstinspires.ftc.teamcode.nodes.control.OmniJoyNode
 import org.firstinspires.ftc.teamcode.nodes.hardware.ColorNode
 import org.firstinspires.ftc.teamcode.nodes.hardware.DogeCVNode
@@ -25,5 +26,6 @@ class T10Teleop : CoreOp() {
         Dispatcher.tempSetTelemetry(telemetry)
         register(RainbowNode())
         register(ColorNode(hardwareMap))
+        register(DriveStraightNode())
     }
 }
