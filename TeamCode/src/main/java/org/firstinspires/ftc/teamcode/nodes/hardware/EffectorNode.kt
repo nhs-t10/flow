@@ -40,6 +40,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Effectors"){
         motors.put("rf", hardwareMap.dcMotor.get("m4"))
         motors.put("rr", hardwareMap.dcMotor.get("m2"))
         motors.put("rainbow", hardwareMap.dcMotor.get("m5"))
+        motors.put("glift", hardwareMap.dcMotor.get("m6"))
         //motors.put("g1", hardwareMap.dcMotor.get("m5")!!)
 
 
