@@ -16,7 +16,7 @@ class StopAtCryptoboxRoutine(val vumark: RelicRecoveryVuMark) : RoutineNode("Dri
     }
 
     override fun subscriptions() {
-        subscribe("/digital/touch1", {
+        subscribe("/digital/touch2", {
             if(vumark==RelicRecoveryVuMark.LEFT){stopIfThere(it, 3)}
             else if(vumark==RelicRecoveryVuMark.CENTER){stopIfThere(it, 2)}
             else if(vumark==RelicRecoveryVuMark.RIGHT){stopIfThere(it, 1)}

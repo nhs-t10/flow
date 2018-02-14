@@ -48,7 +48,9 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
                 Dispatcher.publish("/servos/knocker", ServoMsg(0.875, 1))
             }, 2000),
             KnockerRoutine(teamColor, teamPosition),
-            TimeoutRoutine({}, 1000), // wait for knocker retraction
+            TimeoutRoutine({
+                Dispatcher.publish("/drive/straight", StraightDriveMsg(0.0, 0.4, 1))
+            }, 2000),
             GetCloserToWall(),
             StopAtCryptoboxRoutine(vumark = robotState.vuMark),
             SpinRoutine(-90.0),
