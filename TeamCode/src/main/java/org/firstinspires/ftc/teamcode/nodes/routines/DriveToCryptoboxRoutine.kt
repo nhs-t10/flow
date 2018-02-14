@@ -33,7 +33,7 @@ class DriveToCryptoboxRoutine : RoutineNode("Drive to cryptobox") {
         }
     }
 
-    override fun start() {
+    override fun begin() {
         publish("/drive", OmniDrive(0.2f, 0f, 0f, 1))
     }
 }

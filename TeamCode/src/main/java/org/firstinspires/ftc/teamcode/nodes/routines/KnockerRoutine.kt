@@ -10,12 +10,11 @@ import org.firstinspires.ftc.teamcode.util.TeamPosition
  * Created by shaash on 12/3/2017.
  */
 
-class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : RoutineNode (name = "Knocker Routine"){
+class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : RoutineNode ("Knocker Routine"){
     var turned = false
 
     val upPosition = 0.075
-    override fun start() {}
-
+    override fun begin() {}
     override fun subscriptions() {
         this.subscribe("/color/knocker") { doOnce(it) }
     }
@@ -43,20 +42,20 @@ class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : Routine
             turned = true
             publish("/status", TextMsg("Saw RED"))
             if(team == TeamColor.RED){
-                createMoveRoutine(-1).begin {  } // Go forward, stop.
+                createMoveRoutine(-1).beginRoutine {  } // Go forward, stop.
 //                this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, {retractKnocker()}, 1))
             } else {
-                createMoveRoutine(1).begin {  } // Go backward, stop.
+                createMoveRoutine(1).beginRoutine {  } // Go backward, stop.
 //                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, {retractKnocker()}, 1))
             }
         } else if (red-15 <  blue) { // If blue is in front
             turned = true
             publish("/status", TextMsg("Saw BLUE"))
             if (team == TeamColor.BLUE) {
-                createMoveRoutine(-1).begin {  } // Go forward, stop.
+                createMoveRoutine(-1).beginRoutine {  } // Go forward, stop.
 //                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, { retractKnocker() }, 1))
             } else {
-                createMoveRoutine(1).begin {  } // Go backward, stop.
+                createMoveRoutine(1).beginRoutine {  } // Go backward, stop.
 //              this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, { retractKnocker() }, 1))
             }
         } else {

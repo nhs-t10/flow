@@ -21,7 +21,7 @@ class SelectorViewNode : Node("Selector View") {
     override fun subscriptions() {
         this.subscribe("/selector/begin", {this.begin(it as CallbackMapMsg)})
         this.subscribe("/selector/update", {this.update(it as UpdateMsg<String>)})
-        this.subscribe("/selector/end", {this.end()})
+        this.subscribe("/selector/end", {this.stopSelector()})
         this.subscribe("/gamepad1/dpad_left", whenDown{up()})
         this.subscribe("/gamepad1/dpad_right", whenDown{down()})
         this.subscribe("/gamepad1/y", whenDown{select()})
@@ -80,7 +80,7 @@ class SelectorViewNode : Node("Selector View") {
         this.state = STATES.ON
         this.render()
     }
-    fun end() {
+    fun stopSelector() {
         this.publish("/telemetry/clear", UnitMsg())
         this.state = STATES.OFF
     }

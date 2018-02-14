@@ -2,11 +2,12 @@ package org.firstinspires.ftc.teamcode
 
 import org.firstinspires.ftc.teamcode.messages.Message
 import org.firstinspires.ftc.teamcode.messages.TextMsg
+import org.firstinspires.ftc.teamcode.nodes.HeartbeatNode
 
 /**
  * Created by dvw06 on 11/16/17.
  */
-abstract class RoutineNode(val name : String) : Node(name), Routinable {
+abstract class RoutineNode(val routineName : String) : HeartbeatNode(routineName), Routinable {
 
     var routineCallback : (() -> Unit)? = null
 
@@ -31,10 +32,11 @@ abstract class RoutineNode(val name : String) : Node(name), Routinable {
         Dispatcher.subscribe(channel, callIfActive { cb(it) })
     }
 
-    override fun begin(callback: () -> Unit) {
+    override fun beginRoutine(callback: () -> Unit) {
         this.routineCallback = callback
-        this.publish("/status", TextMsg("$name began!"))
+        this.publish("/status", TextMsg("$routineName began!"))
         this.subscriptions()
+        this.begin()
         this.start()
         routineStartTime = System.currentTimeMillis()
 
@@ -42,13 +44,15 @@ abstract class RoutineNode(val name : String) : Node(name), Routinable {
         routineActive = true
     }
 
-    abstract fun start()
+    abstract fun begin()
 
     fun end() {
         if (routineCallback != null){
-            this.publish("/status", TextMsg("$name finished!"))
+            this.publish("/status", TextMsg("$routineName finished!"))
             this.routineCallback?.invoke()
         }
         routineActive = false
     }
+
+    override fun onHeartbeat() {}
 }

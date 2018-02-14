@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
+import org.firstinspires.ftc.teamcode.messages.UnitMsg
 import org.firstinspires.ftc.teamcode.nodes.control.ControlsNode
 import org.firstinspires.ftc.teamcode.nodes.control.OmniJoyNode
+import org.firstinspires.ftc.teamcode.nodes.hardware.ColorNode
+import org.firstinspires.ftc.teamcode.nodes.hardware.DogeCVNode
 import org.firstinspires.ftc.teamcode.nodes.human.GamepadNode
 import org.firstinspires.ftc.teamcode.nodes.human.InspectorNode
 import org.firstinspires.ftc.teamcode.nodes.human.SelectorViewNode
@@ -21,5 +24,6 @@ class T10Teleop : CoreOp() {
         register(OmniJoyNode())
         Dispatcher.tempSetTelemetry(telemetry)
         register(RainbowNode())
+        register(ColorNode(hardwareMap))
     }
 }

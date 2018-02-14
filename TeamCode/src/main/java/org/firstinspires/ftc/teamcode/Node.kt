@@ -5,7 +5,9 @@ import org.firstinspires.ftc.teamcode.messages.Message
 /**
  * Created by shaash on 10/7/17.
  */
-abstract class Node(val nodeName : String) {
+
+abstract class Node(val nodeName : String) : Thread() {
+
     open fun subscribe(channel: String, callback: (Message) -> Unit) {
         Dispatcher.subscribe(channel, callback)
     }
@@ -13,5 +15,7 @@ abstract class Node(val nodeName : String) {
         Dispatcher.publish(channel, message)
     }
     abstract fun subscriptions()
+
+    open fun endNode() {}
 
 }

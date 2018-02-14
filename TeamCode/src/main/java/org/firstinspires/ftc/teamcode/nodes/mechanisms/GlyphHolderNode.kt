@@ -27,10 +27,10 @@ class GlyphHolderNode : Node("Glyph Holder") {
     override fun subscriptions() {
         this.subscribe("/glyph/upper", {upper(it)})
         this.subscribe("/glyph/lower", {lower(it)})
-        this.subscribe("/start", {start()})
+        this.subscribe("/start", {onStart()})
     }
 
-    fun start() {
+    fun onStart() {
         this.publish("/servos/bottomServo", ServoMsg(getBottomPosition(GripperState.OPEN), 1))
         this.publish("/servos/topServo", ServoMsg(getTopPosition(GripperState.CLOSED), 1))
     }

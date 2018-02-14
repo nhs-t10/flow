@@ -11,8 +11,8 @@ import java.lang.Math.abs
 
 class AngleTurningNode : Node("Angle Turning Test") {
 
-    var kP : Double = 5.0
-    var kD : Double = 3.0
+    var kP : Double = 17.5
+    var kD : Double = 17.0
     var kI : Double = 0.0
     val stopThreshold = 5.0
     var destAngle = 0.0
@@ -23,7 +23,7 @@ class AngleTurningNode : Node("Angle Turning Test") {
     override fun subscriptions() {
         this.subscribe("/imu", { this.update((it as ImuMsg).heading)})
         this.subscribe("/AngleTurning/turnTo", {this.setTurnTo(it as AngleTurnMsg)})
-        this.subscribe("/AngleTurning/cancel", {this.stop()})
+        this.subscribe("/AngleTurning/cancel", {this.stopTurn()})
         this.subscribe("/AngleTurning/kP", {this.setkP(it)})
         this.subscribe("/AngleTurning/kI", {this.setkI(it)})
         this.subscribe("/AngleTurning/kD", {this.setkD(it)})
@@ -48,7 +48,7 @@ class AngleTurningNode : Node("Angle Turning Test") {
         this.publish("/debug", TextMsg("Incremented kD to $kD"))
     }
 
-    fun stop() {
+    fun stopTurn() {
         turning = false
         this.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
         this.cb?.invoke()
@@ -65,10 +65,10 @@ class AngleTurningNode : Node("Angle Turning Test") {
     fun update(heading : Double) {
         if(turning){
             val rotation = (getRotation(heading)).toFloat()
-            if(Math.abs(rotation)<= 0.1f){
-                this.stop()
+            if(Math.abs(rotation)== 0.0f){
+                this.stopTurn()
             }
-            this.publish("/drive", OmniDrive(rotation = -1f * rotation, leftRight = 0f, upDown = 0f, priority = 1))
+            this.publish("/drive", OmniDrive(rotation = -1f * rotation, leftRight = 0f, upDown = 0f, priority = 2))
         }
 
         /*
@@ -82,15 +82,12 @@ class AngleTurningNode : Node("Angle Turning Test") {
 
     fun getRotation(heading : Double):Double{
         val error = getError(destAngle+180, heading+180)
-        this.publish("/debug", TextMsg("Error: $error"))
         // determine if error done
 //        if (abs(error) < stopThreshold) return 0.0
 
         val rotation = turn.computePID(error)/180.0 //converts angle to motor vals
         // just in case, but angle to turn should never be > 1.
         // Don't want to break the motors while testing (can take out later):
-
-        this.publish("/debug", TextMsg("Rotation: $rotation"))
         return rotation
     }
 

@@ -5,13 +5,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.HeartBeatMsg
 import org.firstinspires.ftc.teamcode.messages.DigitalMsg
+import org.firstinspires.ftc.teamcode.nodes.HeartbeatNode
 import java.util.*
 
 /**
  * Created by shaash on 11/14/17.
  */
 
-class DigitalSensorNode(val hardwareMap: HardwareMap) : Node("Digital Sensors") {
+class DigitalSensorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Digital Sensors") {
     val sensors = HashMap<String, DigitalChannel>()
     val sensorStates = HashMap<String, Boolean>()
 
@@ -19,9 +20,11 @@ class DigitalSensorNode(val hardwareMap: HardwareMap) : Node("Digital Sensors") 
         addSensors()
     }
     override fun subscriptions() {
-        this.subscribe("/heartbeat", {update(it as HeartBeatMsg)})
-    }fun addSensors(){
+    }
+    fun addSensors(){
 //        sensors.put("touchOne", hardwareMap.digitalChannel.get("touch1")!!)
+
+        // DO NOT PUT MORE SENSORS BELOW THIS LINE
         addSensorStates()
     }
     fun addSensorStates() {
@@ -30,7 +33,7 @@ class DigitalSensorNode(val hardwareMap: HardwareMap) : Node("Digital Sensors") 
         }
     }
 
-    fun update(hb: HeartBeatMsg){
+    override fun onHeartbeat() {
         for (key in sensors.keys){
             val isPressed = sensors[key]?.getState() ?: false
             if (isPressed != sensorStates[key]) {

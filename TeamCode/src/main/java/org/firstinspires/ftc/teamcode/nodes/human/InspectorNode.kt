@@ -24,11 +24,11 @@ class InspectorNode : Node("Inspector") {
     var tailName = ""
 
     override fun subscriptions() {
-        this.subscribe("/gamepad1/y", whenDown { start() })
+        this.subscribe("/gamepad1/y", whenDown { initialize() })
         this.subscribe("/gamepad1/y", {tailBack(it as GamepadButtonMsg)} )
     }
 
-    fun start() {
+    fun initialize() {
         if (this.state == STATES.OFF) {
             main()
         }
@@ -39,7 +39,7 @@ class InspectorNode : Node("Inspector") {
                     "Inspect Channels" to { inspectAll("/") },
                     "Disable All Channels" to { disableAll() },
                     "Global Command Palette" to {commandPalette()},
-                    "Exit" to { end() }
+                    "Exit" to { stopInspector() }
             )
             this.publish("/selector/begin", CallbackMapMsg(menu, priority = 1))
     }
@@ -52,8 +52,11 @@ class InspectorNode : Node("Inspector") {
     // For stuff where you know it's going.
     fun commandPalette() {
         val AngleTurn30 = AngleTurnMsg(angle=30.0, callback = {}, priority = 1)
+        val AngleTurnNeg90 = AngleTurnMsg(angle=-90.0, callback = {}, priority = 1)
+
         val menu = hashMapOf(
                 "/AngleTurning/turnTo $AngleTurn30" to {this.publish("/AngleTurning/turnTo", AngleTurn30)},
+                "/AngleTurning/turnTo $AngleTurnNeg90" to {this.publish("/AngleTurning/turnTo", AngleTurnNeg90)},
                 "Back" to {main()}
         )
         this.publish("/selector/begin", CallbackMapMsg(menu, priority = 1))
@@ -142,6 +145,8 @@ class InspectorNode : Node("Inspector") {
                 "[Increment] -0.05" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, -0.05))},
                 "[Increment] +0.025" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, 0.025))},
                 "[Increment] -0.025" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, -0.025))},
+                "[Increment] +0.001" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, 0.001))},
+                "[Increment] -0.001" to {this.publish(channel, IncrementMsg(IncrementState.INCREMENT, -0.001))},
                 "[Increment] Zero" to {this.publish(channel, IncrementMsg(IncrementState.ZERO))},
                 "Back" to {this.inspect(channel)}
         )
@@ -185,7 +190,9 @@ class InspectorNode : Node("Inspector") {
                     "/telemetry/lines",
                     "/telemetry/clear",
                     "/warn",
-                    "/error"
+                    "/error",
+                    "/start",
+                    "/stop"
             )
             if(!whiteList.contains(key)) Dispatcher.lock(key, -1)
         }
@@ -193,7 +200,7 @@ class InspectorNode : Node("Inspector") {
     }
 
     // Bye bye!!!
-    fun end() {
+    fun stopInspector() {
         state = STATES.OFF
         this.publish("/selector/end", UnitMsg())
     }

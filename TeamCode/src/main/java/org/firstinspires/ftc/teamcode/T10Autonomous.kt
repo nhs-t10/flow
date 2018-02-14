@@ -32,32 +32,31 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
         register(DigitalSensorNode(hardwareMap))
         register(AnalogSensorNode(hardwareMap))
         register(ColorNode(hardwareMap))
-
-//        register(DistanceColorNode(hardwareMap))
-
+        //register(DogeCVNode(hardwareMap))
         routine = RoutineGroup(listOf(
-                TimeoutRoutine({
-                    Dispatcher.publish("/glyph/upper", GripperMsg(GripperState.CLOSED, 1))
-                }, 1000),
-                GetVumarkRoutine({vuMark ->
-                    robotState.vuMark = vuMark
-                }),
-                TimeoutRoutine({
-                    Dispatcher.publish("/glift", LiftMsg(LiftState.MIDDLE, 1))
-                    Dispatcher.publish("/servos/knocker", ServoMsg(0.875, 1))
-                }, 2000),
-                KnockerRoutine(teamColor, teamPosition),
-                TimeoutRoutine({}, 1000), // wait for knocker retraction
-                StopAtCryptoboxRoutine(teamColor),
-                SpinRoutine(90.0),
-                TimedCallbackRoutine({
-                    Dispatcher.publish("/drive", OmniDrive(0.3f, 0f, 0f, 1))
-                }, 400, {cb ->
-                    Dispatcher.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
-                    cb()
-                })
-//                DriveToCryptoboxRoutine()
-
+            TimeoutRoutine({
+                Dispatcher.publish("/glyph/upper", GripperMsg(GripperState.CLOSED, 1))
+            }, 1000),
+            GetVumarkRoutine({vuMark ->
+                robotState.vuMark = vuMark
+            })
+            ,
+            TimeoutRoutine({
+                Dispatcher.publish("/glift", LiftMsg(LiftState.UPPER_BOTTOM, 1))
+                Dispatcher.publish("/servos/knocker", ServoMsg(0.875, 1))
+            }, 2000),
+            KnockerRoutine(teamColor, teamPosition),
+            TimeoutRoutine({}, 1000), // wait for knocker retraction
+            GetCloserToWall(),
+            StopAtCryptoboxRoutine(vumark = robotState.vuMark),
+            SpinRoutine(-90.0),
+            TimedCallbackRoutine({
+                Dispatcher.publish("/glyph/lower", GripperMsg(GripperState.OPEN, 1))
+                Dispatcher.publish("/drive", OmniDrive(0.3f, 0f, 0f, 1))
+            }, 400, {cb ->
+                Dispatcher.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
+                cb()
+            })
         ))
     }
 
@@ -68,7 +67,7 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
     }
 
     override fun begin() {
-        routine?.begin {
+        routine?.beginRoutine {
             Dispatcher.publish("/status", TextMsg("Autonomous Complete."))
         }
     }

@@ -11,18 +11,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference
 import org.firstinspires.ftc.robotcore.external.navigation.Position
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity
 import org.firstinspires.ftc.teamcode.messages.ImuMsg
+import org.firstinspires.ftc.teamcode.nodes.HeartbeatNode
 
 /**
  * Created by shaash on 10/26/17.
  */
-class ImuNode(val hardwareMap: HardwareMap) : Node("IMU"){
+class ImuNode(val hardwareMap: HardwareMap) : HeartbeatNode("IMU"){
     var imu : BNO055IMU? = null
     init {
         initImu()
     }
 
     override fun subscriptions() {
-        this.subscribe("/heartbeat", {update(it as HeartBeatMsg)})
     }
 
     fun initImu(){
@@ -41,8 +41,7 @@ class ImuNode(val hardwareMap: HardwareMap) : Node("IMU"){
 
     }
 
-    fun update(hb: HeartBeatMsg){
-        val (time) = hb
+    override fun onHeartbeat(){
         //imu:
         val angles = imu?.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
         val angleUnit = angles?.angleUnit

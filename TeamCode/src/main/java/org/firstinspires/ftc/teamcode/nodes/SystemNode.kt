@@ -13,4 +13,7 @@ class SystemNode : Node("System Node") {
     fun publishStart() {
         this.publish("/start", UnitMsg())
     }
+    fun publishStop() {
+        this.publish("/stop", UnitMsg())
+    }
 }
