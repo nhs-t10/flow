@@ -57,6 +57,7 @@ class InspectorNode : Node("Inspector") {
         val menu = hashMapOf(
                 "/AngleTurning/turnTo $AngleTurn30" to {this.publish("/AngleTurning/turnTo", AngleTurn30)},
                 "/AngleTurning/turnTo $AngleTurnNeg90" to {this.publish("/AngleTurning/turnTo", AngleTurnNeg90)},
+                "/drive/straight" to {this.publish("/drive/straight", StraightDriveMsg(0.0, 0.25, 1))},
                 "Back" to {main()}
         )
         this.publish("/selector/begin", CallbackMapMsg(menu, priority = 1))

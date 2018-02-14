@@ -18,8 +18,9 @@ class DriveStraightNode : Node("Drive Straight") {
 
     var turning = false
     override fun subscriptions() {
+        this.subscribe("/stop", {this.stopTurn()})
         this.subscribe("/imu", { this.update((it as ImuMsg).heading)})
-        this.subscribe("/AngleTurning/turnTo", {this.setTurnTo(it as AngleTurnMsg)})
+        this.subscribe("/drive/straight", {this.setTurnTo(it)})
         this.subscribe("/AngleTurning/cancel", {this.stopTurn()})
         this.subscribe("/AngleTurning/kP", {this.setkP(it)})
         this.subscribe("/AngleTurning/kI", {this.setkI(it)})
