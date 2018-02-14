@@ -16,7 +16,7 @@ class OmniJoyNode : Node("Omni Joystick") {
     var tempUpDown: Float = 0f
     var tempLeftRight: Float = 0f
 
-    val BUFSIZE = 10
+    val BUFSIZE = 8
 
     val buffer = mutableListOf<OmniDrive>()
 
