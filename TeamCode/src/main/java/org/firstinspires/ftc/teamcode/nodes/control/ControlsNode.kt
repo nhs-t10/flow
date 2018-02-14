@@ -74,14 +74,16 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
 
     override fun subscriptions() {
 
-        subscribe("/gamepad1/left_bumper", whenDown {
+        subscribe("/gamepad1/left_bumper", {msg ->
 //          updateLift(liftTransition(liftState, -1))
-            publish("/motors/glift", MotorMsg(0.5, 1))
+            if ((msg as GamepadButtonMsg).value) publish("/motors/glift", MotorMsg(0.5, 1))
+            else publish("/motors/glift", MotorMsg(0.0, 1))
         })
 
-        subscribe("/gamepad1/right_bumper", whenDown {
+        subscribe("/gamepad1/right_bumper",  {msg ->
 //          updateLift(liftTransition(liftState, 1))
-            publish("/motors/glift", MotorMsg(-0.5, 1))
+            if ((msg as GamepadButtonMsg).value) publish("/motors/glift", MotorMsg(-0.5, 1))
+            else publish("/motors/glift", MotorMsg(0.0, 1))
         })
         subscribe("/gamepad1/dpad_up", whenDown {
             publish("/glift/increment_up", UnitMsg())
@@ -142,7 +144,6 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         subscribe("/gamepad2/y", whenDown {
             publish("/rainbow/tilter/over_wall", UnitMsg())
         })
-
         subscribe("/gamepad2/left_bumper", whenDown {
             publish("/rainbow/tilter/increment_up", UnitMsg())
         })

@@ -10,13 +10,14 @@ import org.firstinspires.ftc.teamcode.messages.OmniDrive
 import org.firstinspires.ftc.teamcode.messages.GamepadJoyOrTrigMsg
 import org.firstinspires.ftc.teamcode.messages.Message
 import org.firstinspires.ftc.teamcode.messages.TextMsg
+import org.firstinspires.ftc.teamcode.nodes.HeartbeatNode
 
-class OmniJoyNode : Node("Omni Joystick") {
+class OmniJoyNode : HeartbeatNode("Omni Joystick") {
     var tempRotation: Float = 0f
     var tempUpDown: Float = 0f
     var tempLeftRight: Float = 0f
 
-    val BUFSIZE = 8
+    val BUFSIZE = 4
 
     val buffer = mutableListOf<OmniDrive>()
 
@@ -27,16 +28,13 @@ class OmniJoyNode : Node("Omni Joystick") {
         this.subscribe("/gamepad1/right_stick_x", {this.recieveMessage(gamepadNumber = 1, rotation = (it as GamepadJoyOrTrigMsg).value)})
         this.subscribe("/gamepad1/left_stick_x", {this.recieveMessage(gamepadNumber = 1, leftRight = (it as GamepadJoyOrTrigMsg).value)})
 
-        subscribe("/heartbeat", {receiveHeartbeat()})
-
-
         this.subscribe("/gamepad2/left_stick_y", {this.recieveMessage(gamepadNumber = 2, upDown = (it as GamepadJoyOrTrigMsg).value/2)})
         this.subscribe("/gamepad2/right_stick_x", {this.recieveMessage(gamepadNumber = 2, rotation = (it as GamepadJoyOrTrigMsg).value/2)})
         this.subscribe("/gamepad2/left_stick_x", {this.recieveMessage(gamepadNumber = 2, leftRight = (it as GamepadJoyOrTrigMsg).value/2)})
     }
 
-    fun receiveHeartbeat() {
-        sendBuf(this.tempRotation, this.tempUpDown, this.tempLeftRight)
+    override fun onHeartbeat() {
+//        sendBuf(this.tempRotation, this.tempUpDown, this.tempLeftRight)
     }
 
     // Possesses drive channel if joysticks being used
