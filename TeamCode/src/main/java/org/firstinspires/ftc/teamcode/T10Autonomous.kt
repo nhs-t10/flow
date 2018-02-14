@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark
 import org.firstinspires.ftc.teamcode.messages.*
 import org.firstinspires.ftc.teamcode.nodes.control.AngleTurningNode
+import org.firstinspires.ftc.teamcode.nodes.control.DriveStraightNode
 import org.firstinspires.ftc.teamcode.nodes.hardware.*
 import org.firstinspires.ftc.teamcode.nodes.human.UIColorNode
 import org.firstinspires.ftc.teamcode.nodes.routines.*
@@ -32,6 +33,7 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
         register(DigitalSensorNode(hardwareMap))
         register(AnalogSensorNode(hardwareMap))
         register(ColorNode(hardwareMap))
+        register(DriveStraightNode())
         //register(DogeCVNode(hardwareMap))
         routine = RoutineGroup(listOf(
             TimeoutRoutine({
