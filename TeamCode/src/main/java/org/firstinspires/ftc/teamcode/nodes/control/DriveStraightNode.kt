@@ -53,7 +53,7 @@ class DriveStraightNode : Node("Drive Straight") {
     }
 
     fun setTurnTo(m : Message){
-        val (angle, power, sideways) = m as StraightDriveMsg
+        val (angle, power, sideways) = m as DriveStraightMsg
         if (power == 0.0) {
             stopTurn()
         }

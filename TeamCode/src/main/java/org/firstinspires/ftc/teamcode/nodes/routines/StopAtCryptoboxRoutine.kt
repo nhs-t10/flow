@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.util.TeamColor
 class StopAtCryptoboxRoutine(val vumark: RelicRecoveryVuMark) : RoutineNode("Drive to Cryptobox"){
     var counter = 0
     override fun begin() {
-        this.publish("/drive", OmniDrive(upDown = 0f, rotation = 0f, leftRight = -0.25f, priority = 1))
+        this.publish("/drive/straight", DriveStraightMsg(-90.0, 0.3, true, 1))
     }
 
     override fun subscriptions() {
@@ -29,7 +29,7 @@ class StopAtCryptoboxRoutine(val vumark: RelicRecoveryVuMark) : RoutineNode("Dri
             counter++
             publish("/status", TextMsg("flanges detected: $counter"))
         } else {
-            this.publish("/drive", OmniDrive(upDown = 0.0f, rotation = 0f, leftRight = 0f, priority = 1))
+            this.publish("/drive/straight", DriveStraightMsg(-90.0, 0.0, false, 1))
             end()
         }
     }

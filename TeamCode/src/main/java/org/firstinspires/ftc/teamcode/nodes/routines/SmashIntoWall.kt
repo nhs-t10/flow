@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.messages.*
 class SmashIntoWall() : RoutineNode("Strafe to Wall"){
 
     override fun begin() {
-        this.publish("/drive/straight", StraightDriveMsg(-90.0, 0.2, false,1))
+        this.publish("/drive/straight", DriveStraightMsg(-90.0, 0.2, false,1))
     }
 
     override fun subscriptions() {
@@ -20,7 +20,7 @@ class SmashIntoWall() : RoutineNode("Strafe to Wall"){
     fun receivedTouch(m : Message){
         val (value) = m as DigitalMsg
         if(value){
-            this.publish("/drive/straight", StraightDriveMsg(-90.0, 0.0, false, 1))
+            this.publish("/drive/straight", DriveStraightMsg(-90.0, 0.0, false, 1))
             end()
         }
     }

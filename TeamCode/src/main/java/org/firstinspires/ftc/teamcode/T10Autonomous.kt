@@ -46,7 +46,7 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
             }, 2000),
             KnockerRoutine(teamColor, teamPosition),
             TimeoutRoutine({
-                Dispatcher.publish("/drive/straight", StraightDriveMsg(0.0, 0.4, false, 1))
+                Dispatcher.publish("/drive/straight", DriveStraightMsg(0.0, 0.4, false, 1))
             }, 2000),
             SpinRoutine(-90.0),
                 //This is temporary:
