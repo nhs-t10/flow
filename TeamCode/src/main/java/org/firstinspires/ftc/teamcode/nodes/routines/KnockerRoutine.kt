@@ -27,11 +27,9 @@ class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : Routine
 
     fun createMoveRoutine(sign: Int) : RoutineGroup = RoutineGroup(listOf(
         TimedCallbackRoutine({
-            this.publish("/drive", OmniDrive(sign * 0.5f, 0f, 0f, 1))
+            publish("/servos/knocker_yaw", ServoMsg(0.5 * sign, 1))
         }, 800, {cb ->
-            publish("/status", TextMsg("Drove fwd"))
-            this.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
-            retractKnockerAndEnd()
+            publish("/servos/knocker_yaw", ServoMsg(0.0, 1))
             cb()
         })
     ))
@@ -43,20 +41,16 @@ class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : Routine
             publish("/status", TextMsg("Saw RED"))
             if(team == TeamColor.RED){
                 createMoveRoutine(-1).beginRoutine {  } // Go forward, stop.
-//                this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, {retractKnocker()}, 1))
             } else {
                 createMoveRoutine(1).beginRoutine {  } // Go backward, stop.
-//                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, {retractKnocker()}, 1))
             }
         } else if (red-15 <  blue) { // If blue is in front
             turned = true
             publish("/status", TextMsg("Saw BLUE"))
             if (team == TeamColor.BLUE) {
                 createMoveRoutine(-1).beginRoutine {  } // Go forward, stop.
-//                this.publish("/AngleTurning/turnTo", AngleTurnMsg(-30.0, { retractKnocker() }, 1))
             } else {
                 createMoveRoutine(1).beginRoutine {  } // Go backward, stop.
-//              this.publish("/AngleTurning/turnTo", AngleTurnMsg(30.0, { retractKnocker() }, 1))
             }
         } else {
             this.publish("/warn", TextMsg("Saw nuthin"))

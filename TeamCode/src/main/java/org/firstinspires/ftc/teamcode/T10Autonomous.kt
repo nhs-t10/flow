@@ -33,39 +33,35 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
         register(ColorNode(hardwareMap))
         register(DriveStraightNode())
         //register(DogeCVNode(hardwareMap))
-        routine = RoutineGroup(listOf(
-            TimeoutRoutine({
-                Dispatcher.publish("/glyph/upper", GripperMsg(GripperState.CLOSED, 1))
-            }, 1000),
-            GetVumarkRoutine({vuMark ->
-                robotState.vuMark = vuMark
-            }),
-            TimeoutRoutine({
-                Dispatcher.publish("/glift", LiftMsg(LiftState.UPPER_BOTTOM, 1))
-                Dispatcher.publish("/servos/knocker", ServoMsg(0.875, 1))
-            }, 2000),
-            KnockerRoutine(teamColor, teamPosition),
-            TimeoutRoutine({
-                Dispatcher.publish("/drive/straight", DriveStraightMsg(0.0, 0.4, false, 1))
-            }, 2000),
-            SpinRoutine(-90.0),
-                //This is temporary:
-            TimedCallbackRoutine({
-                Dispatcher.publish("/drive", OmniDrive(0f, 0.2f, 0f, 1))
-            }, 1300, {cb ->
-                Dispatcher.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
-                cb()
-            }),
-            SmashIntoWall(),
-            StopAtCryptoboxRoutine(vumark = robotState.vuMark),
-            TimedCallbackRoutine({
-                Dispatcher.publish("/glyph/lower", GripperMsg(GripperState.OPEN, 1))
-                Dispatcher.publish("/drive", OmniDrive(0.3f, 0f, 0f, 1))
-            }, 400, {cb ->
-                Dispatcher.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
-                cb()
-            })
-        ))
+        val routineList = listOf(
+                TimeoutRoutine({
+                    Dispatcher.publish("/glyph/upper", GripperMsg(GripperState.CLOSED, 1))
+                }, 1000),
+                GetVumarkRoutine({vuMark ->
+                    robotState.vuMark = vuMark
+                }),
+                TimeoutRoutine({
+                    Dispatcher.publish("/glift", LiftMsg(LiftState.UPPER_BOTTOM, 1))
+                    Dispatcher.publish("/servos/knocker", ServoMsg(0.875, 1))
+                }, 2000),
+                KnockerRoutine(teamColor, teamPosition),
+                TimedCallbackRoutine({
+                    Dispatcher.publish("/drive", OmniDrive(0f, 0.2f, 0f, 1))
+                }, 1300, {cb ->
+                    Dispatcher.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
+                    cb()
+                }),
+                SmashIntoWall(),
+                StopAtCryptoboxRoutine(vumark = robotState.vuMark),
+                TimedCallbackRoutine({
+                    Dispatcher.publish("/glyph/lower", GripperMsg(GripperState.OPEN, 1))
+                    Dispatcher.publish("/drive", OmniDrive(0.3f, 0f, 0f, 1))
+                }, 400, {cb ->
+                    Dispatcher.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
+                    cb()
+                })
+        )
+        routine = RoutineGroup(routineList)
     }
 
     override fun initialize() {

@@ -70,7 +70,10 @@ class DriveStraightNode : Node("Drive Straight") {
         if(turning){
             val rotation = (getRotation(heading)).toFloat()
             val floatyPower = power.toFloat()
-            this.publish("/drive", OmniDrive(rotation = -1f * rotation, leftRight = (if (sideways) floatyPower else 0.0f), upDown = (if (!sideways) floatyPower else 0.0f), priority = 2))
+            this.publish("/drive", OmniDrive(rotation = -1f * rotation,
+                    leftRight = (if (sideways) floatyPower else 0.0f),
+                    upDown = (if (!sideways) floatyPower else 0.0f), priority = 2)
+            )
         }
     }
 
