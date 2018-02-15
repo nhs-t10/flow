@@ -12,11 +12,11 @@ import org.firstinspires.ftc.teamcode.util.TeamColor
 class StopAtCryptoboxRoutine(val vumark: RelicRecoveryVuMark) : RoutineNode("Drive to Cryptobox"){
     var counter = 0
     override fun begin() {
-        this.publish("/drive", OmniDrive(upDown = 0.3f, rotation = 0f, leftRight = 0f, priority = 1))
+        this.publish("/drive", OmniDrive(upDown = 0f, rotation = 0f, leftRight = -0.25f, priority = 1))
     }
 
     override fun subscriptions() {
-        subscribe("/digital/touch2", {
+        subscribe("/digital/touch3", {
             if(vumark==RelicRecoveryVuMark.LEFT){stopIfThere(it, 3)}
             else if(vumark==RelicRecoveryVuMark.CENTER){stopIfThere(it, 2)}
             else if(vumark==RelicRecoveryVuMark.RIGHT){stopIfThere(it, 1)}

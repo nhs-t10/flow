@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode
 
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark
 import org.firstinspires.ftc.teamcode.messages.*
-import org.firstinspires.ftc.teamcode.nodes.control.AngleTurningNode
 import org.firstinspires.ftc.teamcode.nodes.control.DriveStraightNode
 import org.firstinspires.ftc.teamcode.nodes.hardware.*
 import org.firstinspires.ftc.teamcode.nodes.human.UIColorNode
@@ -51,7 +49,13 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
             TimeoutRoutine({
                 Dispatcher.publish("/drive/straight", StraightDriveMsg(0.0, 0.4, 1))
             }, 2000),
-            GetCloserToWall(),
+            SpinRoutine(-90.0),
+                //This is temporary:
+            TimeoutRoutine({
+                Dispatcher.publish("/drive", OmniDrive(0f, 0.2f, 0f, 1))
+            }, 1300),
+            //BangIntoPlatformRoutine(),
+            SmashIntoWall(),
             StopAtCryptoboxRoutine(vumark = robotState.vuMark),
             SpinRoutine(-90.0),
             TimedCallbackRoutine({
