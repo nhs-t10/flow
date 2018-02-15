@@ -5,11 +5,12 @@ import com.disnodeteam.dogecv.detectors.CryptoboxDetector
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.TextMsg
+import org.firstinspires.ftc.teamcode.nodes.HeartbeatNode
 
 /**
  * Created by max on 1/18/18.
  */
-class DogeCVNode(hardwareMap: HardwareMap) : Node("DogeCV") {
+class DogeCVNode(hardwareMap: HardwareMap) : HeartbeatNode("DogeCV") {
     var cryptoboxDetector : CryptoboxDetector? = null
     var active = false
 
@@ -23,9 +24,8 @@ class DogeCVNode(hardwareMap: HardwareMap) : Node("DogeCV") {
     override fun subscriptions() {
         subscribe("/cv/transition", {transition()})
         subscribe("/stop", {done()})
-        subscribe("/heartbeat", {updateCV()})
     }
-    fun updateCV() {
+    override fun onHeartbeat() {
         if(active) {
             publish("/dogecv", TextMsg("""
                 ${cryptoboxDetector?.isCryptoBoxDetected()}
