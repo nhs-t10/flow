@@ -24,7 +24,9 @@ class TestingNode : Node("Testing Node") {
             "/color/ground",
             "/imu",
             "/vuforia",
-            "/dogecv"
+            "/dogecv",
+            "/digital/touch2",
+            "/digital/touch3"
     )
 
     var mode = 0

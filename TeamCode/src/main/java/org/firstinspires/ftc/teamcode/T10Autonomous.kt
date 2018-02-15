@@ -39,25 +39,25 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
             }, 1000),
             GetVumarkRoutine({vuMark ->
                 robotState.vuMark = vuMark
-            })
-            ,
+            }),
             TimeoutRoutine({
                 Dispatcher.publish("/glift", LiftMsg(LiftState.UPPER_BOTTOM, 1))
                 Dispatcher.publish("/servos/knocker", ServoMsg(0.875, 1))
             }, 2000),
             KnockerRoutine(teamColor, teamPosition),
             TimeoutRoutine({
-                Dispatcher.publish("/drive/straight", StraightDriveMsg(0.0, 0.4, 1))
+                Dispatcher.publish("/drive/straight", StraightDriveMsg(0.0, 0.4, false, 1))
             }, 2000),
             SpinRoutine(-90.0),
                 //This is temporary:
-            TimeoutRoutine({
+            TimedCallbackRoutine({
                 Dispatcher.publish("/drive", OmniDrive(0f, 0.2f, 0f, 1))
-            }, 1300),
-            //BangIntoPlatformRoutine(),
+            }, 1300, {cb ->
+                Dispatcher.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
+                cb()
+            }),
             SmashIntoWall(),
             StopAtCryptoboxRoutine(vumark = robotState.vuMark),
-            SpinRoutine(-90.0),
             TimedCallbackRoutine({
                 Dispatcher.publish("/glyph/lower", GripperMsg(GripperState.OPEN, 1))
                 Dispatcher.publish("/drive", OmniDrive(0.3f, 0f, 0f, 1))

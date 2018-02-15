@@ -15,6 +15,7 @@ class DriveStraightNode : Node("Drive Straight") {
     var destAngle = 0.0
     var turn = PID(kP, kI, kD) // temp instance
     var power = 0.0
+    var sideways = false
 
     var turning = false
     override fun subscriptions() {
@@ -52,7 +53,7 @@ class DriveStraightNode : Node("Drive Straight") {
     }
 
     fun setTurnTo(m : Message){
-        val (angle, power) = m as StraightDriveMsg
+        val (angle, power, sideways) = m as StraightDriveMsg
         if (power == 0.0) {
             stopTurn()
         }
@@ -60,6 +61,7 @@ class DriveStraightNode : Node("Drive Straight") {
             turn = PID(kP, kI, kD)
             destAngle = angle
             this.power = power
+            this.sideways = sideways
             turning = true
         }
     }
@@ -68,7 +70,7 @@ class DriveStraightNode : Node("Drive Straight") {
         if(turning){
             val rotation = (getRotation(heading)).toFloat()
             val floatyPower = power.toFloat()
-            this.publish("/drive", OmniDrive(rotation = -1f * rotation, leftRight = 0f, upDown = floatyPower, priority = 2))
+            this.publish("/drive", OmniDrive(rotation = -1f * rotation, leftRight = (if (sideways) floatyPower else 0.0f), upDown = (if (!sideways) floatyPower else 0.0f), priority = 2))
         }
     }
 
