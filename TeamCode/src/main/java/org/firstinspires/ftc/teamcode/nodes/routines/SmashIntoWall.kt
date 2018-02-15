@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.messages.*
 class SmashIntoWall() : RoutineNode("Strafe to Wall"){
 
     override fun begin() {
-        this.publish("/drive", OmniDrive(upDown = 0.25f, rotation = 0f, leftRight = 0f, priority = 1))
+        this.publish("/drive/straight", StraightDriveMsg(-90.0, 0.2, 1))
     }
 
     override fun subscriptions() {
