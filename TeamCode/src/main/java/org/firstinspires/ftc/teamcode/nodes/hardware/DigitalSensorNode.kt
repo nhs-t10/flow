@@ -22,8 +22,8 @@ class DigitalSensorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Digital S
     override fun subscriptions() {
     }
     fun addSensors(){
-        sensors.put("touch2", hardwareMap.digitalChannel.get("touch2")!!)
-        sensors.put("touch3", hardwareMap.digitalChannel.get("touch3")!!)
+        sensors.put("front_contact", hardwareMap.digitalChannel.get("touch2")!!)
+        sensors.put("left_contact", hardwareMap.digitalChannel.get("touch3")!!)
         // DO NOT PUT MORE SENSORS BELOW THIS LINE
         addSensorStates()
     }

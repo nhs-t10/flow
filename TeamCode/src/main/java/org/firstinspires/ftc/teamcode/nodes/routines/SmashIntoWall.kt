@@ -14,7 +14,7 @@ class SmashIntoWall() : RoutineNode("Strafe to Wall"){
     }
 
     override fun subscriptions() {
-        subscribe("/digital/touch2", {receivedTouch(it)})
+        subscribe("/digital/front_contact", {receivedTouch(it)})
     }
 
     fun receivedTouch(m : Message){
