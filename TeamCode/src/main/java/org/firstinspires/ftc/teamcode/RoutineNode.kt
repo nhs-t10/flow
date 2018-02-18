@@ -21,7 +21,7 @@ abstract class RoutineNode(val routineName : String) : HeartbeatNode(routineName
         return fun(m: Message) {
             if (routineActive) {
                 if (System.currentTimeMillis() - routineStartTime >= routineWarningTime) {
-                    publish("/warn", TextMsg("[${System.currentTimeMillis()-routineStartTime}] Routine $name has been running for at least 10 seconds..."))
+                    publish("/warn", TextMsg("[${System.currentTimeMillis()-routineStartTime}] Routine $routineName has been running for at least 10 seconds..."))
                 }
                 cb(m)
             }
