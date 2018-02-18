@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.nodes.mechanisms.OmniDtNode
  * Created by max on 12/8/17.
  */
 abstract class CoreOp : OpMode() {
-    var nodes = mutableListOf<Node>()
+    var nodes = mutableListOf<Nodeable>()
     val systemNode = SystemNode()
     final override fun init() {
         nodes = mutableListOf( // common nodes
@@ -36,7 +36,7 @@ abstract class CoreOp : OpMode() {
     abstract fun registration()
     open fun begin() {}
 
-    fun register(node: Node) {
+    fun register(node: Nodeable) {
         nodes.add(node)
     }
     final override fun start() {
