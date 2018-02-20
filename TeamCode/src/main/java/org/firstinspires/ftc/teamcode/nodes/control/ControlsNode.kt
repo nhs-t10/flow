@@ -82,6 +82,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         subscribe("/gamepad1/dpad_down", whenDown {
             updateLift(liftTransition(liftState, -1))
         })
+
         subscribe("/gamepad1/left_bumper", whenDown {
             publish("/glift/increment_up", UnitMsg())
         })
@@ -106,7 +107,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         /**
          * Press and hold RT when delivering blocks into the shelf. Release when done.
          */
-        subscribe("/gamepad1/right_trigger", squeezeReleaseLambda)
+      /*  subscribe("/gamepad1/right_trigger", squeezeReleaseLambda)
 
         /**
          * Press LT to grab both blocks.
@@ -114,7 +115,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         subscribe("/gamepad1/left_trigger", whenDown {
             updateGrippers(lower=GripperState.CLOSED, upper = GripperState.CLOSED)
         })
-        /* ------- */
+        *//* ------- */
 
         subscribe("/gamepad2/dpad_up", whenDown {
             updateLift(liftTransition(liftState, 1))
@@ -161,13 +162,13 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
          * Press and hold RT when delivering blocks into the shelf. Release when done.
          */
 
-        subscribe("/gamepad2/right_trigger", {publish("/rainbow/extender/extend", it)})
+        subscribe("/gamepad1/right_trigger", {publish("/rainbow/extender/extend", it)})
 
         /**
          * Press LT to grab both blocks.
          */
 
-        subscribe("/gamepad2/left_trigger", {publish("/rainbow/extender/retract", it)})
+        subscribe("/gamepad1/left_trigger", {publish("/rainbow/extender/retract", it)})
         /* ---- */
         /**
          * Middle it out
