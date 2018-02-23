@@ -19,7 +19,7 @@ abstract class HeartbeatNode(override val nodeName : String, val heartbeatInterv
     override fun run() {
         heartbeatActive = true
         var initialTime = System.nanoTime()
-        while (System.nanoTime() - initialTime >= heartbeatInterval) {
+        while (heartbeatActive && System.nanoTime() - initialTime >= heartbeatInterval) {
             initialTime = System.nanoTime()
             onHeartbeat()
         }
@@ -27,7 +27,11 @@ abstract class HeartbeatNode(override val nodeName : String, val heartbeatInterv
 
     final override fun endNode() {
         heartbeatActive = false
+        heartbeatEnd()
     }
+
+    // override this if stuff is still alive after opmode stop
+    open fun heartbeatEnd() {}
 
     abstract fun onHeartbeat()
 }
