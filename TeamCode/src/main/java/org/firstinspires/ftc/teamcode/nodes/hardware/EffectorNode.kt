@@ -28,6 +28,18 @@ class EffectorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Effectors"){
     override fun subscriptions() {
     }
 
+    override fun heartbeatEnd() {
+        for (m in motors.keys) {
+            motors[m]?.setPower(0.0)
+        }
+        for (s in servos.keys) {
+            servos[s]?.setPosition(0.0)
+        }
+        for (c in crServos.keys) {
+            crServos[c]?.setPower(0.0)
+        }
+    }
+
     override fun onHeartbeat() {
         this.thumpCrServos()
         this.thumpServos()
