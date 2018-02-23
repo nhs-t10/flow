@@ -25,3 +25,8 @@ class SmashIntoWall() : RoutineNode("Strafe to Wall"){
         }
     }
 }
+/**
+ * motor plug in
+ * servo values
+ * macros for arm
+**/
