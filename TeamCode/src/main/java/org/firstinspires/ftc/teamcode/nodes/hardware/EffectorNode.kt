@@ -65,9 +65,9 @@ class EffectorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Effectors"){
     fun addServos() {
         servos.put("bottomServo", hardwareMap.servo.get("s0"))
         servos.put("topServo", hardwareMap.servo.get("s1"))
-        servos.put("liftServo", hardwareMap.servo.get("s2"))
+        servos.put("knocker_yaw", hardwareMap.servo.get("s2"))
         servos.put("knocker_pitch", hardwareMap.servo.get("s3"))
-        servos.put("knocker_yaw", hardwareMap.servo.get("s4"))
+        servos.put("tilter", hardwareMap.servo.get("s4"))
         servos.put("raingripper", hardwareMap.servo.get("s5"))
         servos.put("", hardwareMap.servo.get("s6"))
 
