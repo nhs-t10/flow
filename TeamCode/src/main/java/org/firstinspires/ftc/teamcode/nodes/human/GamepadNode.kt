@@ -43,6 +43,10 @@ class GamepadNode(val gamepad1: Gamepad, val gamepad2: Gamepad) : HeartbeatNode(
     override fun subscriptions() {
     }
 
+    /**
+     * This is prone to IllegalCallableAccessExceptions (app crashes).
+     * I tried making things more immutable, but the best way in the future might be to catch it.
+     */
     override fun onHeartbeat(){
         //gamepad 1 data publishing
         if(gamepad1 == null){
