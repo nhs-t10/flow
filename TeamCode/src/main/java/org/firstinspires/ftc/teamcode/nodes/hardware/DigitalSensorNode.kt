@@ -26,8 +26,14 @@ class DigitalSensorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Digital S
     override fun subscriptions() {
     }
     fun addSensors(){
-        sensors.put("front_contact", hardwareMap.digitalChannel.get("touch2")!!)
-        sensors.put("left_contact", hardwareMap.digitalChannel.get("touch3")!!)
+        val allOnHardware = hardwareMap.getAll(DigitalChannel::class.java)
+        for (sensor in allOnHardware) {
+            // pull hardware name out of the set (should contain 1 item)
+            val name = hardwareMap.getNamesOf(sensor).iterator().next()
+            sensors.put(name, sensor)
+        }
+//        sensors.put("front_contact", hardwareMap.digitalChannel.get("touch2")!!)
+//        sensors.put("left_contact", hardwareMap.digitalChannel.get("touch3")!!)
         // DO NOT PUT MORE SENSORS BELOW THIS LINE
         addSensorStates()
     }
@@ -38,13 +44,6 @@ class DigitalSensorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Digital S
     }
 
     override fun onHeartbeat() {
-        val allOnHardware = hardwareMap.getAll(DigitalChannel::class.java)
-        var names = ""
-        for (sensor in allOnHardware) {
-            names += hardwareMap.getNamesOf(sensor).toString()
-//            sensors.put(sensor.deviceName, sensor)
-        }
-        publish("/debug", TextMsg(names))
         for (key in sensors.keys){
             val isPressed = sensors[key]?.getState() ?: false
             if (isPressed != sensorStates[key]) {

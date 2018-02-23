@@ -34,6 +34,7 @@ class OmniJoyNode : HeartbeatNode("Omni Joystick") {
     }
 
     override fun onHeartbeat() {
+        // Comment this out for disabling buffering
 //        sendBuf(this.tempRotation, this.tempUpDown, this.tempLeftRight)
     }
 
@@ -75,6 +76,8 @@ class OmniJoyNode : HeartbeatNode("Omni Joystick") {
                 this.tempLeftRight = leftRight
                 deadLock(gamepadNumber)
             }
+            // Comment this out for enabling buffering
+            this.publish("/drive", OmniDrive(this.tempUpDown, this.tempLeftRight, this.tempRotation, priority = 1))
         }
         else {
             publish("/warn", TextMsg("Driver 2 attempting to override Driver 1's joystick movement."))
