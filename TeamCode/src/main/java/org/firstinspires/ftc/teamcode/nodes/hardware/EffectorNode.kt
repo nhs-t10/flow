@@ -69,7 +69,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Effectors"){
         servos.put("knocker_pitch", hardwareMap.servo.get("s3"))
         servos.put("tilter", hardwareMap.servo.get("s4"))
         servos.put("raingripper", hardwareMap.servo.get("s5"))
-        servos.put("", hardwareMap.servo.get("s6"))
+        servos.put("wood", hardwareMap.servo.get("s6"))
 
         // DO NOT ADD SERVOS BELOW THIS LINE
 
@@ -85,6 +85,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Effectors"){
         servoStates.put("topServo", 0.3)
         servoStates.put("raingripper", 0.88)
         servoStates.put("tilter", 0.2)
+        servoStates.put("wood", 0.0)
     }
 
     fun addCrServos() {

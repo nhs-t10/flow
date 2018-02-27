@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.nodes.routines
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark
+import org.firstinspires.ftc.teamcode.RoutineGroup
 import org.firstinspires.ftc.teamcode.RoutineNode
 import org.firstinspires.ftc.teamcode.messages.*
 import org.firstinspires.ftc.teamcode.util.TeamColor
@@ -23,11 +24,31 @@ class CountFlangesRoutine(val vumark: RelicRecoveryVuMark) : RoutineNode("Drive 
         })
     }
 
+    fun skrtalil() : RoutineGroup = RoutineGroup(listOf(
+            TimeoutRoutine({
+                publish("/servos/wood", ServoMsg(0.5, 1))
+            }, 450),
+            TimeoutRoutine({
+                this.publish("/drive/straight", DriveStraightMsg(-90.0, 0.3, true, 1))
+            }, 600),
+            TimeoutRoutine({
+                this.publish("/drive/straight", DriveStraightMsg(-90.0, 0.0, false, 1))
+            }, 300),
+            TimedCallbackRoutine({
+                publish("/servos/wood", ServoMsg(0.5, 1))
+                this.publish("/drive/straight", DriveStraightMsg(-90.0, 0.3, true, 1))
+            }, 450, {cb ->
+                publish("/servos/wood", ServoMsg(0.0, 1))
+                cb()
+            })
+    ))
+
     fun stopIfThere(m: Message, flanges: Int){
         val (value) = m as DigitalMsg
         if((counter<flanges) && value) {
-            counter++
-            publish("/status", TextMsg("flanges detected: $counter"))
+            skrtalil().beginRoutine { counter++
+                publish("/status", TextMsg("flanges detected: $counter")) }
+
         } else {
             this.publish("/drive/straight", DriveStraightMsg(-90.0, 0.0, false, 1))
             end()
