@@ -27,9 +27,9 @@ class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : Routine
 
     fun createMoveRoutine(sign: Int) : RoutineGroup = RoutineGroup(listOf(
         TimedCallbackRoutine({
-            publish("/servos/knocker_yaw", ServoMsg(0.5 * sign, 1))
+            publish("/servos/knocker_yaw", ServoMsg(0.6 + (0.35 * sign), 1))
         }, 800, {cb ->
-            publish("/servos/knocker_yaw", ServoMsg(0.0, 1))
+            publish("/servos/knocker_yaw", ServoMsg(0.6, 1))
             cb()
         })
     ))

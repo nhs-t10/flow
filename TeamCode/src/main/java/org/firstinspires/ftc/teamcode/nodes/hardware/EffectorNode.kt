@@ -85,6 +85,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Effectors"){
         servoStates.put("topServo", 0.3)
         servoStates.put("raingripper", 0.88)
         servoStates.put("tilter", 0.2)
+        servoStates.put("knocker_yaw", 0.6)
     }
 
     fun addCrServos() {
