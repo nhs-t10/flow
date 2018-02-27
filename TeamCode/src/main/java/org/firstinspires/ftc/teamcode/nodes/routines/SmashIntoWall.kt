@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.nodes.routines
-
 import org.firstinspires.ftc.teamcode.RoutineNode
 import org.firstinspires.ftc.teamcode.messages.*
 
@@ -14,7 +13,7 @@ class SmashIntoWall() : RoutineNode("Strafe to Wall"){
     }
 
     override fun subscriptions() {
-        subscribe("/digital/front_contact", {receivedTouch(it)})
+        subscribe("/digital/smasher", {receivedTouch(it)})
     }
 
     fun receivedTouch(m : Message){
@@ -25,6 +24,7 @@ class SmashIntoWall() : RoutineNode("Strafe to Wall"){
         }
     }
 }
+
 /**
  * motor plug in
  * servo values

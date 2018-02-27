@@ -52,7 +52,7 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
                     cb()
                 }),
                 SmashIntoWall(),
-                StopAtCryptoboxRoutine(vumark = robotState.vuMark),
+                CountFlangesRoutine(vumark = robotState.vuMark),
                 TimedCallbackRoutine({
                     Dispatcher.publish("/glyph/lower", GripperMsg(GripperState.OPEN, 1))
                     Dispatcher.publish("/drive", OmniDrive(0.3f, 0f, 0f, 1))
