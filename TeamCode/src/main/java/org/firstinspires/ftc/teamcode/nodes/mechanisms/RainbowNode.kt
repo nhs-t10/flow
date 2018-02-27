@@ -9,10 +9,21 @@ import org.firstinspires.ftc.teamcode.messages.*
 
 class RainbowNode : Node("Rainbow Lift") {
 
+    enum class STATE {
+        MACRO_EXTENDING,
+        NORMAL
+    }
+    var state = STATE.NORMAL
+
     override fun subscriptions() {
         this.subscribe("/rainbow/gripper", { receiveGripMessage(it)})
         this.subscribe("/rainbow/extender/extend", {recieveExtendMessage(it)})
         this.subscribe("/rainbow/extender/retract", {recieveRetractMessage(it)})
+        subscribe("/rainbow/macroExtend", {macroExtend()})
+
+        subscribe("/digital/rainbowUp", {touchedUp(it)})
+        subscribe("/digital/rainbowDown", {})
+
 
         this.subscribe("/rainbow/tilter/eject", {goToPos(0.3)})
         this.subscribe("/rainbow/tilter/over_wall", {goToPos(0.5)})
@@ -20,6 +31,23 @@ class RainbowNode : Node("Rainbow Lift") {
         this.subscribe("/rainbow/tilter/increment_down", {recieveTiltDownMessage(-0.025)})
         this.subscribe("/rainbow/tilter/increment_up/fast", {recieveTiltUpMessage(0.05)})
         this.subscribe("/rainbow/tilter/increment_down/fast", {recieveTiltDownMessage(-0.05)})
+
+    }
+
+    fun touchedUp (m: Message) {
+        val (value) = m as DigitalMsg
+        // Make sure touch is down and we r moving
+        if (value && state == STATE.MACRO_EXTENDING) {
+            state = STATE.NORMAL
+            publish("/motors/rainbow", MotorMsg(power = 0.0, priority = 1))
+        }
+
+    }
+
+    fun macroExtend() {
+        state = STATE.MACRO_EXTENDING
+
+        publish("/motors/rainbow", MotorMsg(power = -0.2, priority = 1))
     }
 
     fun receiveGripMessage(m: Message) {
