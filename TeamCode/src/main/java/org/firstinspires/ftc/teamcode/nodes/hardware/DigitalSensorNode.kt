@@ -32,8 +32,6 @@ class DigitalSensorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Digital S
             val name = hardwareMap.getNamesOf(sensor).iterator().next()
             sensors.put(name, sensor)
         }
-        sensors.put("smasher", hardwareMap.digitalChannel.get("touch2")!!)
-        sensors.put("counter", hardwareMap.digitalChannel.get("touch3")!!)
         // DO NOT PUT MORE SENSORS BELOW THIS LINE
         addSensorStates()
     }
