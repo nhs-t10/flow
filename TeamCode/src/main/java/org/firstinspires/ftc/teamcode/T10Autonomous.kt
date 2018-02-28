@@ -20,7 +20,6 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
     // and call that function (getRobotState) to get the latest RobotState
     val robotState = RobotState()
     val getRobotState = {robotState}
-
     override fun registration() {
         // Do the safety dance
         val uiColorNode = UIColorNode(hardwareMap)
