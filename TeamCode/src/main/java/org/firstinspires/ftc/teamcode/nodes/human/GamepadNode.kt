@@ -5,6 +5,7 @@ import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.HeartBeatMsg
 import org.firstinspires.ftc.teamcode.messages.GamepadButtonMsg
 import org.firstinspires.ftc.teamcode.messages.GamepadJoyOrTrigMsg
+import org.firstinspires.ftc.teamcode.messages.TextMsg
 import org.firstinspires.ftc.teamcode.nodes.HeartbeatNode
 import java.util.*
 
@@ -54,23 +55,27 @@ class GamepadNode(val gamepad1: Gamepad, val gamepad2: Gamepad) : HeartbeatNode(
         }
         for (prop in Gamepad::class.memberProperties) {
             prop.isAccessible = true
-            val gotGamepad = prop.get(gamepad1)
-            if (gotGamepad != null && gotGamepad is Boolean) {
-                if (gamepad1Buttons[prop.name] != null) {
-                    val value = gotGamepad
-                    if (gamepad1Buttons[prop.name] != value) {
-                        gamepad1Buttons.put(prop.name, value)
-                        this.publish("/gamepad1/${prop.name}", GamepadButtonMsg(value = value, priority = 1))
+            try {
+                val gotGamepad = prop.get(gamepad1)
+                if (gotGamepad != null && gotGamepad is Boolean) {
+                    if (gamepad1Buttons[prop.name] != null) {
+                        val value = gotGamepad
+                        if (gamepad1Buttons[prop.name] != value) {
+                            gamepad1Buttons.put(prop.name, value)
+                            this.publish("/gamepad1/${prop.name}", GamepadButtonMsg(value = value, priority = 1))
+                        }
+                    }
+                } else if (gotGamepad != null && gotGamepad is Float) {
+                    if (gamepad1JoyOrTrigs[prop.name] != null) {
+                        if (gamepad1JoyOrTrigs[prop.name] != gotGamepad) {
+                            gamepad1JoyOrTrigs.put(prop.name, gotGamepad)
+                            this.publish("/gamepad1/${prop.name}", GamepadJoyOrTrigMsg(value = gotGamepad, priority = 1))
+                        }
                     }
                 }
             }
-            else if (gotGamepad != null && gotGamepad is Float) {
-                if (gamepad1JoyOrTrigs[prop.name] != null) {
-                    if (gamepad1JoyOrTrigs[prop.name] != gotGamepad) {
-                        gamepad1JoyOrTrigs.put(prop.name, gotGamepad)
-                        this.publish("/gamepad1/${prop.name}", GamepadJoyOrTrigMsg(value = gotGamepad, priority = 1))
-                    }
-                }
+            catch (e:Exception) {
+                publish("/error", TextMsg("got gamepad1 error $e, continuing"))
             }
         }
         //gamepad 2 data publishing
@@ -79,22 +84,26 @@ class GamepadNode(val gamepad1: Gamepad, val gamepad2: Gamepad) : HeartbeatNode(
         }
         for (prop in Gamepad::class.memberProperties) {
             prop.isAccessible = true
-            val gotGamepad = prop.get(gamepad2)
-            if (gotGamepad != null && gotGamepad is Boolean) {
-                if (gamepad2Buttons[prop.name] != null) {
-                    if (gamepad2Buttons[prop.name] != gotGamepad) {
-                        gamepad2Buttons.put(prop.name, gotGamepad)
-                        this.publish("/gamepad2/${prop.name}", GamepadButtonMsg(value = gotGamepad, priority = 1))
+            try {
+                val gotGamepad = prop.get(gamepad2)
+                if (gotGamepad != null && gotGamepad is Boolean) {
+                    if (gamepad2Buttons[prop.name] != null) {
+                        if (gamepad2Buttons[prop.name] != gotGamepad) {
+                            gamepad2Buttons.put(prop.name, gotGamepad)
+                            this.publish("/gamepad2/${prop.name}", GamepadButtonMsg(value = gotGamepad, priority = 1))
+                        }
+                    }
+                } else if (gotGamepad != null && gotGamepad is Float) {
+                    if (gamepad2JoyOrTrigs[prop.name] != null) {
+                        if (gamepad2JoyOrTrigs[prop.name] != gotGamepad) {
+                            gamepad2JoyOrTrigs.put(prop.name, gotGamepad)
+                            this.publish("/gamepad2/${prop.name}", GamepadJoyOrTrigMsg(value = gotGamepad, priority = 1))
+                        }
                     }
                 }
             }
-            else if (gotGamepad != null && gotGamepad is Float) {
-                if (gamepad2JoyOrTrigs[prop.name] != null) {
-                    if (gamepad2JoyOrTrigs[prop.name] != gotGamepad) {
-                        gamepad2JoyOrTrigs.put(prop.name, gotGamepad)
-                        this.publish("/gamepad2/${prop.name}", GamepadJoyOrTrigMsg(value = gotGamepad, priority = 1))
-                    }
-                }
+            catch (e:Exception) {
+                publish("/error", TextMsg("got gamepad2 error $e, continuing"))
             }
         }
     }

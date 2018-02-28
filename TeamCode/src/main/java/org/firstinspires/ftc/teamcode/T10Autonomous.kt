@@ -42,7 +42,7 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
                 }),
                 TimeoutRoutine({
                     Dispatcher.publish("/glift", LiftMsg(LiftState.UPPER_BOTTOM, 1))
-                    Dispatcher.publish("/servos/knocker", ServoMsg(0.875, 1))
+                    Dispatcher.publish("/servos/knocker", ServoMsg(0.95, 1))
                 }, 2000),
                 KnockerRoutine(teamColor, teamPosition),
                 TimedCallbackRoutine({

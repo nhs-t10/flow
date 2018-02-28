@@ -27,7 +27,7 @@ class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : Routine
 
     fun createMoveRoutine(sign: Int) : RoutineGroup = RoutineGroup(listOf(
         TimedCallbackRoutine({
-            publish("/servos/knocker_yaw", ServoMsg(0.6 + (0.35 * sign), 1))
+            publish("/servos/knocker_yaw", ServoMsg(0.575 + (0.125 * sign), 1))
         }, 800, {cb ->
             publish("/servos/knocker_yaw", ServoMsg(0.6, 1))
             cb()
@@ -40,17 +40,17 @@ class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : Routine
             turned = true
             publish("/status", TextMsg("Saw RED"))
             if(team == TeamColor.RED){
-                createMoveRoutine(-1).beginRoutine {  } // Go forward, stop.
+                createMoveRoutine(-1).beginRoutine { retractKnockerAndEnd() } // Go forward, stop.
             } else {
-                createMoveRoutine(1).beginRoutine {  } // Go backward, stop.
+                createMoveRoutine(1).beginRoutine { retractKnockerAndEnd() } // Go backward, stop.
             }
         } else if (red-15 <  blue) { // If blue is in front
             turned = true
             publish("/status", TextMsg("Saw BLUE"))
             if (team == TeamColor.BLUE) {
-                createMoveRoutine(-1).beginRoutine {  } // Go forward, stop.
+                createMoveRoutine(-1).beginRoutine { retractKnockerAndEnd() } // Go forward, stop.
             } else {
-                createMoveRoutine(1).beginRoutine {  } // Go backward, stop.
+                createMoveRoutine(1).beginRoutine { retractKnockerAndEnd() } // Go backward, stop.
             }
         } else {
             this.publish("/warn", TextMsg("Saw nuthin"))
