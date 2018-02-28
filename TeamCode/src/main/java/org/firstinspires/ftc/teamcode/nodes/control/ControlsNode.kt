@@ -150,6 +150,12 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         subscribe("/gamepad2/right_bumper", whenDown {
             publish("/rainbow/tilter/increment_down", UnitMsg())
         })
+        subscribe("/gamepad1/left_bumper", whenDown {
+            publish("/glift/goDown", MotorMsg(power = 0.3, priority = 1))
+        })
+        subscribe("/gamepad1/right_bumper", whenDown {
+            publish("/glift/goUp", MotorMsg(power = 0.3, priority = 1))
+        })
 
         /**
          * Press B to rainbow grab
