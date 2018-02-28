@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.util.TeamPosition
 class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : RoutineNode ("Knocker Routine"){
     var turned = false
 
-    val upPosition = 0.075
+    val upPosition = 0.15
     override fun begin() {}
     override fun subscriptions() {
         this.subscribe("/color/knocker") { doOnce(it) }
@@ -58,7 +58,7 @@ class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : Routine
     }
 
     fun retractKnockerAndEnd(){
-        this.publish("/servos/knocker", ServoMsg(upPosition, 1))
+        this.publish("/servos/knocker_pitch", ServoMsg(upPosition, 1))
         end()
     }
 }

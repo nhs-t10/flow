@@ -11,7 +11,8 @@ import org.firstinspires.ftc.teamcode.messages.VuforiaMsg
  */
 class GetVumarkRoutine(val finalCallback : (RelicRecoveryVuMark) -> Unit) : RoutineNode("Get Vumark") {
     val COLLECTION_TIME = 1000
-    val defaultMark : RelicRecoveryVuMark = RelicRecoveryVuMark.UNKNOWN
+    // TODO: this doesnt work for blue
+    val defaultMark : RelicRecoveryVuMark = RelicRecoveryVuMark.RIGHT
     var initialTime = 0L
 
     override fun begin() {

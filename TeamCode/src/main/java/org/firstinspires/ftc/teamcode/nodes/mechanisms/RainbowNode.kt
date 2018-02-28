@@ -23,7 +23,7 @@ class RainbowNode : Node("Rainbow Lift") {
 
         subscribe("/digital/rainbowUp", {touchedUp(it)})
         subscribe("/digital/rainbowDown", {})
-
+        subscribe("/macros/cancel", {cancel()})
 
         this.subscribe("/rainbow/tilter/eject", {goToPos(0.3)})
         this.subscribe("/rainbow/tilter/over_wall", {goToPos(0.5)})
@@ -32,6 +32,10 @@ class RainbowNode : Node("Rainbow Lift") {
         this.subscribe("/rainbow/tilter/increment_up/fast", {recieveTiltUpMessage(0.05)})
         this.subscribe("/rainbow/tilter/increment_down/fast", {recieveTiltDownMessage(-0.05)})
 
+    }
+
+    fun cancel () {
+        publish("/motors/rainbow", MotorMsg(power = 0.0, priority = 1))
     }
 
     fun touchedUp (m: Message) {

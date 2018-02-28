@@ -66,7 +66,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
     val cancelLambda = whenDown {
         publish("/macros/cancel", UnitMsg())
         publish("/AngleTurning/cancel", UnitMsg())
-        publish("/servos/knocker", ServoMsg(0.08, 0))
+//        publish("/servos/knocker", ServoMsg(0.08, 0))
         publish("/hugger", HuggerMsg(closeIt = false, priority = 0))
     }
 

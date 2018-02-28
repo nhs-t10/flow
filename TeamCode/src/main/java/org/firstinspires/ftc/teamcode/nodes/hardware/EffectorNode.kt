@@ -80,13 +80,13 @@ class EffectorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Effectors"){
 
         // specific default servo values
         servoStates.put("liftServo", 0.55)
-        servoStates.put("knocker", 0.075)
         servoStates.put("bottomServo", 0.8)
         servoStates.put("topServo", 0.3)
         servoStates.put("raingripper", 0.88)
         servoStates.put("tilter", 0.2)
         servoStates.put("wood", 0.0)
         servoStates.put("knocker_yaw", 0.6)
+        servoStates.put("knocker_pitch", 0.15)
     }
 
     fun addCrServos() {

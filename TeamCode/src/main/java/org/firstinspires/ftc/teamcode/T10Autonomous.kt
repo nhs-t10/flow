@@ -42,25 +42,26 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
                 }),
                 TimeoutRoutine({
                     Dispatcher.publish("/glift", LiftMsg(LiftState.UPPER_BOTTOM, 1))
-                    Dispatcher.publish("/servos/knocker", ServoMsg(0.95, 1))
+                    Dispatcher.publish("/servos/knocker_pitch", ServoMsg(0.95, 1))
                 }, 2000),
-                KnockerRoutine(teamColor, teamPosition),
-                TimedCallbackRoutine({
-                    Dispatcher.publish("/drive", OmniDrive(0f, 0.2f, 0f, 1))
-                }, 1300, {cb ->
-                    Dispatcher.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
-                    cb()
-                }),
-                SmashIntoWall(),
-                SpinRoutine(-90.0),
-                CountFlangesRoutine(vumark = robotState.vuMark),
-                TimedCallbackRoutine({
-                    Dispatcher.publish("/glyph/lower", GripperMsg(GripperState.OPEN, 1))
-                    Dispatcher.publish("/drive", OmniDrive(0.3f, 0f, 0f, 1))
-                }, 400, {cb ->
-                    Dispatcher.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
-                    cb()
-                })
+                KnockerRoutine(teamColor, teamPosition)
+//                ,
+//                TimedCallbackRoutine({
+//                    Dispatcher.publish("/drive", OmniDrive(0f, 0.2f, 0f, 1))
+//                }, 1300, {cb ->
+//                    Dispatcher.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
+//                    cb()
+//                }),
+//                SmashIntoWall(),
+//                SpinRoutine(-90.0),
+//                CountFlangesRoutine(vumark = robotState.vuMark),
+//                TimedCallbackRoutine({
+//                    Dispatcher.publish("/glyph/lower", GripperMsg(GripperState.OPEN, 1))
+//                    Dispatcher.publish("/drive", OmniDrive(0.3f, 0f, 0f, 1))
+//                }, 400, {cb ->
+//                    Dispatcher.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
+//                    cb()
+//                })
         )
         routine = RoutineGroup(routineList)
     }
