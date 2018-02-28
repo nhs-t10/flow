@@ -182,9 +182,6 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
             updateLift(LiftState.UPPER_BOTTOM)
         })
 
-        /**
-         * TEST BUTTON 2: Cancel PID Turn and hugger.
-         */
         subscribe("/gamepad1/right_stick_button", cancelLambda)
 
         subscribe("/gamepad1/left_stick_button", {msg ->
