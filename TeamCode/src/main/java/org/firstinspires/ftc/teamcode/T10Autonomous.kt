@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode
 
 import org.firstinspires.ftc.teamcode.messages.*
+import org.firstinspires.ftc.teamcode.nodes.control.AngleTurningNode
 import org.firstinspires.ftc.teamcode.nodes.control.DriveStraightNode
 import org.firstinspires.ftc.teamcode.nodes.hardware.*
 import org.firstinspires.ftc.teamcode.nodes.human.UIColorNode
@@ -52,6 +53,7 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
                     cb()
                 }),
                 SmashIntoWall(),
+                SpinRoutine(-90.0),
                 CountFlangesRoutine(vumark = robotState.vuMark),
                 TimedCallbackRoutine({
                     Dispatcher.publish("/glyph/lower", GripperMsg(GripperState.OPEN, 1))
