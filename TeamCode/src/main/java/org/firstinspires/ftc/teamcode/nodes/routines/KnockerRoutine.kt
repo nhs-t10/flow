@@ -14,6 +14,7 @@ class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : Routine
     var turned = false
 
     val upPosition = 0.15
+    val centerYawPosition = 0.575
     override fun begin() {}
     override fun subscriptions() {
         this.subscribe("/color/knocker") { doOnce(it) }
@@ -27,9 +28,9 @@ class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : Routine
 
     fun createMoveRoutine(sign: Int) : RoutineGroup = RoutineGroup(listOf(
         TimedCallbackRoutine({
-            publish("/servos/knocker_yaw", ServoMsg(0.575 + (0.125 * sign), 1))
+            publish("/servos/knocker_yaw", ServoMsg(centerYawPosition + (0.125 * sign), 1))
         }, 800, {cb ->
-            publish("/servos/knocker_yaw", ServoMsg(0.6, 1))
+            publish("/servos/knocker_yaw", ServoMsg(centerYawPosition, 1))
             cb()
         })
     ))
