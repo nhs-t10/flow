@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.nodes.human.TelemetryNode
 import org.firstinspires.ftc.teamcode.nodes.mechanisms.GliftNode
 import org.firstinspires.ftc.teamcode.nodes.mechanisms.GlyphHolderNode
 import org.firstinspires.ftc.teamcode.nodes.mechanisms.OmniDtNode
+import org.firstinspires.ftc.teamcode.nodes.system.HeartbeatInvokerUnthreadedNode
 
 /**
  * Created by max on 12/8/17.
@@ -17,17 +18,19 @@ import org.firstinspires.ftc.teamcode.nodes.mechanisms.OmniDtNode
 abstract class CoreOp : OpMode() {
     var nodes = mutableListOf<Nodeable>()
     val systemNode = SystemNode()
+    val heartbeatInvokerUnthreadedNode = HeartbeatInvokerUnthreadedNode()
     final override fun init() {
         nodes = mutableListOf( // common nodes
-                systemNode,
-                OmniDtNode(),
-                ImuNode(hardwareMap),
-                GliftNode(),
-                GlyphHolderNode(),
-                EffectorNode(hardwareMap),
-                DebugNode(),
-                TelemetryNode(telemetry),
-                AngleTurningNode()
+            systemNode,
+            heartbeatInvokerUnthreadedNode,
+            OmniDtNode(),
+            ImuNode(hardwareMap),
+            GliftNode(),
+            GlyphHolderNode(),
+            EffectorNode(hardwareMap),
+            DebugNode(),
+            TelemetryNode(telemetry),
+            AngleTurningNode()
         )
         registration()
         initialize()
@@ -50,6 +53,7 @@ abstract class CoreOp : OpMode() {
     }
 
     final override fun loop() {
+        heartbeatInvokerUnthreadedNode.publishBeat()
     }
     final override fun stop() {
         systemNode.publishStop()
