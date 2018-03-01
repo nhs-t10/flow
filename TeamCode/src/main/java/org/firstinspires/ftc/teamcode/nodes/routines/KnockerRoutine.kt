@@ -41,17 +41,17 @@ class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : Routine
             turned = true
             publish("/status", TextMsg("Saw RED"))
             if(team == TeamColor.RED){
-                createMoveRoutine(-1).beginRoutine { retractKnockerAndEnd() } // Go forward, stop.
+                createMoveRoutine(1).beginRoutine { retractKnockerAndEnd() } // Go forward, stop.
             } else {
-                createMoveRoutine(1).beginRoutine { retractKnockerAndEnd() } // Go backward, stop.
+                createMoveRoutine(-1).beginRoutine { retractKnockerAndEnd() } // Go backward, stop.
             }
         } else if (red-15 <  blue) { // If blue is in front
             turned = true
             publish("/status", TextMsg("Saw BLUE"))
             if (team == TeamColor.BLUE) {
-                createMoveRoutine(-1).beginRoutine { retractKnockerAndEnd() } // Go forward, stop.
+                createMoveRoutine(1).beginRoutine { retractKnockerAndEnd() } // Go forward, stop.
             } else {
-                createMoveRoutine(1).beginRoutine { retractKnockerAndEnd() } // Go backward, stop.
+                createMoveRoutine(-1).beginRoutine { retractKnockerAndEnd() } // Go backward, stop.
             }
         } else {
             this.publish("/warn", TextMsg("Saw nuthin"))

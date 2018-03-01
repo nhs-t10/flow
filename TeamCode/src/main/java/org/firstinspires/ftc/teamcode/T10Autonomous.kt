@@ -42,10 +42,13 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
                 }),
                 TimeoutRoutine({
                     Dispatcher.publish("/glift", LiftMsg(LiftState.UPPER_BOTTOM, 1))
-                    Dispatcher.publish("/servos/knocker_pitch", ServoMsg(0.95, 1))
-                }, 2000),
-                KnockerRoutine(teamColor, teamPosition)
-//                ,
+                    Dispatcher.publish("/servos/knocker_pitch", ServoMsg(0.65, 1))
+                }, 1500),
+                TimeoutRoutine({ // this makes it do each thing in parts
+                    Dispatcher.publish("/servos/knocker_pitch", ServoMsg(1.0, 1))
+                }, 500),
+                KnockerRoutine(teamColor, teamPosition),
+                DriveToCryptoboxRoutine()
 //                TimedCallbackRoutine({
 //                    Dispatcher.publish("/drive", OmniDrive(0f, 0.2f, 0f, 1))
 //                }, 1300, {cb ->
