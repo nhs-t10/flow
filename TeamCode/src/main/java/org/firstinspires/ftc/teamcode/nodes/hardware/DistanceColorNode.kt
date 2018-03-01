@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.messages.ColorMsg
-import org.firstinspires.ftc.teamcode.messages.HeartBeatMsg
 import org.firstinspires.ftc.teamcode.messages.DistanceMsg
 import org.firstinspires.ftc.teamcode.messages.TextMsg
 import org.firstinspires.ftc.teamcode.nodes.HeartbeatNode

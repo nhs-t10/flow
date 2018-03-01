@@ -43,7 +43,7 @@ abstract class CoreOp : OpMode() {
         nodes.add(node)
     }
     final override fun start() {
-        nodes?.forEach{
+        nodes.forEach{
             it.subscriptions()
             it.start()
         }
@@ -57,7 +57,7 @@ abstract class CoreOp : OpMode() {
     }
     final override fun stop() {
         systemNode.publishStop()
-        nodes?.forEach { it.endNode() }
+        nodes.forEach { it.endNode() }
         Dispatcher.reset()
     }
 }
