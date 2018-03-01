@@ -3,10 +3,9 @@ package org.firstinspires.ftc.teamcode.nodes
 import org.firstinspires.ftc.teamcode.Dispatcher
 import org.firstinspires.ftc.teamcode.Node
 import org.firstinspires.ftc.teamcode.Nodeable
-import org.firstinspires.ftc.teamcode.messages.HeartBeatMsg
 import org.firstinspires.ftc.teamcode.messages.Message
 
-abstract class HeartbeatNode(override val nodeName : String, val heartbeatInterval : Long = 50) : Thread(), Nodeable {
+abstract class HeartbeatNode(override val nodeName : String, val synchronous : Boolean = true, val heartbeatInterval : Long = 10) : Thread(), Nodeable {
     var heartbeatActive = false
 
     override fun subscribe(channel: String, callback: (Message) -> Unit) {
@@ -17,11 +16,19 @@ abstract class HeartbeatNode(override val nodeName : String, val heartbeatInterv
     }
 
     override fun run() {
-        heartbeatActive = true
-        var initialTime = System.nanoTime()
-        while (heartbeatActive && System.nanoTime() - initialTime >= heartbeatInterval) {
-            initialTime = System.nanoTime()
-            onHeartbeat()
+        // if not thread
+        if (synchronous) {
+            subscribe("/heartbeat_unthreaded", {
+                onHeartbeat()
+            })
+        }
+        else {
+            heartbeatActive = true
+            var initialTime = System.currentTimeMillis()
+            while (heartbeatActive && System.currentTimeMillis() - initialTime >= heartbeatInterval) {
+                initialTime = System.currentTimeMillis()
+                onHeartbeat()
+            }
         }
     }
 

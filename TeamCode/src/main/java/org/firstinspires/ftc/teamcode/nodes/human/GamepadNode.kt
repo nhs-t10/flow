@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.nodes.human
 
 import com.qualcomm.robotcore.hardware.Gamepad
 import org.firstinspires.ftc.teamcode.Node
-import org.firstinspires.ftc.teamcode.messages.HeartBeatMsg
 import org.firstinspires.ftc.teamcode.messages.GamepadButtonMsg
 import org.firstinspires.ftc.teamcode.messages.GamepadJoyOrTrigMsg
 import org.firstinspires.ftc.teamcode.messages.TextMsg
@@ -50,9 +49,6 @@ class GamepadNode(val gamepad1: Gamepad, val gamepad2: Gamepad) : HeartbeatNode(
      */
     override fun onHeartbeat(){
         //gamepad 1 data publishing
-        if(gamepad1 == null){
-            return
-        }
         for (prop in Gamepad::class.memberProperties) {
             prop.isAccessible = true
             try {
@@ -79,9 +75,6 @@ class GamepadNode(val gamepad1: Gamepad, val gamepad2: Gamepad) : HeartbeatNode(
             }
         }
         //gamepad 2 data publishing
-        if(gamepad2 == null){
-            return
-        }
         for (prop in Gamepad::class.memberProperties) {
             prop.isAccessible = true
             try {

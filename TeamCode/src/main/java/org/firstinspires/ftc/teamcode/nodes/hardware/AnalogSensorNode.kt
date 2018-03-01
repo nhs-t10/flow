@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.nodes.hardware
 import com.qualcomm.robotcore.hardware.AnalogInput
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.Node
-import org.firstinspires.ftc.teamcode.messages.HeartBeatMsg
 import java.util.*
 import org.firstinspires.ftc.teamcode.messages.AnalogMsg
 import org.firstinspires.ftc.teamcode.nodes.HeartbeatNode

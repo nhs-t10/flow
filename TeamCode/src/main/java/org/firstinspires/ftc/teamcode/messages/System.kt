@@ -9,7 +9,7 @@ import java.util.*
 /**
  * An opmode loop-congruent "tick" that allows for fixed refresh rates.
  */
-data class HeartBeatMsg(val time: Long, override val priority: Int) : Message
+//data class HeartBeatMsg(val time: Long, override val priority: Int) : Message
 
 /**
  * Generic text transport message.

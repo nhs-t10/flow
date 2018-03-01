@@ -21,11 +21,18 @@ class EffectorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Effectors"){
     val servoStates = HashMap<String, Double>()
 
     init {
+    }
+    override fun subscriptions() {
+        subscribe("/macros/cancel", {stopMovement()})
         addMotors()
         addServos()
         addCrServos()
     }
-    override fun subscriptions() {
+
+    fun stopMovement() {
+        motors.keys.forEach {
+            callMotor(it, MotorMsg(0.0, 0))
+        }
     }
 
     override fun heartbeatEnd() {
