@@ -55,8 +55,7 @@ class RainbowNode : Node("Rainbow Lift") {
     fun macroExtend() {
         if(state!=STATE.EXTENDED){
             state = STATE.MACRO_EXTENDING
-
-            publish("/motors/rainbow", MotorMsg(power = -0.2, priority = 1))
+            publish("/motors/rainbow", MotorMsg(power = -1.0, priority = 1))
         } else {
             publish("/warn", TextMsg("Already extendo"))
         }
@@ -76,7 +75,7 @@ class RainbowNode : Node("Rainbow Lift") {
         if(state!=STATE.RETRACTED){
             state = STATE.MACRO_RETRACTING
 
-            publish("/motors/rainbow", MotorMsg(power = 0.2, priority = 1))
+//            publish("/motors/rainbow", MotorMsg(power = 1.0, priority = 1))
         } else {
             publish("/warn", TextMsg("Already retracted"))
         }
