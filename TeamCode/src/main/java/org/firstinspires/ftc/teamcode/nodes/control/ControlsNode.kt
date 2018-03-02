@@ -76,13 +76,13 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
 
         subscribe("/gamepad1/left_bumper", {msg ->
 //          updateLift(liftTransition(liftState, -1))
-            if ((msg as GamepadButtonMsg).value) publish("/motors/glift", MotorMsg(0.5, 1))
+            if ((msg as GamepadButtonMsg).value) publish("/motors/glift", MotorMsg(1.0, 1))
             else publish("/motors/glift", MotorMsg(0.0, 1))
         })
 
         subscribe("/gamepad1/right_bumper",  {msg ->
 //          updateLift(liftTransition(liftState, 1))
-            if ((msg as GamepadButtonMsg).value) publish("/motors/glift", MotorMsg(-0.5, 1))
+            if ((msg as GamepadButtonMsg).value) publish("/motors/glift", MotorMsg(-1.0, 1))
             else publish("/motors/glift", MotorMsg(0.0, 1))
         })
         subscribe("/gamepad1/dpad_up", whenDown {
@@ -147,12 +147,6 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         })
         subscribe("/gamepad2/right_bumper", whenDown {
             publish("/rainbow/tilter/increment_down", UnitMsg())
-        })
-        subscribe("/gamepad1/left_bumper", whenDown {
-            publish("/glift/goDown", MotorMsg(power = 1.0, priority = 1))
-        })
-        subscribe("/gamepad1/right_bumper", whenDown {
-            publish("/glift/goUp", MotorMsg(power = -1.0, priority = 1))
         })
 
         /**

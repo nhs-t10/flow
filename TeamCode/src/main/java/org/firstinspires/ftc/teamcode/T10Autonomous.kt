@@ -51,8 +51,13 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
                 (if (teamPosition == TeamPosition.ONE) DriveToCryptoboxRoutine(teamColor) else TimeoutRoutine({
                     Dispatcher.publish("/status", TextMsg("Doing nothing"))
                 }, 200)),
-                (if (teamPosition == TeamPosition.ONE) DriveToCryptoboxRoutine(teamColor) else TimeoutRoutine({
-                    Dispatcher.publish("/status", TextMsg("Doing nothing"))
+                (if (teamPosition == TeamPosition.ONE && teamColor == TeamColor.BLUE) TimedCallbackRoutine({
+                    Dispatcher.publish("/drive", OmniDrive(0.6f, 0.0f, 0.0f, 1)) // REMEMBER: if ur using this for red, check signs
+                }, 500, {cb ->
+                    Dispatcher.publish("/drive", OmniDrive(0.0f, 0.0f, 0.0f, 1))
+                    cb()
+                }) else TimeoutRoutine({
+                    Dispatcher.publish("/status", TextMsg("Doing nothing x2"))
                 }, 200))
 //                TimedCallbackRoutine({
 //                    Dispatcher.publish("/drive", OmniDrive(0f, 0.2f, 0f, 1))
