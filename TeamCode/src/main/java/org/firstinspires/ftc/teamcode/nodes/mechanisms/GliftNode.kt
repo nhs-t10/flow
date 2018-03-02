@@ -14,12 +14,12 @@ class GliftNode : Node("Glyph Lift") {
         this.subscribe("/glift/goDown", { this.goDown(it) })
     }
     fun goUp(m: Message){
-        val (value) = m as GamepadJoyOrTrigMsg
-        publish("/motors/glift", MotorMsg(power = (value.toDouble()), priority = 1))
+//        val (value) = m as GamepadJoyOrTrigMsg
+        publish("/motors/glift", m)
     }
 
     fun goDown(m:Message){
-        val (value) = m as GamepadJoyOrTrigMsg
-        publish("/motors/glift", MotorMsg(power = (value.toDouble()*-1), priority = 1))
+//        val (value) = m as GamepadJoyOrTrigMsg
+        publish("/motors/glift", m)
     }
 }

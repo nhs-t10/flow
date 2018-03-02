@@ -4,6 +4,7 @@ import org.firstinspires.ftc.teamcode.RoutineNode
 import org.firstinspires.ftc.teamcode.messages.AnalogMsg
 import org.firstinspires.ftc.teamcode.messages.Message
 import org.firstinspires.ftc.teamcode.messages.OmniDrive
+import org.firstinspires.ftc.teamcode.messages.TextMsg
 import org.firstinspires.ftc.teamcode.util.TeamColor
 
 /**
@@ -21,19 +22,24 @@ class DriveToCryptoboxRoutine(val teamColor : TeamColor) : RoutineNode("Drive to
         val (value) = m as AnalogMsg
         val (fst, snd) = buffer
         // Making sure a drastic change is legit
-        if (Math.abs(value - (fst + snd)/2) <= 0.036) {
+        val expectedDelta = 0.03
+        if (Math.abs(value - (fst + snd)/2) <= expectedDelta) {
+            publish("/debug", TextMsg("Observed normal ultrasonic value: $value"))
             onDistance(value)
         }
         buffer = Pair(snd, value)
     }
 
     fun onDistance(value : Double) {
-        publish("/drive", OmniDrive(0f, 0f, 0f, 1))
-        end()
+        if (value < 0.04) {
+            publish("/drive", OmniDrive(0f, 0f, 0f, 1))
+            end()
+        }
     }
 
     override fun begin() {
         val sign = if (teamColor == TeamColor.RED) -1 else 1
-        publish("/drive", OmniDrive(sign * 0.6f, 0f, 0f, 1))
+        val speed = 0.6f
+        publish("/drive", OmniDrive(sign * speed, 0f, 0f, 1))
     }
 }
