@@ -8,5 +8,5 @@ import org.firstinspires.ftc.teamcode.util.TeamPosition
  * Created by shaash on 10/26/17.
  */
 
-@Autonomous(name = "BLUE 2 (TWO)")
+@Autonomous(name = "BLUE 1 (ONE)")
 class T10AutonomousBlue2 : T10Autonomous(TeamColor.BLUE, TeamPosition.TWO)

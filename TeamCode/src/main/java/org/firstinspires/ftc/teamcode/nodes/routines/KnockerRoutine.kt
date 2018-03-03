@@ -28,9 +28,10 @@ class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : Routine
 
     fun createMoveRoutine(sign: Int) : RoutineGroup = RoutineGroup(listOf(
         TimedCallbackRoutine({
-            publish("/servos/knocker_yaw", ServoMsg(centerYawPosition + (0.125 * sign), 1))
+            publish("/servos/knocker_yaw", ServoMsg(centerYawPosition + (0.2 * sign), 1))
         }, 800, {cb ->
             publish("/servos/knocker_yaw", ServoMsg(centerYawPosition, 1))
+            this.publish("/servos/knocker_pitch", ServoMsg(upPosition, 1))
             cb()
         })
     ))
@@ -59,7 +60,6 @@ class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : Routine
     }
 
     fun retractKnockerAndEnd(){
-        this.publish("/servos/knocker_pitch", ServoMsg(upPosition, 1))
         end()
     }
 }

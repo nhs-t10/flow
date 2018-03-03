@@ -48,12 +48,13 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
                     Dispatcher.publish("/servos/knocker_pitch", ServoMsg(1.0, 1))
                 }, 500),
                 KnockerRoutine(teamColor, teamPosition),
-                (if (teamPosition == TeamPosition.ONE) DriveToCryptoboxRoutine(teamColor) else TimeoutRoutine({
-                    Dispatcher.publish("/status", TextMsg("Doing nothing"))
-                }, 200)),
-                (if (teamPosition == TeamPosition.ONE && teamColor == TeamColor.BLUE) TimedCallbackRoutine({
-                    Dispatcher.publish("/drive", OmniDrive(0.6f, 0.0f, 0.0f, 1)) // REMEMBER: if ur using this for red, check signs
-                }, 500, {cb ->
+//                (if (teamPosition == TeamPosition.ONE) DriveToCryptoboxRoutine(teamColor) else TimeoutRoutine({
+//                    Dispatcher.publish("/status", TextMsg("Doing nothing"))
+//                }, 200)),
+                (if (teamPosition == TeamPosition.ONE) TimedCallbackRoutine({
+                    val sign = if (teamColor == TeamColor.BLUE) 1 else -1
+                    Dispatcher.publish("/drive", OmniDrive(sign * 0.6f, 0.0f, 0.0f, 1)) // REMEMBER: if ur using this for red, check signs
+                }, 1300, {cb ->
                     Dispatcher.publish("/drive", OmniDrive(0.0f, 0.0f, 0.0f, 1))
                     cb()
                 }) else TimeoutRoutine({

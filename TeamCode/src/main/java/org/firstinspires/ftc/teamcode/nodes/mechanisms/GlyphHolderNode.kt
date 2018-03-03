@@ -14,7 +14,7 @@ class GlyphHolderNode : Node("Glyph Holder") {
 
     fun getBottomPosition (state : GripperState) = when (state) {
         GripperState.OPEN -> 0.0
-        GripperState.CLOSED -> 0.45
+        GripperState.CLOSED -> 0.6
         GripperState.MIDDLE -> 0.3
     }
     fun getTopPosition (state : GripperState) = when (state) {
