@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.nodes.control.ControlsNode
 import org.firstinspires.ftc.teamcode.nodes.control.OmniJoyNode
+import org.firstinspires.ftc.teamcode.nodes.hardware.AnalogSensorNode
 import org.firstinspires.ftc.teamcode.nodes.hardware.DigitalSensorNode
 import org.firstinspires.ftc.teamcode.nodes.hardware.DogeCVNode
 import org.firstinspires.ftc.teamcode.nodes.hardware.VuforiaNode
@@ -21,6 +22,7 @@ class T10TestOp : CoreOp() {
         register(VuforiaNode(hardwareMap))
         register(DogeCVNode(hardwareMap))
         register(DigitalSensorNode(hardwareMap))
+        register(AnalogSensorNode(hardwareMap))
         register(SelectorViewNode())
         register(InspectorNode())
         register(TestingNode())

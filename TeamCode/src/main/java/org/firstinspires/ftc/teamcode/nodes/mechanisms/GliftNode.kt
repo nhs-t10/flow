@@ -10,48 +10,16 @@ import org.firstinspires.ftc.teamcode.messages.IncrementState
 
 class GliftNode : Node("Glyph Lift") {
     override fun subscriptions() {
-        this.subscribe("/glift/increment_up",  { this.incrementUp() })
-        this.subscribe("/glift/increment_down", { this.incrementDown() })
-        this.subscribe("/glift", {receiveMessage(it)})
+        this.subscribe("/glift/goUp",  { this.goUp(it) })
+        this.subscribe("/glift/goDown", { this.goDown(it) })
+    }
+    fun goUp(m: Message){
+//        val (value) = m as GamepadJoyOrTrigMsg
+        publish("/motors/glift", m)
     }
 
-    /**
-     * Safety measure so lower gripper doesn't get caught on rails
-     */
-//    fun safetyClose() {
-//        this.publish("/glyph/lower", GripperMsg(GripperState.CLOSED, 2))
-//    }
-
-    fun receiveMessage(m: Message) {
-        val (state) = m as LiftMsg
-        when (state) {
-            LiftState.TOP -> receiveTopMessage()
-            LiftState.MIDDLE -> receiveMiddleMessage()
-            LiftState.UPPER_BOTTOM -> receiveHigherDownMessage()
-            LiftState.BOTTOM -> receiveDownMessage()
-        }
-    }
-    fun receiveTopMessage() {
-        this.publish("/servos/liftServo", ServoMsg(0.8, priority = 1))
-//        safetyClose()
-    }
-    fun receiveMiddleMessage() {
-        this.publish("/servos/liftServo", ServoMsg(0.645, priority = 1))
-//        safetyClose()
-    }
-    fun receiveHigherDownMessage() {
-        this.publish("/servos/liftServo", ServoMsg(0.56, priority = 1))
-//        safetyClose()
-    }
-    fun receiveDownMessage() {
-        this.publish("/servos/liftServo", ServoMsg(0.425, priority = 1))
-//        safetyClose()
-    }
-    fun incrementUp() {
-        this.publish("/servos/liftServo", IncrementMsg(IncrementState.INCREMENT, -0.025))
-    }
-    fun incrementDown() {
-        this.publish("/servos/liftServo", IncrementMsg(IncrementState.INCREMENT, 0.025))
-//        safetyClose( )
+    fun goDown(m:Message){
+//        val (value) = m as GamepadJoyOrTrigMsg
+        publish("/motors/glift", m)
     }
 }

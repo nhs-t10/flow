@@ -76,13 +76,13 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
 
         subscribe("/gamepad1/left_bumper", {msg ->
 //          updateLift(liftTransition(liftState, -1))
-            if ((msg as GamepadButtonMsg).value) publish("/motors/glift", MotorMsg(0.5, 1))
+            if ((msg as GamepadButtonMsg).value) publish("/motors/glift", MotorMsg(1.0, 1))
             else publish("/motors/glift", MotorMsg(0.0, 1))
         })
 
         subscribe("/gamepad1/right_bumper",  {msg ->
 //          updateLift(liftTransition(liftState, 1))
-            if ((msg as GamepadButtonMsg).value) publish("/motors/glift", MotorMsg(-0.5, 1))
+            if ((msg as GamepadButtonMsg).value) publish("/motors/glift", MotorMsg(-1.0, 1))
             else publish("/motors/glift", MotorMsg(0.0, 1))
         })
         subscribe("/gamepad1/dpad_up", whenDown {
@@ -95,6 +95,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         /**
          * Press A to toggle grabbing or ejecting a lower block.
          */
+
         subscribe("/gamepad1/a", whenDown {
             updateGrippers(lower = gripperTransition(gripperStates.lower))
         })
@@ -119,13 +120,10 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         })
         /* ------- */
 
-        subscribe("/gamepad2/dpad_up", whenDown {
-            updateLift(liftTransition(liftState, 1))
-        })
+        subscribe("/gamepad2/dpad_up", {publish("/rainbow/macroExtend", UnitMsg())})
 
-        subscribe("/gamepad2/dpad_down", whenDown {
-            updateLift(liftTransition(liftState, -1))
-        })
+        subscribe("/gamepad2/dpad_down", {publish("/rainbow/macroRetract", UnitMsg())})
+
         subscribe("/gamepad2/dpad_left", whenDown {
             publish("/rainbow/tilter/increment_up/fast", UnitMsg())
         })
@@ -183,6 +181,7 @@ class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
         })
 
         subscribe("/gamepad1/right_stick_button", cancelLambda)
+        subscribe("/gamepad2/right_stick_button", cancelLambda)
 
         subscribe("/gamepad1/left_stick_button", {msg ->
             val m = msg as GamepadButtonMsg

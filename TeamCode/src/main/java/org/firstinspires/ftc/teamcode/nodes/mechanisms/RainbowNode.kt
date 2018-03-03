@@ -11,6 +11,9 @@ class RainbowNode : Node("Rainbow Lift") {
 
     enum class STATE {
         MACRO_EXTENDING,
+        EXTENDED,
+        MACRO_RETRACTING,
+        RETRACTED,
         NORMAL
     }
     var state = STATE.NORMAL
@@ -20,9 +23,10 @@ class RainbowNode : Node("Rainbow Lift") {
         this.subscribe("/rainbow/extender/extend", {recieveExtendMessage(it)})
         this.subscribe("/rainbow/extender/retract", {recieveRetractMessage(it)})
         subscribe("/rainbow/macroExtend", {macroExtend()})
+        subscribe("/rainbow/macroRetract", {macroRetract()})
 
         subscribe("/digital/rainbowUp", {touchedUp(it)})
-        subscribe("/digital/rainbowDown", {})
+        subscribe("/digital/rainbowDown", {touchedDown(it)})
         subscribe("/macros/cancel", {cancel()})
 
         this.subscribe("/rainbow/tilter/eject", {goToPos(0.3)})
@@ -42,16 +46,39 @@ class RainbowNode : Node("Rainbow Lift") {
         val (value) = m as DigitalMsg
         // Make sure touch is down and we r moving
         if (value && state == STATE.MACRO_EXTENDING) {
-            state = STATE.NORMAL
+            state = STATE.EXTENDED
             publish("/motors/rainbow", MotorMsg(power = 0.0, priority = 1))
         }
 
     }
 
     fun macroExtend() {
-        state = STATE.MACRO_EXTENDING
+        if(state!=STATE.EXTENDED){
+            state = STATE.MACRO_EXTENDING
+            publish("/motors/rainbow", MotorMsg(power = -1.0, priority = 1))
+        } else {
+            publish("/warn", TextMsg("Already extendo"))
+        }
+    }
 
-        publish("/motors/rainbow", MotorMsg(power = -0.2, priority = 1))
+    fun touchedDown (m: Message) {
+        val (value) = m as DigitalMsg
+        // Make sure touch is down and we r moving
+        if (value && state == STATE.MACRO_RETRACTING) {
+            state = STATE.RETRACTED
+            publish("/motors/rainbow", MotorMsg(power = 0.0, priority = 1))
+        }
+
+    }
+
+    fun macroRetract() {
+        if(state!=STATE.RETRACTED){
+            state = STATE.MACRO_RETRACTING
+
+//            publish("/motors/rainbow", MotorMsg(power = 1.0, priority = 1))
+        } else {
+            publish("/warn", TextMsg("Already retracted"))
+        }
     }
 
     fun receiveGripMessage(m: Message) {

@@ -30,7 +30,8 @@ abstract class CoreOp : OpMode() {
             EffectorNode(hardwareMap),
             DebugNode(),
             TelemetryNode(telemetry),
-            AngleTurningNode()
+            AngleTurningNode(),
+                DigitalSensorNode(hardwareMap)
         )
         registration()
         initialize()

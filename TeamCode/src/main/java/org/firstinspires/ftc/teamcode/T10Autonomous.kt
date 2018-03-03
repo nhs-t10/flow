@@ -27,8 +27,8 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
         else if (teamColor == TeamColor.BLUE) uiColorNode.changeColor("blue")
         register(uiColorNode)
 
-        register(VuforiaNode(hardwareMap))
-        register(DigitalSensorNode(hardwareMap))
+//        register(VuforiaNode(hardwareMap))
+//        register(DigitalSensorNode(hardwareMap))
         register(AnalogSensorNode(hardwareMap))
         register(ColorNode(hardwareMap))
         register(DriveStraightNode())
@@ -43,12 +43,22 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
                 TimeoutRoutine({
                     Dispatcher.publish("/glift", LiftMsg(LiftState.UPPER_BOTTOM, 1))
                     Dispatcher.publish("/servos/knocker_pitch", ServoMsg(0.65, 1))
-                }, 1500),
+                }, 1200),
                 TimeoutRoutine({ // this makes it do each thing in parts
                     Dispatcher.publish("/servos/knocker_pitch", ServoMsg(1.0, 1))
                 }, 500),
                 KnockerRoutine(teamColor, teamPosition),
-                DriveToCryptoboxRoutine()
+                (if (teamPosition == TeamPosition.ONE) DriveToCryptoboxRoutine(teamColor) else TimeoutRoutine({
+                    Dispatcher.publish("/status", TextMsg("Doing nothing"))
+                }, 200)),
+                (if (teamPosition == TeamPosition.ONE && teamColor == TeamColor.BLUE) TimedCallbackRoutine({
+                    Dispatcher.publish("/drive", OmniDrive(0.6f, 0.0f, 0.0f, 1)) // REMEMBER: if ur using this for red, check signs
+                }, 500, {cb ->
+                    Dispatcher.publish("/drive", OmniDrive(0.0f, 0.0f, 0.0f, 1))
+                    cb()
+                }) else TimeoutRoutine({
+                    Dispatcher.publish("/status", TextMsg("Doing nothing x2"))
+                }, 200))
 //                TimedCallbackRoutine({
 //                    Dispatcher.publish("/drive", OmniDrive(0f, 0.2f, 0f, 1))
 //                }, 1300, {cb ->
