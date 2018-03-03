@@ -87,7 +87,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Effectors"){
 
         // specific default servo values
         servoStates.put("liftServo", 0.55)
-        servoStates.put("bottomServo", 0.8)
+        servoStates.put("bottomServo", 0.0)
         servoStates.put("topServo", 0.3)
         servoStates.put("raingripper", 0.88)
         servoStates.put("tilter", 0.2)
