@@ -29,8 +29,8 @@ class RainbowNode : Node("Rainbow Lift") {
         subscribe("/digital/rainbowDown", {touchedDown(it)})
         subscribe("/macros/cancel", {cancel()})
 
-        this.subscribe("/rainbow/tilter/eject", {goToPos(0.3)})
-        this.subscribe("/rainbow/tilter/over_wall", {goToPos(0.5)})
+        this.subscribe("/rainbow/tilter/eject", {goToPos(0.36)})
+        this.subscribe("/rainbow/tilter/over_wall", {goToPos(0.625)})
         this.subscribe("/rainbow/tilter/increment_up", {recieveTiltUpMessage(0.025)})
         this.subscribe("/rainbow/tilter/increment_down", {recieveTiltDownMessage(-0.025)})
         this.subscribe("/rainbow/tilter/increment_up/fast", {recieveTiltUpMessage(0.05)})
