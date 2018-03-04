@@ -35,7 +35,7 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
         //register(DogeCVNode(hardwareMap))
         val routineList = listOf(
                 TimeoutRoutine({
-                    Dispatcher.publish("/glyph/upper", GripperMsg(GripperState.CLOSED, 1))
+                    Dispatcher.publish("/servos/knocker_yaw", ServoMsg(0.575, 1))
                 }, 1000),
                 GetVumarkRoutine({vuMark ->
                     robotState.vuMark = vuMark
@@ -51,6 +51,10 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
 //                (if (teamPosition == TeamPosition.ONE) DriveToCryptoboxRoutine(teamColor) else TimeoutRoutine({
 //                    Dispatcher.publish("/status", TextMsg("Doing nothing"))
 //                }, 200)),
+                TimeoutRoutine({
+                    val upPosition = 0.15
+                    Dispatcher.publish("/servos/knocker_pitch", ServoMsg(upPosition, 1))
+                }, 1000),
                 (if (teamPosition == TeamPosition.ONE) TimedCallbackRoutine({
                     val sign = if (teamColor == TeamColor.BLUE) 1 else -1
                     Dispatcher.publish("/drive", OmniDrive(sign * 0.6f, 0.0f, 0.0f, 1)) // REMEMBER: if ur using this for red, check signs
