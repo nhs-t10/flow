@@ -8,7 +8,6 @@ import org.firstinspires.ftc.teamcode.messages.*
  */
 
 class RainbowNode : Node("Rainbow Lift") {
-
     enum class STATE {
         MACRO_EXTENDING,
         EXTENDED,

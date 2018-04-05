@@ -9,7 +9,7 @@ abstract class HeartbeatNode(override val nodeName : String, val synchronous : B
     var heartbeatActive = false
 
     override fun subscribe(channel: String, callback: (Message) -> Unit) {
-        Dispatcher.subscribe(channel, callback)
+        Dispatcher.subscribe(channel, nodeName, callback)
     }
     override fun publish(channel: String, message: Message) {
         Dispatcher.publish(channel, message)

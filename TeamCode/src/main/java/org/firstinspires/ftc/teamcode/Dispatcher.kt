@@ -9,12 +9,12 @@ import java.util.*
  */
 object Dispatcher {
 
-    val channels = HashMap<String, Pair<Int?, MutableList<(Message) -> Unit>>>()
+    val channels = HashMap<String, Pair<Int?, MutableList<Pair<String, (Message) -> Unit>>>>()
 
     var telemetry : Telemetry? = null
 
     fun setChannel(channel: String,
-                   content: MutableList<(Message) -> Unit> = mutableListOf<(Message) -> Unit>(),
+                   content: MutableList<Pair<String, (Message) -> Unit>> = mutableListOf(),
                    priority : Int? = null) {
         channels.put(channel, Pair(priority, content))
     }
@@ -30,7 +30,7 @@ object Dispatcher {
             if (priority == null || priority >= message.priority) {
                 val locked = listeners.toTypedArray()
                 var x = 0
-                for (callback in locked) {
+                for ((_, callback) in locked) {
                     try {
                         callback(message)
                     }
@@ -57,16 +57,18 @@ object Dispatcher {
      * @param channel The channel name e,g "/motors/m1"
      * @param callback The callback lambda, called whenever a message is received. Syntax: `{myCallback(it)}`
      */
-    fun subscribe(channel:String, callback: (Message) -> Unit) {
+    fun subscribe(channel:String, nodeName: String, callback: (Message) -> Unit) : String {
         val found = channels[channel]
+        val uuid = nodeName + UUID.randomUUID().toString()
         if (found != null) {
             val (priority, currentListeners) = found
-            currentListeners.add(callback)
+            currentListeners.add(Pair(uuid, callback))
             setChannel(channel=channel, content=currentListeners, priority=priority)
         }
         else {
-            setChannel(channel=channel, content=mutableListOf(callback))
+            setChannel(channel=channel, content=mutableListOf(Pair(uuid, callback)))
         }
+        return uuid
     }
 
     fun lock(channel: String, priority: Int) {

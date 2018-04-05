@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.messages.Message
 abstract class Node(override val nodeName : String) : Nodeable {
 
     override fun subscribe(channel: String, callback: (Message) -> Unit) {
-        Dispatcher.subscribe(channel, callback)
+        Dispatcher.subscribe(channel, nodeName, callback)
     }
     override fun publish(channel: String, message: Message) {
         Dispatcher.publish(channel, message)

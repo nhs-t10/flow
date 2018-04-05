@@ -12,7 +12,7 @@ class RoutineGroup(val routines: List<RoutineNode>) : Routinable {
     var stopped = false
     var callback : (() -> Unit)? = null
     init {
-        Dispatcher.subscribe("/macros/cancel", {cancel()})
+        Dispatcher.subscribe("/macros/cancel", "Cancel sub", {cancel()})
     }
     fun cancel() {
         stopped = true

@@ -29,7 +29,7 @@ abstract class RoutineNode(val routineName : String) : HeartbeatNode(routineName
     }
 
     override fun subscribe(channel: String, cb: (Message) -> Unit) {
-        Dispatcher.subscribe(channel, callIfActive { cb(it) })
+        Dispatcher.subscribe(channel, routineName, callIfActive { cb(it) })
     }
 
     override fun beginRoutine(callback: () -> Unit) {
