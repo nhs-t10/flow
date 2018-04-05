@@ -20,7 +20,7 @@ class InspectorNode : Node("Inspector") {
         TAILING
     }
     var state = STATES.OFF
-    var tailIndice = 0
+    var tailId = ""
     var tailName = ""
 
     override fun subscriptions() {
@@ -160,9 +160,8 @@ class InspectorNode : Node("Inspector") {
         this.publish("/telemetry/staticLine", TextMsg("Tailing $channel"))
         this.publish("/telemetry/staticLine", TextMsg("Press Y to go back"))
         Dispatcher.lock("/debug", -1)
-        tailIndice = Dispatcher.channels[channel]?.second?.size ?: -1
         tailName = channel
-        this.subscribe(channel, {this.publish("/telemetry/line", TextMsg(it.toString()))})
+        tailId = subscribe(channel, {this.publish("/telemetry/line", TextMsg(it.toString()))})
         this.state = STATES.TAIL
     }
 
@@ -172,9 +171,8 @@ class InspectorNode : Node("Inspector") {
             this.state = STATES.TAILING
         }
         else if(state == STATES.TAILING && m.value) {
-            // TODO: Scarily risky, but it'll do
             Dispatcher.unlock("/debug")
-            Dispatcher.channels[tailName]?.second?.removeAt(tailIndice)
+            Dispatcher.unsubscribe(tailName, tailId)
             this.publish("/telemetry/clear", UnitMsg())
             inspect(tailName)
         }

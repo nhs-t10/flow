@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.nodes.HeartbeatNode
  */
 abstract class RoutineNode(val routineName : String) : HeartbeatNode(routineName), Routinable {
 
+    val subscribedChannels = mutableListOf<Pair<String, String>>()
     var routineCallback : (() -> Unit)? = null
 
     var routineActive = false
@@ -28,8 +29,10 @@ abstract class RoutineNode(val routineName : String) : HeartbeatNode(routineName
         }
     }
 
-    override fun subscribe(channel: String, cb: (Message) -> Unit) {
-        Dispatcher.subscribe(channel, routineName, callIfActive { cb(it) })
+    override fun subscribe(channel: String, cb: (Message) -> Unit) : String {
+        val id = Dispatcher.subscribe(channel, routineName, callIfActive { cb(it) })
+        subscribedChannels.add(Pair(channel, id))
+        return id
     }
 
     override fun beginRoutine(callback: () -> Unit) {
@@ -50,6 +53,9 @@ abstract class RoutineNode(val routineName : String) : HeartbeatNode(routineName
         if (routineCallback != null){
             this.publish("/status", TextMsg("$routineName finished!"))
             this.routineCallback?.invoke()
+            for ((channel, id) in subscribedChannels) {
+                Dispatcher.unsubscribe(channel, id)
+            }
         }
         routineActive = false
     }

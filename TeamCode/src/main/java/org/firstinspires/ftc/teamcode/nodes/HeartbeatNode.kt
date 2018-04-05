@@ -8,8 +8,8 @@ import org.firstinspires.ftc.teamcode.messages.Message
 abstract class HeartbeatNode(override val nodeName : String, val synchronous : Boolean = true, val heartbeatInterval : Long = 10) : Thread(), Nodeable {
     var heartbeatActive = false
 
-    override fun subscribe(channel: String, callback: (Message) -> Unit) {
-        Dispatcher.subscribe(channel, nodeName, callback)
+    override fun subscribe(channel: String, callback: (Message) -> Unit) : String {
+        return Dispatcher.subscribe(channel, nodeName, callback)
     }
     override fun publish(channel: String, message: Message) {
         Dispatcher.publish(channel, message)

@@ -90,6 +90,16 @@ object Dispatcher {
             this.publish("/warn", TextMsg("Nobody's listening to $channel, so it wasn't unlocked."))
         }
     }
+    fun unsubscribe(channel: String, id: String) {
+        val found = channels[channel]
+        if (found != null) {
+            val filtered = found.second.filter { (name, _) -> name != id }
+            setChannel(channel, found.second, found.first)
+        }
+        else {
+            this.publish("/warn", TextMsg("Couldn't unsubscribe from nonexistent channel $channel."))
+        }
+    }
     fun reset() {
         channels.clear()
     }
