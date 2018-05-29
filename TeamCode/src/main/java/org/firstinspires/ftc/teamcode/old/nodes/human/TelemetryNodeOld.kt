@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.old.nodes.human
 
 import org.firstinspires.ftc.robotcore.external.Telemetry
-import org.firstinspires.ftc.teamcode.old.Node
+import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.old.messages.LinesMsg
 import org.firstinspires.ftc.teamcode.old.messages.TextMsg
 
@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.old.messages.TextMsg
 /**
  * A centralized effector for sending telemetry messages.
  */
-class TelemetryNode(val telemetry : Telemetry) : Node("Telemetry") {
+class TelemetryNodeOld(val telemetry : Telemetry) : NodeOld("Telemetry") {
     var staticCounter = 0
     init {
         telemetry.log().setCapacity(10)

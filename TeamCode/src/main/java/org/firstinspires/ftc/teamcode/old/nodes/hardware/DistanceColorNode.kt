@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.old.nodes.hardware
 import com.qualcomm.robotcore.hardware.DistanceSensor
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
-import org.firstinspires.ftc.teamcode.old.Node
+import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.old.messages.ColorMsg
 import org.firstinspires.ftc.teamcode.old.messages.DistanceMsg
 import org.firstinspires.ftc.teamcode.old.messages.TextMsg

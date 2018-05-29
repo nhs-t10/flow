@@ -6,7 +6,7 @@ import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF
 import org.firstinspires.ftc.robotcore.external.navigation.*
 import org.firstinspires.ftc.teamcode.old.Dispatcher
-import org.firstinspires.ftc.teamcode.old.Node
+import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.lib.ClosableVuforiaLocalizer
 import org.firstinspires.ftc.teamcode.old.messages.TextMsg
 import org.firstinspires.ftc.teamcode.old.messages.VuforiaMsg

@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.old.nodes.control
 
 import org.firstinspires.ftc.robotcore.external.Telemetry
-import org.firstinspires.ftc.teamcode.old.Node
+import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.old.RoutineGroup
 import org.firstinspires.ftc.teamcode.old.messages.*
 import org.firstinspires.ftc.teamcode.old.nodes.routines.TimedCallbackRoutine
@@ -12,7 +12,7 @@ import org.w3c.dom.Text
  * Created by max on 11/24/17.
  */
 
-class ControlsNode(val telemetry: Telemetry) : Node("Controls") {
+class ControlsNodeOld(val telemetry: Telemetry) : NodeOld("Controls") {
     object gripperStates {
         var lower = GripperState.OPEN
         var upper = GripperState.OPEN

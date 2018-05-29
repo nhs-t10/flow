@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.old.nodes.human
 
 import com.qualcomm.robotcore.hardware.Gamepad
-import org.firstinspires.ftc.teamcode.old.Node
+import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.old.messages.GamepadButtonMsg
 import org.firstinspires.ftc.teamcode.old.messages.GamepadJoyOrTrigMsg
 import org.firstinspires.ftc.teamcode.old.messages.TextMsg

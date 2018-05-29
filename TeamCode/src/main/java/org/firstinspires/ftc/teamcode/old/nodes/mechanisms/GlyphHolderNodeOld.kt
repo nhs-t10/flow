@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.old.nodes.mechanisms
 
 import org.firstinspires.ftc.teamcode.old.Dispatcher
-import org.firstinspires.ftc.teamcode.old.Node
+import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.old.messages.*
 import org.firstinspires.ftc.teamcode.old.messages.ServoMsg
 
@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.old.messages.ServoMsg
  * Created by shaash on 10/26/17.
  */
 
-class GlyphHolderNode : Node("Glyph Holder") {
+class GlyphHolderNodeOld : NodeOld("Glyph Holder") {
     // Top Holder Servo Position Constants
 
     fun getBottomPosition (state : GripperState) = when (state) {

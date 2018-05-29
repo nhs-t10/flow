@@ -4,34 +4,34 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import org.firstinspires.ftc.teamcode.old.Nodeable
 import org.firstinspires.ftc.teamcode.old.messages.UnitMsg
 import org.firstinspires.ftc.teamcode.old.nodes.*
-import org.firstinspires.ftc.teamcode.old.nodes.control.AngleTurningNode
+import org.firstinspires.ftc.teamcode.old.nodes.control.AngleTurningNodeOld
 import org.firstinspires.ftc.teamcode.old.nodes.hardware.*
-import org.firstinspires.ftc.teamcode.old.nodes.human.DebugNode
-import org.firstinspires.ftc.teamcode.old.nodes.human.TelemetryNode
-import org.firstinspires.ftc.teamcode.old.nodes.mechanisms.GliftNode
-import org.firstinspires.ftc.teamcode.old.nodes.mechanisms.GlyphHolderNode
-import org.firstinspires.ftc.teamcode.old.nodes.mechanisms.OmniDtNode
-import org.firstinspires.ftc.teamcode.old.nodes.system.HeartbeatInvokerUnthreadedNode
+import org.firstinspires.ftc.teamcode.old.nodes.human.DebugNodeOld
+import org.firstinspires.ftc.teamcode.old.nodes.human.TelemetryNodeOld
+import org.firstinspires.ftc.teamcode.old.nodes.mechanisms.GliftNodeOld
+import org.firstinspires.ftc.teamcode.old.nodes.mechanisms.GlyphHolderNodeOld
+import org.firstinspires.ftc.teamcode.old.nodes.mechanisms.OmniDtNodeOld
+import org.firstinspires.ftc.teamcode.old.nodes.system.HeartbeatInvokerUnthreadedNodeOld
 
 /**
  * Created by max on 12/8/17.
  */
 abstract class CoreOp : OpMode() {
     var nodes = mutableListOf<Nodeable>()
-    val systemNode = SystemNode()
-    val heartbeatInvokerUnthreadedNode = HeartbeatInvokerUnthreadedNode()
+    val systemNode = SystemNodeOld()
+    val heartbeatInvokerUnthreadedNode = HeartbeatInvokerUnthreadedNodeOld()
     final override fun init() {
         nodes = mutableListOf( // common nodes
             systemNode,
             heartbeatInvokerUnthreadedNode,
-            OmniDtNode(),
+            OmniDtNodeOld(),
             ImuNode(hardwareMap),
-            GliftNode(),
-            GlyphHolderNode(),
+            GliftNodeOld(),
+            GlyphHolderNodeOld(),
             EffectorNode(hardwareMap),
-            DebugNode(),
-            TelemetryNode(telemetry),
-            AngleTurningNode(),
+            DebugNodeOld(),
+            TelemetryNodeOld(telemetry),
+            AngleTurningNodeOld(),
                 DigitalSensorNode(hardwareMap)
         )
         registration()

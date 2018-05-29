@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.old.nodes.hardware
 import com.disnodeteam.dogecv.CameraViewDisplay
 import com.disnodeteam.dogecv.detectors.CryptoboxDetector
 import com.qualcomm.robotcore.hardware.HardwareMap
-import org.firstinspires.ftc.teamcode.old.Node
+import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.old.messages.TextMsg
 import org.firstinspires.ftc.teamcode.old.nodes.HeartbeatNode
 

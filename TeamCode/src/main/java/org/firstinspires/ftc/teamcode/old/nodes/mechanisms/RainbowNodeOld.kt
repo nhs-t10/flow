@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode.old.nodes.mechanisms
 
-import org.firstinspires.ftc.teamcode.old.Node
+import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.old.messages.*
 
 /**
  * Created by dvw06 on 1/24/18.
  */
 
-class RainbowNode : Node("Rainbow Lift") {
+class RainbowNodeOld : NodeOld("Rainbow Lift") {
     enum class STATE {
         MACRO_EXTENDING,
         EXTENDED,

@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.old.nodes.human
 
 import org.firstinspires.ftc.robotcore.external.Telemetry
-import org.firstinspires.ftc.teamcode.old.Node
+import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.old.messages.Message
 import org.firstinspires.ftc.teamcode.old.messages.MotorMsg
 import org.firstinspires.ftc.teamcode.old.messages.TextMsg
@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.old.messages.TextMsg
 /**
  * Created by shaash on 10/24/17.
  */
-class DebugNode : Node("Debug") {
+class DebugNodeOld : NodeOld("Debug") {
     override fun subscriptions() {
         this.subscribe("/status", {this.printStatus(it as TextMsg)})
         this.subscribe("/debug", {this.printMsg(it)})

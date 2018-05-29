@@ -1,16 +1,16 @@
 package org.firstinspires.ftc.teamcode.old
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import org.firstinspires.ftc.teamcode.old.nodes.control.ControlsNode
+import org.firstinspires.ftc.teamcode.old.nodes.control.ControlsNodeOld
 import org.firstinspires.ftc.teamcode.old.nodes.control.OmniJoyNode
 import org.firstinspires.ftc.teamcode.old.nodes.hardware.AnalogSensorNode
 import org.firstinspires.ftc.teamcode.old.nodes.hardware.DigitalSensorNode
 import org.firstinspires.ftc.teamcode.old.nodes.hardware.DogeCVNode
 import org.firstinspires.ftc.teamcode.old.nodes.hardware.VuforiaNode
 import org.firstinspires.ftc.teamcode.old.nodes.human.GamepadNode
-import org.firstinspires.ftc.teamcode.old.nodes.human.InspectorNode
-import org.firstinspires.ftc.teamcode.old.nodes.human.SelectorViewNode
-import org.firstinspires.ftc.teamcode.old.nodes.human.TestingNode
+import org.firstinspires.ftc.teamcode.old.nodes.human.InspectorNodeOld
+import org.firstinspires.ftc.teamcode.old.nodes.human.SelectorViewNodeOld
+import org.firstinspires.ftc.teamcode.old.nodes.human.TestingNodeOld
 
 /**
  * Created by davis on 10/10/17.
@@ -23,9 +23,9 @@ class T10TestOp : CoreOp() {
         register(DogeCVNode(hardwareMap))
         register(DigitalSensorNode(hardwareMap))
         register(AnalogSensorNode(hardwareMap))
-        register(SelectorViewNode())
-        register(InspectorNode())
-        register(TestingNode())
+        register(SelectorViewNodeOld())
+        register(InspectorNodeOld())
+        register(TestingNodeOld())
         Dispatcher.tempSetTelemetry(telemetry)
     }
 }

@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.old.messages.Message
  * Created by shaash on 10/7/17.
  */
 
-abstract class Node(override val nodeName : String) : Nodeable {
+abstract class NodeOld(override val nodeName : String) : Nodeable {
 
     override fun subscribe(channel: String, callback: (Message) -> Unit) : String {
         return Dispatcher.subscribe(channel, nodeName, callback)

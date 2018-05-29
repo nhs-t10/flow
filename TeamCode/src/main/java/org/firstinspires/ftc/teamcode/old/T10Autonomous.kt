@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.old
 
 import org.firstinspires.ftc.teamcode.old.messages.*
-import org.firstinspires.ftc.teamcode.old.nodes.control.AngleTurningNode
-import org.firstinspires.ftc.teamcode.old.nodes.control.DriveStraightNode
+import org.firstinspires.ftc.teamcode.old.nodes.control.AngleTurningNodeOld
+import org.firstinspires.ftc.teamcode.old.nodes.control.DriveStraightNodeOld
 import org.firstinspires.ftc.teamcode.old.nodes.hardware.*
-import org.firstinspires.ftc.teamcode.old.nodes.human.UIColorNode
+import org.firstinspires.ftc.teamcode.old.nodes.human.UIColorNodeOld
 import org.firstinspires.ftc.teamcode.old.nodes.routines.*
 import org.firstinspires.ftc.teamcode.old.util.TeamColor
 import org.firstinspires.ftc.teamcode.old.util.TeamPosition
@@ -22,7 +22,7 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
     val getRobotState = {robotState}
     override fun registration() {
         // Do the safety dance
-        val uiColorNode = UIColorNode(hardwareMap)
+        val uiColorNode = UIColorNodeOld(hardwareMap)
         if (teamColor == TeamColor.RED) uiColorNode.changeColor("red")
         else if (teamColor == TeamColor.BLUE) uiColorNode.changeColor("blue")
         register(uiColorNode)
@@ -31,7 +31,7 @@ abstract class T10Autonomous(val teamColor : TeamColor, val teamPosition: TeamPo
 //        register(DigitalSensorNode(hardwareMap))
         register(AnalogSensorNode(hardwareMap))
         register(ColorNode(hardwareMap))
-        register(DriveStraightNode())
+        register(DriveStraightNodeOld())
         //register(DogeCVNode(hardwareMap))
         val routineList = listOf(
                 TimeoutRoutine({

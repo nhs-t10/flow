@@ -5,7 +5,7 @@ package org.firstinspires.ftc.teamcode.old.nodes.control
  */
 
 import org.firstinspires.ftc.teamcode.old.Dispatcher
-import org.firstinspires.ftc.teamcode.old.Node
+import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.old.messages.OmniDrive
 import org.firstinspires.ftc.teamcode.old.messages.GamepadJoyOrTrigMsg
 import org.firstinspires.ftc.teamcode.old.messages.Message

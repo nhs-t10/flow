@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.old.nodes.human
 
 import org.firstinspires.ftc.teamcode.old.Dispatcher
-import org.firstinspires.ftc.teamcode.old.Node
+import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.old.messages.*
 import org.firstinspires.ftc.teamcode.old.util.whenDown
 import java.util.*
@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.old.messages.IncrementState
 /**
  * Created by max on 11/10/17.
  */
-class InspectorNode : Node("Inspector") {
+class InspectorNodeOld : NodeOld("Inspector") {
     enum class STATES { OFF,
         MAIN, // main menu
         INSPECTALL, // list of channels

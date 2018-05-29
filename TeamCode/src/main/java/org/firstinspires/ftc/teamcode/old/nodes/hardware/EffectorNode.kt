@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.old.nodes.hardware
 import com.qualcomm.robotcore.hardware.*
 import com.qualcomm.robotcore.util.Range
 import org.firstinspires.ftc.teamcode.old.Dispatcher
-import org.firstinspires.ftc.teamcode.old.Node
+import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.old.messages.*
 import org.firstinspires.ftc.teamcode.old.nodes.HeartbeatNode
 import java.util.*

@@ -4,14 +4,14 @@ import android.app.Activity
 import android.graphics.Color
 import android.view.View
 import com.qualcomm.robotcore.hardware.HardwareMap
-import org.firstinspires.ftc.teamcode.old.Node
+import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.old.messages.Message
 import org.firstinspires.ftc.teamcode.old.messages.TextMsg
 
 /**
  * Created by max on 1/24/18.
  */
-class UIColorNode(hardwareMap: HardwareMap) : Node("UI Colors (extra)") {
+class UIColorNodeOld(hardwareMap: HardwareMap) : NodeOld("UI Colors (extra)") {
     var relativeLayout : View? = null
     init {
         val relativeLayoutId = hardwareMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hardwareMap.appContext.getPackageName())

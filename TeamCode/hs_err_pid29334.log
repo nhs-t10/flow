@@ -213,7 +213,7 @@ Event: 12.032 GC heap before
   class space    used 494K, capacity 528K, committed 640K, reserved 1048576K
 
 Deoptimization events (10 events):
-Event: 2.387 Thread 0x00007fa7b800c000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007fa7a91f621c method=java.util.HashMap.getNode(ILjava/lang/Object;)Ljava/util/HashMap$Node; @ 84
+Event: 2.387 Thread 0x00007fa7b800c000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007fa7a91f621c method=java.util.HashMap.getNode(ILjava/lang/Object;)Ljava/util/HashMap$NodeOld; @ 84
 Event: 2.463 Thread 0x00007fa7b800c000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007fa7a92b5da4 method=com.android.dx.io.Opcodes.isValidShape(I)Z @ 21
 Event: 7.431 Thread 0x00007fa7b800c000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007fa7a915b188 method=java.lang.String.indexOf(II)I @ 49
 Event: 7.553 Thread 0x00007fa7b800c000 Uncommon trap: reason=speculate_class_check action=maybe_recompile pc=0x00007fa7a927c320 method=java.util.HashMap.putVal(ILjava/lang/Object;Ljava/lang/Object;ZZ)Ljava/lang/Object; @ 56

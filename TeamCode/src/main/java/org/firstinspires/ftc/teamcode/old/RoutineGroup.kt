@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.old
 
-import org.firstinspires.ftc.teamcode.old.Node
+import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.old.RoutineNode
 
 /**

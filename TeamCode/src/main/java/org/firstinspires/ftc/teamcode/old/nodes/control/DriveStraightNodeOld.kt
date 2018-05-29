@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode.old.nodes.control
 
-import org.firstinspires.ftc.teamcode.old.Node
+import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.lib.PID
 import org.firstinspires.ftc.teamcode.old.messages.*
 
 /**
  * Created by dvw06 on 1/18/18.
  */
-class DriveStraightNode : Node("Drive Straight") {
+class DriveStraightNodeOld : NodeOld("Drive Straight") {
     var kP : Double = 17.5
     var kD : Double = 17.0
     var kI : Double = 0.0

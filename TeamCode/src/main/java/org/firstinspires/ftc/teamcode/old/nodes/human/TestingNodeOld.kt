@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.old.nodes.human
 
 import com.qualcomm.robotcore.hardware.ColorSensor
-import org.firstinspires.ftc.teamcode.old.Node
+import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.old.messages.*
 import org.firstinspires.ftc.teamcode.old.util.whenDown
 import java.util.HashMap
@@ -9,7 +9,7 @@ import java.util.HashMap
 /**
  * Created by max on 1/19/18.
  */
-class TestingNode : Node("Testing Node") {
+class TestingNodeOld : NodeOld("Testing NodeOld") {
 
 
     val cancelLambda = whenDown {

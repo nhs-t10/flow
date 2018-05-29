@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode.old.nodes.mechanisms
 
-import org.firstinspires.ftc.teamcode.old.Node
+import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.old.messages.*
 import java.lang.Math.abs
 
 /**
  * Created by shaash on 10/17/17.
  */
-class OmniDtNode : Node("Omni Drivetrain"){
+class OmniDtNodeOld : NodeOld("Omni Drivetrain"){
     var isSlow: Boolean = true
     var speedscale = 0.5f
     override fun subscriptions() {

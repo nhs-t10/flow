@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.old.nodes.control
 
-import org.firstinspires.ftc.teamcode.old.Node
+import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.lib.PID
 import org.firstinspires.ftc.teamcode.old.messages.*
 import java.lang.Math.abs
@@ -9,7 +9,7 @@ import java.lang.Math.abs
  * Created by shaash on 11/12/17.
  */
 
-class AngleTurningNode : Node("Angle Turning Test") {
+class AngleTurningNodeOld : NodeOld("Angle Turning Test") {
 
     var kP : Double = 17.5
     var kD : Double = 17.0
