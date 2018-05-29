@@ -39,7 +39,7 @@ class CoroutineTestAuto : OpMode() {
         val m2 = hardwareMap.dcMotor.get("m2")
         val time = measureTimeMillis {
             val one = async { moveMotor(m2, 1000L) }
-            val two = async { moveMotor(m3, 700L) }
+            val two = async { moveMotor(m3, 600L) }
             logline("The answer is ${one.await() + two.await()}")
         }
         delay(500)
