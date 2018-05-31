@@ -34,15 +34,15 @@ class DriveStraightNodeOld : NodeOld("Drive Straight") {
         IncrementState.HOLD -> value
     }
 
-    fun setkP(m: Message) {
+    fun setkP(m: MessageOld) {
         kP = increment(kP, m as IncrementMsg)
         this.publish("/debug", TextMsg("DriveStraight: Incremented kP to $kP"))
     }
-    fun setkI(m: Message) {
+    fun setkI(m: MessageOld) {
         kI = increment(kI, m as IncrementMsg)
         this.publish("/debug", TextMsg("DriveStraight: Incremented kI to $kI"))
     }
-    fun setkD(m: Message) {
+    fun setkD(m: MessageOld) {
         kD = increment(kD, m as IncrementMsg)
         this.publish("/debug", TextMsg("DriveStraight: Incremented kD to $kD"))
     }
@@ -52,7 +52,7 @@ class DriveStraightNodeOld : NodeOld("Drive Straight") {
         this.publish("/drive", OmniDrive(0f, 0f, 0f, 1))
     }
 
-    fun setTurnTo(m : Message){
+    fun setTurnTo(m : MessageOld){
         val (angle, power, sideways) = m as DriveStraightMsg
         if (power == 0.0) {
             stopTurn()

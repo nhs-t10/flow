@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.old.nodes.routines
 
 import org.firstinspires.ftc.teamcode.old.RoutineNode
 import org.firstinspires.ftc.teamcode.old.messages.AnalogMsg
-import org.firstinspires.ftc.teamcode.old.messages.Message
+import org.firstinspires.ftc.teamcode.old.messages.MessageOld
 import org.firstinspires.ftc.teamcode.old.messages.OmniDrive
 import org.firstinspires.ftc.teamcode.old.messages.TextMsg
 import org.firstinspires.ftc.teamcode.old.util.TeamColor
@@ -18,7 +18,7 @@ class DriveToCryptoboxRoutine(val teamColor : TeamColor) : RoutineNode("Drive to
         subscribe("/analog/ultra1", {bufferDistance(it)})
     }
 
-    fun bufferDistance(m: Message) {
+    fun bufferDistance(m: MessageOld) {
         val (value) = m as AnalogMsg
         val (fst, snd) = buffer
         // Making sure a drastic change is legit

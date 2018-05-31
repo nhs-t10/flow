@@ -41,7 +41,7 @@ class RainbowNodeOld : NodeOld("Rainbow Lift") {
         publish("/motors/rainbow", MotorMsg(power = 0.0, priority = 1))
     }
 
-    fun touchedUp (m: Message) {
+    fun touchedUp (m: MessageOld) {
         val (value) = m as DigitalMsg
         // Make sure touch is down and we r moving
         if (value && state == STATE.MACRO_EXTENDING) {
@@ -60,7 +60,7 @@ class RainbowNodeOld : NodeOld("Rainbow Lift") {
         }
     }
 
-    fun touchedDown (m: Message) {
+    fun touchedDown (m: MessageOld) {
         val (value) = m as DigitalMsg
         // Make sure touch is down and we r moving
         if (value && state == STATE.MACRO_RETRACTING) {
@@ -80,7 +80,7 @@ class RainbowNodeOld : NodeOld("Rainbow Lift") {
         }
     }
 
-    fun receiveGripMessage(m: Message) {
+    fun receiveGripMessage(m: MessageOld) {
         val (liftstatus) = m as GripperMsg
         when (liftstatus) {
             GripperState.OPEN -> receiveOpenMessage()
@@ -93,12 +93,12 @@ class RainbowNodeOld : NodeOld("Rainbow Lift") {
         publish("/servos/tilter", ServoMsg(pos, 1))
     }
 
-    fun recieveExtendMessage(m: Message){
+    fun recieveExtendMessage(m: MessageOld){
         val (value) = m as GamepadJoyOrTrigMsg
         publish("/motors/rainbow", MotorMsg(power = value.toDouble()*-1, priority = 1))
     }
 
-    fun recieveRetractMessage(m:Message){
+    fun recieveRetractMessage(m:MessageOld){
         val (value) = m as GamepadJoyOrTrigMsg
         publish("/motors/rainbow", MotorMsg(power = (value.toDouble()), priority = 1))
     }

@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.old.nodes.routines
 
 import org.firstinspires.ftc.teamcode.old.RoutineNode
 import org.firstinspires.ftc.teamcode.old.messages.ColorMsg
-import org.firstinspires.ftc.teamcode.old.messages.Message
+import org.firstinspires.ftc.teamcode.old.messages.MessageOld
 import org.firstinspires.ftc.teamcode.old.util.TeamColor
 import org.firstinspires.ftc.teamcode.old.messages.OmniDrive
 /**
@@ -18,14 +18,14 @@ class DriveToLineRoutine(val teamColor: TeamColor) : RoutineNode("Drive to Line"
     override fun subscriptions() {
         subscribe("/color/bottom", {getOffBlockRoutine(it)})
     }
-    fun getOffBlockRoutine(m : Message){
+    fun getOffBlockRoutine(m : MessageOld){
         TimedCallbackRoutine({}, 750, {cb ->
             receiveColor(m)
             cb()
         })
     }
 
-    fun receiveColor(m: Message){
+    fun receiveColor(m: MessageOld){
         val (red, blue, green) = m as ColorMsg
 
         if (tempBlue + tempGreen + tempRed != 0) {

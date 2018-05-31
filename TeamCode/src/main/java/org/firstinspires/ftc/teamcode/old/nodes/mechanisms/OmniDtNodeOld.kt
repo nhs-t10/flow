@@ -16,7 +16,7 @@ class OmniDtNodeOld : NodeOld("Omni Drivetrain"){
         //this.subscribe("/gamepad1/x", whenDown { slowModeToggle() })
     }
 
-    fun slow(m : Message){
+    fun slow(m : MessageOld){
         val (speed) = m as SpeedMsg
         isSlow = !speed
     }
@@ -26,7 +26,7 @@ class OmniDtNodeOld : NodeOld("Omni Drivetrain"){
         this.publish("/debug", TextMsg("SLOW MODE: ${this.isSlow}"))
     }
     */
-    fun recieveMessage(driveCommands : Message, slow : Boolean = isSlow){
+    fun recieveMessage(driveCommands : MessageOld, slow : Boolean = isSlow){
         if(slow){
            speedscale = 0.5f
         } else {

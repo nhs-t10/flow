@@ -31,10 +31,10 @@ class CoroutineTestAuto : OpMode() {
         telemetry.addLine(message)
         telemetry.update()
     }
-    //TODO: continuous threaded space
+    //TODO: continuous threaded imu
     override fun start() = runBlocking {
         msStuckDetectStart = 10000
-        telemetry.setAutoClear(false)
+        telemetry.setAutoClear(false) // this and telemetry.update() make telemetry work with threads
         val m3 = hardwareMap.dcMotor.get("m3")
         val m2 = hardwareMap.dcMotor.get("m2")
         val time = measureTimeMillis {

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.old.nodes.mechanisms
 
-import org.firstinspires.ftc.teamcode.old.Dispatcher
 import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.old.messages.*
 import org.firstinspires.ftc.teamcode.old.messages.ServoMsg
@@ -35,11 +34,11 @@ class GlyphHolderNodeOld : NodeOld("Glyph Holder") {
         this.publish("/servos/topServo", ServoMsg(getTopPosition(GripperState.CLOSED), 1))
     }
 
-    fun lower(m : Message) {
+    fun lower(m : MessageOld) {
         val (state) = m as GripperMsg
         this.publish("/servos/bottomServo", ServoMsg(getBottomPosition(state), priority = 1))
     }
-    fun upper(m: Message){
+    fun upper(m: MessageOld){
         val (state) = m as GripperMsg
         this.publish("/servos/topServo", ServoMsg(getTopPosition(state), priority = 1))
     }

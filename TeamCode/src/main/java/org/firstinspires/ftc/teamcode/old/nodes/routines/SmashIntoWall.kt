@@ -16,7 +16,7 @@ class SmashIntoWall() : RoutineNode("Strafe to Wall"){
         subscribe("/digital/smasher", {receivedTouch(it)})
     }
 
-    fun receivedTouch(m : Message){
+    fun receivedTouch(m : MessageOld){
         val (value) = m as DigitalMsg
         if(value){
             this.publish("/drive/straight", DriveStraightMsg(-90.0, 0.0, false, 1))

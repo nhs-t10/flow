@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode.old.nodes.routines
 
 import org.firstinspires.ftc.teamcode.old.RoutineNode
-import org.firstinspires.ftc.teamcode.old.messages.Message
 import org.firstinspires.ftc.teamcode.old.messages.TextMsg
-import org.w3c.dom.Text
 
 /**
  * Takes in a "start" function which is called immediately upon start.

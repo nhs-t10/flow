@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.old.nodes.routines
 
 import org.firstinspires.ftc.teamcode.old.RoutineNode
-import org.firstinspires.ftc.teamcode.old.messages.Message
+import org.firstinspires.ftc.teamcode.old.messages.MessageOld
 
 /**
  * Created by max on 4/5/18.
@@ -27,7 +27,7 @@ import org.firstinspires.ftc.teamcode.old.messages.Message
  *     Dispatcher.publish("/drive", OmniMsg(1.0f, 0.0f, 0.0f, 1))
  * })
  */
-class DoUntilRoutine(val predicates: HashMap<String, (Message) -> Boolean?>, val onStart : (() -> Unit)?) : RoutineNode("Do Until") {
+class DoUntilRoutine(val predicates: HashMap<String, (MessageOld) -> Boolean?>, val onStart : (() -> Unit)?) : RoutineNode("Do Until") {
     override fun begin() {
         onStart?.invoke()
     }

@@ -4,7 +4,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark
 import org.firstinspires.ftc.teamcode.old.RoutineGroup
 import org.firstinspires.ftc.teamcode.old.RoutineNode
 import org.firstinspires.ftc.teamcode.old.messages.*
-import org.firstinspires.ftc.teamcode.old.util.TeamColor
 
 /**
  * Created by dvw06 on 1/16/18.
@@ -37,7 +36,7 @@ class CountFlangesRoutine(val vumark: RelicRecoveryVuMark) : RoutineNode("Drive 
 
     ))
 
-    fun stopIfThere(m: Message, flanges: Int){
+    fun stopIfThere(m: MessageOld, flanges: Int){
         val (value) = m as DigitalMsg
         if(value){
             this.publish("/drive/straight", DriveStraightMsg(-90.0, 0.0, false, 1))

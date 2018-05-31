@@ -17,7 +17,7 @@ class BangIntoPlatformRoutine() : RoutineNode("Strafe to Wall"){
         subscribe("/digital/touch1", {recieveTouch(it)})
     }
 
-    fun recieveTouch(m : Message){
+    fun recieveTouch(m : MessageOld){
         val (value) = m as DigitalMsg
         if(value){
             this.publish("/drive", OmniDrive(upDown = 0f, rotation = 0f, leftRight = 0f, priority = 1))

@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.old.nodes.hardware
 
 import com.qualcomm.robotcore.hardware.*
 import com.qualcomm.robotcore.util.Range
-import org.firstinspires.ftc.teamcode.old.Dispatcher
-import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.old.messages.*
 import org.firstinspires.ftc.teamcode.old.nodes.HeartbeatNode
 import java.util.*
@@ -128,7 +126,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Effectors"){
         }
     }
 
-    fun callMotor(motorName : String, motorMsg: Message){
+    fun callMotor(motorName : String, motorMsg: MessageOld){
         val (power) = motorMsg as MotorMsg
         if (motors[motorName] != null){
             motors[motorName]?.setPower(power)
@@ -140,7 +138,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Effectors"){
 
     fun clipValue(value: Double) = Range.clip(value, -1.0, 1.0)
 
-    fun callServo(servoName : String, msg: Message){
+    fun callServo(servoName : String, msg: MessageOld){
         if (msg is ServoMsg) {
             val (position) = msg
             setServoPosition(servoName, position)
@@ -169,7 +167,7 @@ class EffectorNode(val hardwareMap: HardwareMap) : HeartbeatNode("Effectors"){
         }
     }
 
-    fun callCrServo(crServoName : String, msg: Message){
+    fun callCrServo(crServoName : String, msg: MessageOld){
         if(crServos[crServoName] != null){
             if (msg is MotorMsg) {
                 val (power) = msg

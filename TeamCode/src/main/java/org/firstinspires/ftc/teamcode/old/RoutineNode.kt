@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.old
 
-import org.firstinspires.ftc.teamcode.old.messages.Message
+import org.firstinspires.ftc.teamcode.old.messages.MessageOld
 import org.firstinspires.ftc.teamcode.old.messages.TextMsg
 import org.firstinspires.ftc.teamcode.old.nodes.HeartbeatNode
 
@@ -18,8 +18,8 @@ abstract class RoutineNode(val routineName : String) : HeartbeatNode(routineName
 
     val routineWarningTime = 10000
 
-    fun callIfActive(cb: (Message) -> Unit) : (Message) -> Unit {
-        return fun(m: Message) {
+    fun callIfActive(cb: (MessageOld) -> Unit) : (MessageOld) -> Unit {
+        return fun(m: MessageOld) {
             if (routineActive) {
                 if (System.currentTimeMillis() - routineStartTime >= routineWarningTime) {
                     publish("/warn", TextMsg("[${System.currentTimeMillis()-routineStartTime}] Routine $routineName has been running for at least 10 seconds..."))
@@ -29,7 +29,7 @@ abstract class RoutineNode(val routineName : String) : HeartbeatNode(routineName
         }
     }
 
-    override fun subscribe(channel: String, cb: (Message) -> Unit) : String {
+    override fun subscribe(channel: String, cb: (MessageOld) -> Unit) : String {
         val id = Dispatcher.subscribe(channel, routineName, callIfActive { cb(it) })
         subscribedChannels.add(Pair(channel, id))
         return id

@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode.old.nodes.human
 
-import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.old.NodeOld
-import org.firstinspires.ftc.teamcode.old.messages.Message
-import org.firstinspires.ftc.teamcode.old.messages.MotorMsg
+import org.firstinspires.ftc.teamcode.old.messages.MessageOld
 import org.firstinspires.ftc.teamcode.old.messages.TextMsg
 
 /**
@@ -16,7 +14,7 @@ class DebugNodeOld : NodeOld("Debug") {
         this.subscribe("/warn"){this.printWarning(it as TextMsg)}
         this.subscribe("/error", {this.printError(it as TextMsg)})
     }
-    fun printMsg(m : Message){
+    fun printMsg(m : MessageOld){
         this.publish("/telemetry/line", TextMsg(m.toString()))
     }
     fun printStatus(m: TextMsg) {

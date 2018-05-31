@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.old
 import org.firstinspires.ftc.robotcore.external.Telemetry
-import org.firstinspires.ftc.teamcode.old.messages.Message
+import org.firstinspires.ftc.teamcode.old.messages.MessageOld
 import org.firstinspires.ftc.teamcode.old.messages.TextMsg
 import java.util.*
 
@@ -9,12 +9,12 @@ import java.util.*
  */
 object Dispatcher {
 
-    val channels = HashMap<String, Pair<Int?, MutableList<Pair<String, (Message) -> Unit>>>>()
+    val channels = HashMap<String, Pair<Int?, MutableList<Pair<String, (MessageOld) -> Unit>>>>()
 
     var telemetry : Telemetry? = null
 
     fun setChannel(channel: String,
-                   content: MutableList<Pair<String, (Message) -> Unit>> = mutableListOf(),
+                   content: MutableList<Pair<String, (MessageOld) -> Unit>> = mutableListOf(),
                    priority : Int? = null) {
         channels.put(channel, Pair(priority, content))
     }
@@ -23,7 +23,7 @@ object Dispatcher {
      * TODO: currently this creates a computational graph with a trie that propagates into further mutations and calls.
      * This could lead to concurrency issues.
      */
-    fun publish(channel: String, message: Message){
+    fun publish(channel: String, message: MessageOld){
         val found = channels[channel]
         if (found != null) {
             val (priority, listeners) = found
@@ -57,7 +57,7 @@ object Dispatcher {
      * @param channel The channel name e,g "/motors/m1"
      * @param callback The callback lambda, called whenever a message is received. Syntax: `{myCallback(it)}`
      */
-    fun subscribe(channel:String, nodeName: String, callback: (Message) -> Unit) : String {
+    fun subscribe(channel:String, nodeName: String, callback: (MessageOld) -> Unit) : String {
         val found = channels[channel]
         val uuid = nodeName + UUID.randomUUID().toString()
         if (found != null) {

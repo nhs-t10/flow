@@ -1,17 +1,16 @@
 package org.firstinspires.ftc.teamcode.old.nodes
 
 import org.firstinspires.ftc.teamcode.old.Dispatcher
-import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.old.Nodeable
-import org.firstinspires.ftc.teamcode.old.messages.Message
+import org.firstinspires.ftc.teamcode.old.messages.MessageOld
 
 abstract class HeartbeatNode(override val nodeName : String, val synchronous : Boolean = true, val heartbeatInterval : Long = 10) : Thread(), Nodeable {
     var heartbeatActive = false
 
-    override fun subscribe(channel: String, callback: (Message) -> Unit) : String {
+    override fun subscribe(channel: String, callback: (MessageOld) -> Unit) : String {
         return Dispatcher.subscribe(channel, nodeName, callback)
     }
-    override fun publish(channel: String, message: Message) {
+    override fun publish(channel: String, message: MessageOld) {
         Dispatcher.publish(channel, message)
     }
 

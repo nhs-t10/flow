@@ -20,7 +20,7 @@ class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : Routine
         this.subscribe("/color/knocker") { doOnce(it) }
     }
 
-    fun doOnce(m : Message){
+    fun doOnce(m : MessageOld){
         if(!turned){
             knockBall(m)
         }
@@ -36,7 +36,7 @@ class KnockerRoutine(val team : TeamColor, val position: TeamPosition) : Routine
         })
     ))
 
-    fun knockBall(m : Message) {
+    fun knockBall(m : MessageOld) {
         val (red, blue) = m as ColorMsg
         if (red - 15 > blue){ // If red is in front
             turned = true

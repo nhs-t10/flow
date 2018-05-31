@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.old.nodes.routines
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark
 import org.firstinspires.ftc.teamcode.old.RoutineNode
-import org.firstinspires.ftc.teamcode.old.messages.Message
+import org.firstinspires.ftc.teamcode.old.messages.MessageOld
 import org.firstinspires.ftc.teamcode.old.messages.TextMsg
 import org.firstinspires.ftc.teamcode.old.messages.VuforiaMsg
 
@@ -19,7 +19,7 @@ class GetVumarkRoutine(val finalCallback : (RelicRecoveryVuMark) -> Unit) : Rout
         initialTime = System.currentTimeMillis()
     }
 
-    fun receiveVision(m: Message) {
+    fun receiveVision(m: MessageOld) {
         val (mark) = m as VuforiaMsg
         if (mark != RelicRecoveryVuMark.UNKNOWN) {
             // omg we saw something, send it over and end

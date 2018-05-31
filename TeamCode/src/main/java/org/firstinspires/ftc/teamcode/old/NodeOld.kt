@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.old
 
-import org.firstinspires.ftc.teamcode.old.Nodeable
-import org.firstinspires.ftc.teamcode.old.messages.Message
+import org.firstinspires.ftc.teamcode.old.messages.MessageOld
 
 /**
  * Created by shaash on 10/7/17.
@@ -9,10 +8,10 @@ import org.firstinspires.ftc.teamcode.old.messages.Message
 
 abstract class NodeOld(override val nodeName : String) : Nodeable {
 
-    override fun subscribe(channel: String, callback: (Message) -> Unit) : String {
+    override fun subscribe(channel: String, callback: (MessageOld) -> Unit) : String {
         return Dispatcher.subscribe(channel, nodeName, callback)
     }
-    override fun publish(channel: String, message: Message) {
+    override fun publish(channel: String, message: MessageOld) {
         Dispatcher.publish(channel, message)
     }
 

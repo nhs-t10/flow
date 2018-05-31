@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.old.nodes.control
 import org.firstinspires.ftc.teamcode.old.NodeOld
 import org.firstinspires.ftc.teamcode.lib.PID
 import org.firstinspires.ftc.teamcode.old.messages.*
-import java.lang.Math.abs
 
 /**
  * Created by shaash on 11/12/17.
@@ -35,15 +34,15 @@ class AngleTurningNodeOld : NodeOld("Angle Turning Test") {
         IncrementState.HOLD -> value
     }
 
-    fun setkP(m: Message) {
+    fun setkP(m: MessageOld) {
         kP = increment(kP, m as IncrementMsg)
         this.publish("/debug", TextMsg("Incremented kP to $kP"))
     }
-    fun setkI(m: Message) {
+    fun setkI(m: MessageOld) {
         kI = increment(kI, m as IncrementMsg)
         this.publish("/debug", TextMsg("Incremented kI to $kI"))
     }
-    fun setkD(m: Message) {
+    fun setkD(m: MessageOld) {
         kD = increment(kD, m as IncrementMsg)
         this.publish("/debug", TextMsg("Incremented kD to $kD"))
     }
@@ -54,7 +53,7 @@ class AngleTurningNodeOld : NodeOld("Angle Turning Test") {
         this.cb?.invoke()
     }
 
-    fun setTurnTo(m : Message){
+    fun setTurnTo(m : MessageOld){
         val (angle, callback) = m as AngleTurnMsg
         turn = PID(kP, kI, kD)
         destAngle = angle
