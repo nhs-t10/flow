@@ -3,6 +3,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.messages.Message
 import org.firstinspires.ftc.teamcode.messages.TextMsg
 import java.util.*
+import kotlin.system.measureTimeMillis
 
 /**
  * Created by shaash on 10/7/17.
@@ -30,9 +31,14 @@ object Dispatcher {
             if (priority == null || priority >= message.priority) {
                 val locked = listeners.toTypedArray()
                 var x = 0
-                for ((_, callback) in locked) {
+                for ((name, callback) in locked) {
                     try {
-                        callback(message)
+                        val timeTaken = measureTimeMillis {
+                            callback(message)
+                        }
+                        if (channel != "/error" && channel != "/telemetry/line" && channel != "/status") {
+                            this.publish("/status", TextMsg("Took $timeTaken to publish $name via $channel"))
+                        }
                     }
                     catch(e:Exception) {
                         if (channel != "/error" && channel != "/telemetry/line") { // infinite recursion proof
