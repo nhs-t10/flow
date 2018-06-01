@@ -22,6 +22,7 @@ class TrollNode(val channels: Channels) : Node() {
             when (it) {
                 is ContinuousGamepadMsg -> {
                     if (it.value.x) {
+                        count++
                         channels.debugChannel.send(DebugMsg("X IS BEING HELD DOWN"))
                     }
                 }
