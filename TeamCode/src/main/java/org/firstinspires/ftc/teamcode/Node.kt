@@ -4,7 +4,6 @@ import kotlinx.coroutines.experimental.channels.BroadcastChannel
 import kotlinx.coroutines.experimental.channels.actor
 
 abstract class Node {
-    val channels: Channels? = null
 
     abstract fun subscriptions()
 

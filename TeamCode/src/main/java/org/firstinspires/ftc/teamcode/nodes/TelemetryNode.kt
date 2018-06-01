@@ -3,16 +3,13 @@ package org.firstinspires.ftc.teamcode.nodes
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.teamcode.*
 
-class TelemetryNode (val telemetry: Telemetry) : Node() {
+class TelemetryNode (val channels: Channels, val telemetry: Telemetry) : Node() {
     override fun subscriptions() {
         // this and telemetry.update() make telemetry work with threads
         telemetry.setAutoClear(false)
         telemetry.log().setCapacity(10)
 
-
-        if (channels != null) {
-            subscribe(channels.debugChannel, {onMsg(it)})
-        }
+        subscribe(channels.debugChannel, {onMsg(it)})
     }
 
     fun addLine(text: String) {
@@ -24,7 +21,7 @@ class TelemetryNode (val telemetry: Telemetry) : Node() {
         telemetry.update()
     }
 
-    fun onMsg(msg:Message) = when(msg) {
+    fun onMsg(msg:Message) : Unit = when(msg) {
         is ClearMsg -> clear()
         is DebugMsg -> addLine("[DEBUG]: ${msg.value}")
         is StatusMsg -> addLine("[STATUS]: ${msg.value}")
