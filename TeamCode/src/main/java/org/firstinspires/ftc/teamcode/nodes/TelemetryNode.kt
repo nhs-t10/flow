@@ -7,6 +7,7 @@ class TelemetryNode (val telemetry: Telemetry) : Node() {
     override fun subscriptions() {
         // this and telemetry.update() make telemetry work with threads
         telemetry.setAutoClear(false)
+        telemetry.log().setCapacity(10)
 
 
         if (channels != null) {
@@ -18,8 +19,13 @@ class TelemetryNode (val telemetry: Telemetry) : Node() {
         telemetry.log().add(text)
         telemetry.update() // I think? you need this if it's threaded
     }
+    fun clear() {
+        telemetry.log().clear()
+        telemetry.update()
+    }
 
     fun onMsg(msg:Message) = when(msg) {
+        is ClearMsg -> clear()
         is DebugMsg -> addLine("[DEBUG]: ${msg.value}")
         is StatusMsg -> addLine("[STATUS]: ${msg.value}")
         is ErrorMsg -> addLine("[ERROR]: ${msg.value}")
