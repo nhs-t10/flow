@@ -7,4 +7,5 @@ class Channels {
     val gamepad2Channel = BroadcastChannel<Message>(0)
 
     val heartbeatChannel = BroadcastChannel<Message>(0)
+    val debugChannel = BroadcastChannel<Message>(0)
 }
