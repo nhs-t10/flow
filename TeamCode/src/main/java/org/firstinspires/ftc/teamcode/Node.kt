@@ -8,13 +8,15 @@ abstract class Node {
 
     abstract fun subscriptions()
 
-    fun subscribe(channel: BroadcastChannel<Message>, callback: suspend (Message) -> Unit) = launch {
-        subscribeInternal(channel, callback)
-    }
-    suspend fun subscribeInternal(channel: BroadcastChannel<Message>, callback: suspend (Message) -> Unit) = actor<Message> {
+//    fun subscribe(channel: BroadcastChannel<Message>, callback: suspend (Message) -> Unit) = launch {
+//        subscribeInternal(channel, callback)
+//    }
+    fun subscribe(channel: BroadcastChannel<Message>, callback: suspend (Message) -> Unit) = actor<Message> {
         val subscription = channel.openSubscription()
         for (msg in subscription) {
-            callback.invoke(msg)
+            launch {
+                callback.invoke(msg)
+            }
         }
     }
 }

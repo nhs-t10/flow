@@ -4,10 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
-import org.firstinspires.ftc.teamcode.nodes.GamepadNode
-import org.firstinspires.ftc.teamcode.nodes.HeartbeatNode
-import org.firstinspires.ftc.teamcode.nodes.TelemetryNode
-import org.firstinspires.ftc.teamcode.nodes.TrollNode
+import org.firstinspires.ftc.teamcode.nodes.*
 
 /**
  * Created by max on 5/29/18.
@@ -24,7 +21,8 @@ class CoroutineTestOp : OpMode() {
             heartbeatNode,
             TelemetryNode(channels, telemetry),
             GamepadNode(channels, gamepad1, gamepad2),
-            TrollNode(channels)
+            TrollNode(channels),
+                MotorNode(channels, hardwareMap.dcMotor.get("m1"))
         )
 
 
