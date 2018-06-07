@@ -7,17 +7,16 @@ class TelemetryNode (val channels: Channels, val telemetry: Telemetry) : Node() 
     override fun subscriptions() {
         // this and telemetry.update() make telemetry work with threads
         telemetry.setAutoClear(false)
-        telemetry.log().setCapacity(10)
 
         subscribe(channels.debugChannel, {onMsg(it)})
     }
 
     fun addLine(text: String) {
-        telemetry.log().add(text)
+        telemetry.addLine(text)
         telemetry.update() // I think? you need this if it's threaded
     }
     fun clear() {
-        telemetry.log().clear()
+        telemetry.clear()
         telemetry.update()
     }
 

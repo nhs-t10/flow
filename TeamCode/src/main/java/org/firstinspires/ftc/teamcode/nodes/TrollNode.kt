@@ -12,17 +12,19 @@ class TrollNode(val channels: Channels) : Node() {
         subscribe(channels.heartbeatChannel) {
             count++
             if (count % 10 == 0) {
-                channels.debugChannel.send(DebugMsg("Hello I am #${count}"))
+                val tmp = count
+                channels.debugChannel.send(DebugMsg("Hello I am #${tmp}"))
                 delay(2000)
-                channels.debugChannel.send(DebugMsg("Ok #${count} is done"))
+                channels.debugChannel.send(DebugMsg("Ok #${tmp} is done"))
             }
         }
 
         subscribe(channels.gamepad1Channel) {
             when (it) {
                 is ContinuousGamepadMsg -> {
+                    channels.debugChannel.send(DebugMsg("${it}"))
                     if (it.value.x) {
-                        count++
+                        count+=50
                         channels.debugChannel.send(DebugMsg("X IS BEING HELD DOWN"))
                     }
                 }

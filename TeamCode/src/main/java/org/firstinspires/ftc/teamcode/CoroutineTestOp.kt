@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
+import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
 import org.firstinspires.ftc.teamcode.nodes.GamepadNode
 import org.firstinspires.ftc.teamcode.nodes.HeartbeatNode
@@ -28,7 +29,9 @@ class CoroutineTestOp : OpMode() {
 
 
         nodes.forEach {
-            it?.subscriptions()
+            launch {
+                it?.subscriptions()
+            }
         }
     }
 
