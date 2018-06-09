@@ -11,8 +11,9 @@ import org.firstinspires.ftc.teamcode.nodes.*
  */
 @TeleOp(name = "Coroutine Test Op")
 class CoroutineTestOp : OpMode() {
-    var heartbeatNode : HeartbeatNode? = null
     val channels = Channels()
+    var heartbeatNode : HeartbeatNode? = null
+
     override fun init() = runBlocking {
 
         heartbeatNode = HeartbeatNode(channels)
@@ -22,7 +23,7 @@ class CoroutineTestOp : OpMode() {
             TelemetryNode(channels, telemetry),
             GamepadNode(channels, gamepad1, gamepad2),
             TrollNode(channels),
-                MotorNode(channels, hardwareMap.dcMotor.get("m1"))
+            MotorNode(channels, hardwareMap.dcMotor.get("m1"))
         )
 
 
