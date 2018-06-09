@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.nodes
 
 import kotlinx.coroutines.experimental.delay
 import org.firstinspires.ftc.teamcode.*
-
 class TrollNode(val channels: Channels) : Node() {
     var count = 0
     override fun subscriptions() {

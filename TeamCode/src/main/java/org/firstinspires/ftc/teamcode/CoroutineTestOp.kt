@@ -12,8 +12,8 @@ import org.firstinspires.ftc.teamcode.nodes.*
 @TeleOp(name = "Coroutine Test Op")
 class CoroutineTestOp : OpMode() {
     var heartbeatNode : HeartbeatNode? = null
+    val channels = Channels()
     override fun init() = runBlocking {
-        val channels = Channels()
 
         heartbeatNode = HeartbeatNode(channels)
 
@@ -35,5 +35,11 @@ class CoroutineTestOp : OpMode() {
 
     override fun loop() = runBlocking<Unit> {
         heartbeatNode?.sendBeat()
+    }
+
+    override fun stop() {
+        for (channel in channels.allChannels.values) {
+            channel.close()
+        }
     }
 }

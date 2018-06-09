@@ -2,13 +2,27 @@ package org.firstinspires.ftc.teamcode
 
 import kotlinx.coroutines.experimental.channels.BroadcastChannel
 
+val capacity = 1
+fun makeChannel() = BroadcastChannel<Message>(capacity)
+
 class Channels {
-    val capacity = 1
-    val gamepad1Channel = BroadcastChannel<Message>(capacity)
-    val gamepad2Channel = BroadcastChannel<Message>(capacity)
+    var allChannels = mutableMapOf<String, BroadcastChannel<Message>>()
 
-    val heartbeatChannel = BroadcastChannel<Message>(capacity)
-    val debugChannel = BroadcastChannel<Message>(capacity)
+    var gamepad1Channel by allChannels
+    var gamepad2Channel by allChannels
 
-    val moveMotorChannel = BroadcastChannel<Message>(capacity)
+    var heartbeatChannel by allChannels
+    var debugChannel by allChannels
+
+    var moveMotorChannel by allChannels
+
+    init {
+        gamepad1Channel = makeChannel()
+        gamepad2Channel = makeChannel()
+
+        heartbeatChannel = makeChannel()
+        debugChannel = makeChannel()
+
+        moveMotorChannel = makeChannel()
+    }
 }
