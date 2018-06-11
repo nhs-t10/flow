@@ -1,22 +1,25 @@
 package org.firstinspires.ftc.teamcode
 
-import org.firstinspires.ftc.teamcode.messages.Message
+import kotlinx.coroutines.experimental.channels.BroadcastChannel
+import kotlinx.coroutines.experimental.channels.actor
+import kotlinx.coroutines.experimental.launch
 
-/**
- * Created by shaash on 10/7/17.
- */
+abstract class Node {
 
-abstract class Node(override val nodeName : String) : Nodeable {
+    abstract fun subscriptions()
 
-    override fun subscribe(channel: String, callback: (Message) -> Unit) : String {
-        return Dispatcher.subscribe(channel, nodeName, callback)
+    // Spawns an actor for each subscription
+    fun subscribe(channel: BroadcastChannel<Message>, callback: suspend (Message) -> Unit) = actor<Message> {
+        // We aren't using the "mailbox" channel provided in the actor's context.
+        // This provides the iterable from another channel.
+        val subscription = channel.openSubscription()
+        for (msg in subscription) {
+            // Right now a new coroutine is spawned for each callback invocation...
+            // ...so the channel isn't blocked by a single callback
+            launch {
+                callback.invoke(msg)
+            }
+        }
     }
-    override fun publish(channel: String, message: Message) {
-        Dispatcher.publish(channel, message)
-    }
-
-    override fun endNode() {}
-
-    override fun start() {}
-
 }
+
