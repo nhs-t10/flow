@@ -23,7 +23,8 @@ class CoroutineTestOp : OpMode() {
             TelemetryNode(channels, telemetry),
             GamepadNode(channels, gamepad1, gamepad2),
             TrollNode(channels),
-            MotorNode(channels, hardwareMap.dcMotor.get("m1"))
+            MotorNode(channels, hardwareMap.dcMotor.get("m1")),
+            InspectorNode(channels)
         )
 
 
