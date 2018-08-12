@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.nodes
 
 import com.qualcomm.robotcore.hardware.DcMotor
 import org.firstinspires.ftc.teamcode.Channels
+import org.firstinspires.ftc.teamcode.CloseMsg
 import org.firstinspires.ftc.teamcode.MoveMotorMsg
 import org.firstinspires.ftc.teamcode.Node
 
@@ -18,8 +19,8 @@ class MotorNode(val channels: Channels, val motor: DcMotor) : Node() {
                         motor.setPower(0.0)
                     }
                 }
-                null -> {
-
+                is CloseMsg -> {
+                    motor.setPower(0.0)
                 }
             }
         })

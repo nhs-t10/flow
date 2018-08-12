@@ -37,6 +37,7 @@ abstract class Node {
                 fallbackChannel?.send(ErrorMsg("Caught exception, might have timed out: $e"))
             }
         }
+        callback.invoke(CloseMsg)
     }
     suspend fun send(channel: Chan, msg: Message) {
         val success = channel.send(msg)

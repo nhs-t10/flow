@@ -6,6 +6,9 @@ interface Message
 
 object HeartbeatMsg : Message
 
+// Sent to subscribers on stop
+object CloseMsg : Message
+
 class ContinuousGamepadMsg (val value: Gamepad) : Message
 
 class MoveMotorMsg(val on: Boolean) : Message
