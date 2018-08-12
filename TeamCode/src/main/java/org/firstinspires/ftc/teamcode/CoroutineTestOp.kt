@@ -30,7 +30,7 @@ class CoroutineTestOp : OpMode() {
 
         nodes.forEach {
             launch {
-                it?.subscriptions()
+                it?.doSubscriptions(channels.debugChannel)
             }
         }
     }

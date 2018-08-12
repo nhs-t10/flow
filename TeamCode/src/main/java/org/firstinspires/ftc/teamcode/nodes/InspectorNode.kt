@@ -13,18 +13,7 @@ class InspectorNode(val channels: Channels) : Node() {
     override fun subscriptions() {
         // subscribe to Open Inspector Hook
 
-        // very hacky iterator
-        for (channel in Channels::class.declaredMemberProperties) {
-            if (channel.returnType.isSubtypeOf(
-                    List::class.createType(
-                        listOf(KTypeProjection.covariant(Message::class.createType()))
-                    )
-                )) {
 
-                @Suppress("UNCHECKED_CAST")
-                (channel.get(channels)!! as BroadcastChannel<Message>).openSubscription()
-            }
-        }
     }
 
     fun showChannels() {

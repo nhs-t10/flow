@@ -1,12 +1,31 @@
 package org.firstinspires.ftc.teamcode
 
 import kotlinx.coroutines.experimental.channels.BroadcastChannel
+import kotlinx.coroutines.experimental.channels.SubscriptionReceiveChannel
 
 val capacity = 1
-fun makeChannel() = BroadcastChannel<Message>(capacity)
+class Chan(val blocking : Boolean, val capacity : Int = 1) {
+    private val channel = BroadcastChannel<Message>(capacity)
+    fun openSubscription() : SubscriptionReceiveChannel<Message> {
+        return channel.openSubscription()
+    }
+    fun getName() : String {
+        return "$channel"
+    }
+    fun close() {
+        channel.close(Throwable("Channel was closed - opmode should be stopped."))
+    }
+    suspend fun send(msg: Message) : Boolean {
+        if (channel.isFull) {
+            return false
+        }
+        channel.send(msg)
+        return true
+    }
+}
 
 class Channels {
-    var allChannels = mutableMapOf<String, BroadcastChannel<Message>>()
+    var allChannels = mutableMapOf<String, Chan>()
 
     var gamepad1Channel by allChannels
     var gamepad2Channel by allChannels
@@ -17,12 +36,12 @@ class Channels {
     var moveMotorChannel by allChannels
 
     init {
-        gamepad1Channel = makeChannel()
-        gamepad2Channel = makeChannel()
+        gamepad1Channel = Chan(false)
+        gamepad2Channel = Chan(false)
 
-        heartbeatChannel = makeChannel()
-        debugChannel = makeChannel()
+        heartbeatChannel = Chan(false)
+        debugChannel = Chan(false)
 
-        moveMotorChannel = makeChannel()
+        moveMotorChannel = Chan(true, 5)
     }
 }

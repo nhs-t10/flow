@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode.old
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import org.firstinspires.ftc.teamcode.old.messages.UnitMsg
 import org.firstinspires.ftc.teamcode.old.nodes.control.ControlsNodeOld
 import org.firstinspires.ftc.teamcode.old.nodes.control.DriveStraightNodeOld
 import org.firstinspires.ftc.teamcode.old.nodes.control.OmniJoyNode
 import org.firstinspires.ftc.teamcode.old.nodes.hardware.ColorNode
-import org.firstinspires.ftc.teamcode.old.nodes.hardware.DogeCVNode
 import org.firstinspires.ftc.teamcode.old.nodes.human.GamepadNode
 import org.firstinspires.ftc.teamcode.old.nodes.human.InspectorNodeOld
 import org.firstinspires.ftc.teamcode.old.nodes.human.SelectorViewNodeOld

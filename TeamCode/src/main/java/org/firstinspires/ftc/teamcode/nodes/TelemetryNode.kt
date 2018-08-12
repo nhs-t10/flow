@@ -11,16 +11,16 @@ class TelemetryNode (val channels: Channels, val telemetry: Telemetry) : Node() 
         subscribe(channels.debugChannel, {onMsg(it)})
     }
 
-    fun addLine(text: String) {
+    private fun addLine(text: String) {
         telemetry.addLine(text)
         telemetry.update() // I think? you need this if it's threaded
     }
-    fun clear() {
+    private fun clear() {
         telemetry.clear()
         telemetry.update()
     }
 
-    fun onMsg(msg:Message) : Unit = when(msg) {
+    private fun onMsg(msg:Message) : Unit = when(msg) {
         is ClearMsg -> clear()
         is DebugMsg -> addLine("[DEBUG]: ${msg.value}")
         is StatusMsg -> addLine("[STATUS]: ${msg.value}")

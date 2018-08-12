@@ -12,9 +12,8 @@ class GamepadNode(val channels: Channels, val gamepad1: Gamepad, val gamepad2: G
     }
 
     // this is an experiment to see if reflecting and listening for changes is a performance hog
-    suspend fun onBeat() {
-        channels.gamepad1Channel.send(ContinuousGamepadMsg(gamepad1))
-
-        channels.gamepad2Channel.send(ContinuousGamepadMsg(gamepad2))
+    private suspend fun onBeat() {
+        send(channels.gamepad1Channel, ContinuousGamepadMsg(gamepad1))
+        send(channels.gamepad2Channel, ContinuousGamepadMsg(gamepad2))
     }
 }

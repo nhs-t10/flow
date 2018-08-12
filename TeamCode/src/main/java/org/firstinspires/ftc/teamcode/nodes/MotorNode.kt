@@ -18,6 +18,9 @@ class MotorNode(val channels: Channels, val motor: DcMotor) : Node() {
                         motor.setPower(0.0)
                     }
                 }
+                null -> {
+
+                }
             }
         })
     }
